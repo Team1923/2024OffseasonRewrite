@@ -4,8 +4,12 @@
 
 package frc.robot.Subsystems;
 
+import java.util.ResourceBundle.Control;
+
+import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -15,51 +19,32 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.StateHandler;
 
 public class IntakeSubsystem extends SubsystemBase {
-  public static enum IntakeStates {
-    DEPLOYED(new IntakePosition(2.00)),
-    STOWED(new IntakePosition(0));
+  public static enum ArmStates {
+    DEPLOYED(new MotionMagicVoltage(2.00)),
+    STOWED(new MotionMagicVoltage(0));
 
-    private IntakePosition intakePosition;
+    public ControlRequest intakePosition;
 
-    private IntakeStates(IntakePosition i) {
+    private ArmStates(ControlRequest i) {
         this.intakePosition = i;
     }
 
-    public IntakePosition getIntakePosition() {
-        return intakePosition;
-    }
 
-    public static class IntakePosition {
-      private double angularSetpoint;
-
-      public IntakePosition(double a) {
-          this.angularSetpoint = a;
-      }
-
-      public double getAngularSetpoint() {
-          return angularSetpoint;
-      }
-  }
 }
 
-public static enum IntakeRollerSpeeds {
+public static enum RollerStates {
   OFF(new DutyCycleOut(0)),
-  EJECT(new PercentOutputValue(0.75)),
-  INTAKE(new PercentOutputValue(-0.85));
+  EJECT(new DutyCycleOut(0.75)),
+  INTAKE(new DutyCycleOut(-0.85));
 
-  private PercentOutputValue percentOutputValue;
-
-  private IntakeRollerSpeeds(PercentOutputValue p) {
-      this.percentOutputValue = p;
-  }
-
-  public PercentOutputValue getPercentOutputValue() {
-      return percentOutputValue;
+  private ControlRequest OUTPUT;
+  private RollerStates(ControlRequest OUTPUT){
+    this.OUTPUT = OUTPUT;
   }
 }
 
   /** Creates a new IntakeSubsystem. */
-   private DigitalInput beamBreakOne = new DigitalInput(IntakeConstants.beamBreakOneID);
+  private DigitalInput beamBreakOne = new DigitalInput(IntakeConstants.beamBreakOneID);
   private StateHandler stateHandler = StateHandler.getInstance();
 
   private TalonFX intakeArmPrimary = new TalonFX(Constants.IntakeConstants.intakeArmPrimaryID);
@@ -70,20 +55,18 @@ public static enum IntakeRollerSpeeds {
 
 
   public IntakeSubsystem() {
-    intakeArmPrimary.getConfigurator().apply(IntakeConstants.CONFIGS);
-    intakeArmFollower.getConfigurator().apply(IntakeConstants.CONFIGS);
+    intakeArmPrimary.getConfigurator().apply(IntakeConstants.ARM_CONFIGS);
+    intakeArmFollower.getConfigurator().apply(IntakeConstants.ARM_CONFIGS);
 
-    intakeWheelBottom.getConfigurator().apply(IntakeConstants.CONFIGS);
-    intakeWheelTop.getConfigurator().apply(IntakeConstants.CONFIGS);
+    intakeWheelBottom.getConfigurator().apply(IntakeConstants.WHEEL_CONFIGS);
+    intakeWheelTop.getConfigurator().apply(IntakeConstants.WHEEL_CONFIGS);
 
-    intakeArmPrimary.setInverted(true);
-    intakeArmFollower.setInverted(true);
-
-    // Need to change/test in lab
     intakeArmFollower.setControl(new Follower(IntakeConstants.intakeArmPrimaryID, false));
 
 
   }
+
+  // setter method for arm should be in degrees
 
   @Override
   public void periodic() {

@@ -23,16 +23,16 @@ import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  public static enum States{
-      IDLE(new MotionMagicVelocityVoltage(0)),
-      BABY_BIRD_INTAKE(new MotionMagicVelocityVoltage(-1000)),
-      FRONT_AMP_SHOT(new MotionMagicVelocityVoltage(415)),
-      UNGUARDABLE_SHOT(new MotionMagicVelocityVoltage(1905-715), new MotionMagicVelocityVoltage(1905)),
-      TRAP_SHOT(new MotionMagicVelocityVoltage(1000-350), new MotionMagicVelocityVoltage(1000)),
-      PUNT_HIGH_SHOT(new MotionMagicVelocityVoltage(2100)), 
+  public static enum States{ //TODO: fix unit conversions
+      IDLE(new MotionMagicVelocityVoltage(0)), 
+      BABY_BIRD_INTAKE(new MotionMagicVelocityVoltage(-1000 * ShooterConstants.RPMToRPS)),
+      FRONT_AMP_SHOT(new MotionMagicVelocityVoltage(415 * ShooterConstants.RPMToRPS)),
+      UNGUARDABLE_SHOT(new MotionMagicVelocityVoltage(1190 * ShooterConstants.RPMToRPS), new MotionMagicVelocityVoltage(1905 * ShooterConstants.RPMToRPS)),
+      TRAP_SHOT(new MotionMagicVelocityVoltage(650 * ShooterConstants.RPMToRPS), new MotionMagicVelocityVoltage(1000 * ShooterConstants.RPMToRPS)),
+      PUNT_HIGH_SHOT(new MotionMagicVelocityVoltage(2100 * ShooterConstants.RPMToRPS)), 
       PUNT_LOW_SHOT(new DutyCycleOut(1)), 
-      SUBWOOFER_SHOT(new MotionMagicVelocityVoltage(2000)),
-      REVERSE_SUBWOOFER_SHOT(new MotionMagicVelocityVoltage(2000)),
+      SUBWOOFER_SHOT(new MotionMagicVelocityVoltage(2000 * ShooterConstants.RPMToRPS)),
+      REVERSE_SUBWOOFER_SHOT(new MotionMagicVelocityVoltage(2000 * ShooterConstants.RPMToRPS)),
       RANGED_SHOT(new MotionMagicVelocityVoltage(0)),
       FULL_EJECT(new DutyCycleOut(1));
 
@@ -63,6 +63,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
       shooterTop.getConfigurator().apply(ShooterConstants.CONFIGS);
       shooterBottom.getConfigurator().apply(ShooterConstants.CONFIGS);
+
+      
 
       blower.configFactoryDefault();
 

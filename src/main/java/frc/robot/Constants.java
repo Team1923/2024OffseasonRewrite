@@ -25,10 +25,10 @@ public class Constants {
         public static final double RPSToRPM = 60;
         public static final double RPMToRPS = 1/RPSToRPM;
 
+
+
         public static final double maxShooterAccel = 400; //Rotations/sec^2
         public static final double maxShooterJerk = 5000; //Rotations/sec^3
-
-        
 
         //NOTE: Decided to ignore motionmagicvelocity control
         public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
@@ -54,7 +54,9 @@ public class Constants {
 
         
 
-        public static final double shooterRPMThreshhold = 50; //RPM
+        public static final double shooterRPMThreshhold = 25; //RPM
+
+
                                                         
     }
 

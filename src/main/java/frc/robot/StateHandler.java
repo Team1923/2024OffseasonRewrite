@@ -23,7 +23,6 @@ public class StateHandler {
         LOW_PUNT,
         UNGUARDABLE,
         CLIMB,
-        FULL_EJECT
     }
 
 

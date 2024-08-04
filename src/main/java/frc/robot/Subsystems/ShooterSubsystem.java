@@ -25,15 +25,15 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public static enum States{
       IDLE(new MotionMagicVelocityVoltage(0)),
-      BABY_BIRD(new MotionMagicVelocityVoltage(-1000)),
+      BABY_BIRD_INTAKE(new MotionMagicVelocityVoltage(-1000)),
       FRONT_AMP_SHOT(new MotionMagicVelocityVoltage(415)),
       UNGUARDABLE_SHOT(new MotionMagicVelocityVoltage(1905-715), new MotionMagicVelocityVoltage(1905)),
-      TRAP(new MotionMagicVelocityVoltage(1000-350), new MotionMagicVelocityVoltage(1000)),
-      PUNT_SHOT_HIGH(new MotionMagicVelocityVoltage(2100)), 
-      PUNT_SHOT_LOW(new DutyCycleOut(1)), 
-      SUBWOOFER(new MotionMagicVelocityVoltage(2000)),
-      REVERSE_SUBWOOFER(new MotionMagicVelocityVoltage(2000)),
-      RANGED(new MotionMagicVelocityVoltage(0)),
+      TRAP_SHOT(new MotionMagicVelocityVoltage(1000-350), new MotionMagicVelocityVoltage(1000)),
+      PUNT_HIGH_SHOT(new MotionMagicVelocityVoltage(2100)), 
+      PUNT_LOW_SHOT(new DutyCycleOut(1)), 
+      SUBWOOFER_SHOT(new MotionMagicVelocityVoltage(2000)),
+      REVERSE_SUBWOOFER_SHOT(new MotionMagicVelocityVoltage(2000)),
+      RANGED_SHOT(new MotionMagicVelocityVoltage(0)),
       FULL_EJECT(new DutyCycleOut(1));
 
       public ControlRequest OUTPUT_TOP;

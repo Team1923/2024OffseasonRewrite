@@ -40,16 +40,16 @@ public class ShooterStateMachine extends Command {
 
     switch(desiredState){
       
-      case PUNT_SHOT_HIGH:
+      case PUNT_HIGH_SHOT:
         if (puntTimer.get() == 0){
           puntTimer.start();
         }
         else if (puntTimer.hasElapsed(0.5)){
-          stateHandler.currentShooterStates = ShooterSubsystem.States.PUNT_SHOT_HIGH;
+          stateHandler.currentShooterStates = ShooterSubsystem.States.PUNT_HIGH_SHOT;
         }
         break;
 
-      case RANGED:
+      case RANGED_SHOT:
         //((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated value;
 
       default:

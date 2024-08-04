@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.robot.Subsystems.ArmSubsystem;
 import frc.robot.Subsystems.ShooterSubsystem;
 
 public class StateHandler {
@@ -35,6 +36,12 @@ public class StateHandler {
     /* CURRENT STATES: Mechanisms have arrived to the desired state. */
     public ShooterSubsystem.States currentShooterStates = ShooterSubsystem.States.IDLE;
 
+    public ArmSubsystem.States desiredArmState = ArmSubsystem.States.STOWED;
+
+    /* CURRENT STATES: Mechanisms have arrived to the desired state. */
+    public ArmSubsystem.States currentArmStates = ArmSubsystem.States.STOWED;
+
+    
 
     /* BEAM BREAK Values */
     public boolean bb4Covered = false;

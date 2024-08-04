@@ -77,6 +77,10 @@ public class Constants {
 
         public static final double armSettleTime = 0.5;
 
+        public static final double ArmRPMThreshhold = 50; // RPM
+
+
+
         // NOTE: Decided to ignore motionmagicvelocity control
         public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
                 .withSlot0(new Slot0Configs() // PID
@@ -95,6 +99,8 @@ public class Constants {
                 .withCurrentLimits(new CurrentLimitsConfigs() // TODO: Take a look at this (no refresh?)
                         .withStatorCurrentLimit(80)
                         .withStatorCurrentLimitEnable(true));
+
+            
 
     }
 

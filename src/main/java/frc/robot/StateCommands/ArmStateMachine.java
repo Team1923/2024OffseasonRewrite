@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
+import frc.robot.Subsystems.ArmSubsystem;
 import frc.robot.Subsystems.ShooterSubsystem;
 import frc.robot.Subsystems.ShooterSubsystem.States;
 
@@ -21,9 +22,9 @@ public class ArmStateMachine extends Command {
     /** Creates a new ShooterStateMachine. */
     public ArmStateMachine(ArmSubsystem armSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
-        this.shooterSubsystem = shooterSubsystem;
+        this.armSubsystem = armSubsystem;
 
-        addRequirements(shooterSubsystem);
+        addRequirements(armSubsystem);
 
     }
 
@@ -36,34 +37,7 @@ public class ArmStateMachine extends Command {
     @Override
     public void execute() {
 
-        ShooterSubsystem.States desiredState = stateHandler.desiredShooterState;
-
-        switch (desiredState) {
-
-            case PUNT_SHOT_HIGH:
-                if (puntTimer.get() == 0) {
-                    puntTimer.start();
-                } else if (puntTimer.hasElapsed(0.5)) {
-                    stateHandler.currentShooterStates = ShooterSubsystem.States.PUNT_SHOT_HIGH;
-                }
-                break;
-
-            case RANGED:
-                // ((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated
-                // value;
-
-            default:
-                puntTimer.stop();
-                puntTimer.reset();
-                if (shooterSubsystem.isAtState(desiredState)) {
-                    stateHandler.currentShooterStates = desiredState;
-                }
-                break;
-        }
-
-        shooterSubsystem.setShooterMotorsTo(desiredState.OUTPUT_TOP, desiredState.OUTPUT_BOTTOM);
-        shooterSubsystem.setBlowerTo(stateHandler.blowerPercent);
-
+        
     }
 
     // Called once the command ends or is interrupted.

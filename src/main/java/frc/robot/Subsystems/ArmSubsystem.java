@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityDutyCycle;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
@@ -19,139 +20,91 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.StateHandler;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class ArmSubsystem extends SubsystemBase {
 
     public static enum States {
-        IDLE(new MotionMagicVelocityVoltage(0)),
-        BABY_BIRD(new MotionMagicVelocityVoltage(-1000)),
-        FRONT_AMP_SHOT(new MotionMagicVelocityVoltage(415)),
-        UNGUARDABLE_SHOT(new MotionMagicVelocityVoltage(1905 - 715), new MotionMagicVelocityVoltage(1905)),
-        TRAP(new MotionMagicVelocityVoltage(1000 - 350), new MotionMagicVelocityVoltage(1000)),
-        PUNT_SHOT_HIGH(new MotionMagicVelocityVoltage(2100)),
-        PUNT_SHOT_LOW(new DutyCycleOut(1)),
-        SUBWOOFER(new MotionMagicVelocityVoltage(2000)),
-        REVERSE_SUBWOOFER(new MotionMagicVelocityVoltage(2000)),
-        RANGED(new MotionMagicVelocityVoltage(0)),
-        FULL_EJECT(new DutyCycleOut(1));
+        //TODO: CREATE ARM POSITION METHOD
 
-        public ControlRequest OUTPUT_TOP;
-        public ControlRequest OUTPUT_BOTTOM;
+        STOWED(new ArmPosition(0)),
+        REVERSE_SUBWOOFER(new ArmPosition(-1.96)),
+        UNGUARDABLE(new ArmPosition(-1.96)),
+        AMP(new ArmPosition(-1.96)), 
+        SPEAKER(new ArmPosition(-0.77)), //THIS IS A DEFAULT VALUE FOR SUBWOOFER SHOOTING - (-0.77)
+        TRAP(new ArmPosition(-0.9)), //TODO: FIND
+        BABY_BIRD(new ArmPosition(-0.7)), //TODO: FIND
+        PUNT_HIGH(new ArmPosition(-0.67)),
+        PUNT_LOW(new ArmPosition(0)),
+        FRONT_AMP(new ArmPosition(-0.77)),
+        DEFENSE(new ArmPosition(-1.35)),
+        CLIMB(new ArmPosition(-1.35));
+
+
+        public ControlRequest primary;
+        public ControlRequest follower;
 
         private States(ControlRequest OUTPUT) {
-            this.OUTPUT_TOP = OUTPUT;
-            this.OUTPUT_BOTTOM = OUTPUT;
+            this.primary = OUTPUT;
+            this.follower = OUTPUT;
         }
 
-        private States(ControlRequest OUTPUT_TOP, ControlRequest OUTPUT_BOTTOM) {
-            this.OUTPUT_TOP = OUTPUT_TOP;
-            this.OUTPUT_BOTTOM = OUTPUT_BOTTOM;
+        private States(ControlRequest primary, ControlRequest follower) {
+            this.primary = primary;
+            this.follower = follower;
         }
     }
 
-    private TalonFX shooterTop = new TalonFX(ShooterConstants.shooterTopID);
-    private TalonFX shooterBottom = new TalonFX(ShooterConstants.shooterBottomID);
+    private TalonFX armPrimary = new TalonFX(ArmConstants.armMotorPrimaryID, "rio");
+    private TalonFX armFollower = new TalonFX(ArmConstants.armMotorFollowerID, "rio");
 
-    private TalonSRX blower = new TalonSRX(ShooterConstants.blowerID);
+  /** Creates a new ArmSubsystem. */
+  public ArmSubsystem() {
+    armPrimary.getConfigurator().apply(ShooterConstants.CONFIGS);
+    armFollower.getConfigurator().apply(ShooterConstants.CONFIGS);
 
-    private DigitalInput beamBreak4 = new DigitalInput(ShooterConstants.beamBreak4ID);
-
-  /** Creates a new ShooterSubsystem. */
-  public ShooterSubsystem() {
-      shooterTop.getConfigurator().apply(ShooterConstants.CONFIGS);
-      shooterBottom.getConfigurator().apply(ShooterConstants.CONFIGS);
-
-      blower.configFactoryDefault();
-
-      //No shooter bottom followership
-
+    armFollower.setControl(new Follower(ArmConstants.armMotorPrimaryID, true));
   }
 
-    public void setShooterMotorsTo(ControlRequest output) {
-        shooterTop.setControl(output);
-        shooterBottom.setControl(output);
+    public void setArmPosition(ControlRequest output) {
+        armPrimary.setControl(output);
     }
 
-    public void setShooterMotorsTo(ControlRequest topOutput, ControlRequest bottomOutput) {
-        shooterTop.setControl(topOutput);
-        shooterBottom.setControl(bottomOutput);
+      /**
+       * Move the arm using percent output. Primarily used for testing purposes.
+       * 
+       * @param out percent out speed to run the arm at
+       */
+      public void setPercentOut(double out) {
+        armPrimary.set(out);
+      }
+    
+      /**
+       * Get the position of the arm from the encoder reading.
+       * 
+       * @return The arm position in radians.
+       */
+      public double getArmPositionRads() {
+        return armPrimary.getPosition().getValueAsDouble() * ArmConstants.armRotsToRads;
+      }
+    
+      /**
+       * Gets the position of the arm, converted from the encoder reading.
+       * 
+       * @return The arm position in rotations.
+       */
+      public double getArmPositionRots() {
+        return armPrimary.getPosition().getValueAsDouble();
+      }
 
-    }
+      public boolean isAtArmState(double desiredSetpoint) {
+        return Math.abs(getArmPositionRads() - desiredSetpoint) < ArmConstants.armPositionAllowableOffset; 
+      }
 
-    public void setBlowerTo(double percent) {
-        blower.set(ControlMode.PercentOutput, percent);
-    }
-
-    public double getTopRPM() {
-        return shooterTop.getVelocity().getValueAsDouble() * ShooterConstants.RPSToRPM;
-    }
-
-    public double getBottomRPM() {
-        return shooterBottom.getVelocity().getValueAsDouble() * ShooterConstants.RPSToRPM;
-    }
-
-    public boolean isAtState(States state) {
-
-        if (state.OUTPUT_TOP instanceof MotionMagicVelocityDutyCycle) {
-
-            double desiredVelocityTop = ((MotionMagicVelocityDutyCycle) state.OUTPUT_TOP).Velocity;
-            double desiredVelocityBottom = ((MotionMagicVelocityVoltage) state.OUTPUT_BOTTOM).Velocity;
-
-            return Math.abs(getTopRPM() - desiredVelocityTop) < ShooterConstants.shooterRPMThreshhold
-                    && Math.abs(getBottomRPM() - desiredVelocityBottom) < ShooterConstants.shooterRPMThreshhold;
-        } else { // Timer for percent out?
-            return true;
-        }
-    }
-
-    // }
-    // public boolean isAtSpeed(ControlRequest output){
-
-    // if (output instanceof MotionMagicVelocityDutyCycle){
-
-    // double desiredVelocity = ((MotionMagicVelocityDutyCycle)output).Velocity;
-
-    // return Math.abs(getTopRPM() - desiredVelocity) <
-    // ShooterConstants.shooterRPMThreshhold
-    // && Math.abs((getBottomRPM() - desiredVelocity)) <
-    // ShooterConstants.shooterRPMThreshhold;
-
-    // }
-    // else{ //Timer for percent out?
-    // return true;
-    // }
-
-    // }
-
-    // public boolean isAtSpeed(ControlRequest outputTop, ControlRequest
-    // outputBottom){
-
-    // if (outputTop instanceof MotionMagicVelocityDutyCycle){
-
-    // double desiredVelocityTop =
-    // ((MotionMagicVelocityDutyCycle)outputTop).Velocity;
-    // double desiredVelocityBottom =
-    // ((MotionMagicVelocityVoltage)outputBottom).Velocity;
-
-    // return Math.abs(getTopRPM() - desiredVelocityTop) <
-    // ShooterConstants.shooterRPMThreshhold
-    // && Math.abs(getBottomRPM() - desiredVelocityBottom) <
-    // ShooterConstants.shooterRPMThreshhold;
-
-    // }
-    // else{ //Timer for percent out?
-    // return true;
-    // }
-
-    // }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
-        StateHandler.getInstance().bb4Covered = !beamBreak4.get();
-
-        // TODO: ((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated
-        // value;
+        //TODO: HANDLING ARM STATE AND EXCEPTIONS
     }
 }

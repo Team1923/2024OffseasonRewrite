@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -121,9 +121,9 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return a boolean representing whether or not the desired state has been reached.
    */
   public boolean isAtState(States state) {
-    if (state.OUTPUT_TOP instanceof MotionMagicVelocityDutyCycle) {
+    if (state.OUTPUT_TOP instanceof MotionMagicVelocityVoltage) {
       /* Get the shooter's velocities (in RPM) */
-      double desiredVelocityTop = ((MotionMagicVelocityDutyCycle) state.OUTPUT_TOP).Velocity * ShooterConstants.RPSToRPM;
+      double desiredVelocityTop = ((MotionMagicVelocityVoltage) state.OUTPUT_TOP).Velocity * ShooterConstants.RPSToRPM;
       double desiredVelocityBottom = ((MotionMagicVelocityVoltage) state.OUTPUT_BOTTOM).Velocity * ShooterConstants.RPSToRPM;
 
       /* Check if the shooter's RPM is within the RPM tolerance (25 RPM). */

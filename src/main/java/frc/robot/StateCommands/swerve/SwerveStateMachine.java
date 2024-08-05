@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.StateCommands.swerve;
+package frc.robot.statecommands.swerve;
 
 import java.util.function.DoubleSupplier;
 
@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
-import frc.robot.Subsystems.SwerveSubsystem;
-import frc.robot.Subsystems.SwerveSubsystem.States;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveSubsystem.States;
 
 public class SwerveStateMachine extends Command {
 

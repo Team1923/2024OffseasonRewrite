@@ -5,6 +5,8 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 
 import frc.robot.Subsystems.IntakeSubsystem;
 import frc.robot.Subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class StateHandler {
     private static StateHandler stateHandler;
@@ -17,7 +19,7 @@ public class StateHandler {
         return stateHandler;
     }
 
-    public static enum ScoringType{
+    public static enum ScoringType {
         AMP,
         SUBWOOFER,
         REVERSE_SUBWOOFER,
@@ -27,27 +29,28 @@ public class StateHandler {
         LOW_PUNT,
         UNGUARDABLE,
         CLIMB,
-        FULL_EJECT
     }
-
 
     public ScoringType scoringType = ScoringType.RANGED;
 
     /* DESIRED STATES: These tell mechanisms to "go" to the state specified. */
-    public ShooterSubsystem.States desiredShooterState = ShooterSubsystem.States.IDLE;
+    public ShooterSubsystem.States desiredShooterState = ShooterSubsystem.States.IDLE_VELO;
     public IntakeSubsystem.ArmStates desiredIntakeArmState = IntakeSubsystem.ArmStates.STOWED;
     public IntakeSubsystem.RollerStates desiredIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
 
     /* CURRENT STATES: Mechanisms have arrived to the desired state. */
-    public ShooterSubsystem.States currentShooterStates = ShooterSubsystem.States.IDLE;
+    public ShooterSubsystem.States currentShooterStates = ShooterSubsystem.States.IDLE_VELO;
     public IntakeSubsystem.ArmStates currentArmStates = IntakeSubsystem.ArmStates.STOWED;
     public IntakeSubsystem.RollerStates currentIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
+
+    /* SWERVE STUFF */
+    public SwerveSubsystem.States currentSwerveState = SwerveSubsystem.States.FIELD_CENTRIC;
 
     /* BEAM BREAK Values */
     public boolean bb4Covered = false;
     public boolean bb1Covered = false;
 
-    /*BLOWER % */
+    /* BLOWER PERCENT */
     public double blowerPercent = 0;
 
 }

@@ -10,148 +10,139 @@ import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVelocityDutyCycle;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
-import com.ctre.phoenix6.controls.VelocityDutyCycle;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.trajectory.ExponentialProfile.State;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.StateHandler;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  public static enum States{
-      IDLE(new MotionMagicVelocityVoltage(0)),
-      BABY_BIRD(new MotionMagicVelocityVoltage(-1000)),
-      FRONT_AMP_SHOT(new MotionMagicVelocityVoltage(415)),
-      UNGUARDABLE_SHOT(new MotionMagicVelocityVoltage(1905-715), new MotionMagicVelocityVoltage(1905)),
-      TRAP(new MotionMagicVelocityVoltage(1000-350), new MotionMagicVelocityVoltage(1000)),
-      PUNT_SHOT_HIGH(new MotionMagicVelocityVoltage(2100)), 
-      PUNT_SHOT_LOW(new DutyCycleOut(1)), 
-      SUBWOOFER(new MotionMagicVelocityVoltage(2000)),
-      REVERSE_SUBWOOFER(new MotionMagicVelocityVoltage(2000)),
-      RANGED(new MotionMagicVelocityVoltage(0)),
-      FULL_EJECT(new DutyCycleOut(1));
+  public static enum States {
+    IDLE_VELO(MMVelocityWithRPM(0)),
+    BABY_BIRD_VELO(MMVelocityWithRPM(-1000)),
+    FRONT_AMP_VELO(MMVelocityWithRPM(415)),
+    UNGUARDABLE_VELO(MMVelocityWithRPM(1190), MMVelocityWithRPM(1905)),
+    TRAP_VELO(MMVelocityWithRPM(650), MMVelocityWithRPM(1000)),
+    PUNT_HIGH_VELO(MMVelocityWithRPM(2100)),
+    PUNT_LOW_DUTY(new DutyCycleOut(1)),
+    SUBWOOFER_VELO(MMVelocityWithRPM(2000)),
+    REVERSE_SUBWOOFER_VELO(MMVelocityWithRPM(2000)),
+    RANGED_VELO(MMVelocityWithRPM(0)),
+    FULL_EJECT_DUTY(new DutyCycleOut(1));
 
-      public ControlRequest OUTPUT_TOP;
-      public ControlRequest OUTPUT_BOTTOM;
+    public ControlRequest OUTPUT_TOP;
+    public ControlRequest OUTPUT_BOTTOM;
 
-      private States(ControlRequest OUTPUT){
-        this.OUTPUT_TOP = OUTPUT;
-        this.OUTPUT_BOTTOM = OUTPUT;
-      }
+    private States(ControlRequest OUTPUT) {
+      this.OUTPUT_TOP = OUTPUT;
+      this.OUTPUT_BOTTOM = OUTPUT;
+    }
 
-      private States(ControlRequest OUTPUT_TOP, ControlRequest OUTPUT_BOTTOM){
-        this.OUTPUT_TOP = OUTPUT_TOP;
-        this.OUTPUT_BOTTOM = OUTPUT_BOTTOM;
-      }
+    private States(ControlRequest OUTPUT_TOP, ControlRequest OUTPUT_BOTTOM) {
+      this.OUTPUT_TOP = OUTPUT_TOP;
+      this.OUTPUT_BOTTOM = OUTPUT_BOTTOM;
+    }
+
+    private static MotionMagicVelocityVoltage MMVelocityWithRPM(double RPM) {
+      return new MotionMagicVelocityVoltage(RPM * ShooterConstants.RPMToRPS);
+    }
   }
 
+  /* Initialize Shooter Motors */
+  private TalonFX shooterTop = new TalonFX(ShooterConstants.shooterTopID, "rio");
+  private TalonFX shooterBottom = new TalonFX(ShooterConstants.shooterBottomID, "rio");
 
-
-  private TalonFX shooterTop = new TalonFX(ShooterConstants.shooterTopID);
-  private TalonFX shooterBottom = new TalonFX(ShooterConstants.shooterBottomID);
-
+  /* Initialize TalonSRX used for blower motor */
   private TalonSRX blower = new TalonSRX(ShooterConstants.blowerID);
 
+  /* Initialize DigitalInput object for BB4 */
   private DigitalInput beamBreak4 = new DigitalInput(ShooterConstants.beamBreak4ID);
-    
-  /** Creates a new ShooterSubsystem. */
+
+
   public ShooterSubsystem() {
-      shooterTop.getConfigurator().apply(ShooterConstants.CONFIGS);
-      shooterBottom.getConfigurator().apply(ShooterConstants.CONFIGS);
+    /* Configure the Shooter Motors */
+    shooterTop.getConfigurator().apply(ShooterConstants.CONFIGS);
+    shooterBottom.getConfigurator().apply(ShooterConstants.CONFIGS);
 
-      blower.configFactoryDefault();
-
-      //No shooter bottom followership
-
+    /* Apply a Default Configuration to the Blower Motor */
+    blower.configFactoryDefault();
   }
 
-
-  public void setShooterMotorsTo(ControlRequest output){
+  /**
+   * Method to set both shooter motors to a specified RPM.
+   * @param output a Phoenix6 ControlRequest object.
+   */
+  public void setShooterMotorsTo(ControlRequest output) {
     shooterTop.setControl(output);
     shooterBottom.setControl(output);
   }
 
-  public void setShooterMotorsTo(ControlRequest topOutput, ControlRequest bottomOutput){
+  /**
+   * Method to set the shooter motor's velocities independently.
+   * @param topOutput a Phoenix6 ControlRequest object for the top motor.
+   * @param bottomOutput a Phoenix6 ControlRequest object for the bottom motor.
+   */
+  public void setShooterMotorsTo(ControlRequest topOutput, ControlRequest bottomOutput) {
     shooterTop.setControl(topOutput);
     shooterBottom.setControl(bottomOutput);
 
   }
 
-  public void setBlowerTo(double percent){
+  
+  /**
+   * Method to set the Blower Motor to a particular percent output.
+   * @param percent the specified percent output for the blower.
+   */
+  public void setBlowerTo(double percent) {
     blower.set(ControlMode.PercentOutput, percent);
   }
 
-
-  public double getTopRPM(){
+  /**
+   * Method to get the top shooter's velocity.
+   * @return a double value of the top motor's velocity.
+   */
+  public double getTopRPM() {
     return shooterTop.getVelocity().getValueAsDouble() * ShooterConstants.RPSToRPM;
   }
-   public double getBottomRPM(){
+
+  /**
+   * Method to get the bottom shooter's velocity.
+   * @return a double value of the bottom motor's velocity.
+   */
+  public double getBottomRPM() {
     return shooterBottom.getVelocity().getValueAsDouble() * ShooterConstants.RPSToRPM;
   }
 
-  public boolean isAtState(States state){
+  /**
+   * Method to determine if the shooter has reached the desired state specified.
+   * @param state the desired state to evaluate.
+   * @return a boolean representing whether or not the desired state has been reached.
+   */
+  public boolean isAtState(States state) {
+    if (state.OUTPUT_TOP instanceof MotionMagicVelocityVoltage) {
+      /* Get the shooter's velocities (in RPM) */
+      double desiredVelocityTop = ((MotionMagicVelocityVoltage) state.OUTPUT_TOP).Velocity * ShooterConstants.RPSToRPM;
+      double desiredVelocityBottom = ((MotionMagicVelocityVoltage) state.OUTPUT_BOTTOM).Velocity * ShooterConstants.RPSToRPM;
 
-    if (state.OUTPUT_TOP instanceof MotionMagicVelocityDutyCycle){
-
-
-      double desiredVelocityTop = ((MotionMagicVelocityDutyCycle)state.OUTPUT_TOP).Velocity;
-      double desiredVelocityBottom = ((MotionMagicVelocityVoltage)state.OUTPUT_BOTTOM).Velocity;
-
-
+      /* Check if the shooter's RPM is within the RPM tolerance (25 RPM). */
       return Math.abs(getTopRPM() - desiredVelocityTop) < ShooterConstants.shooterRPMThreshhold
-      && Math.abs(getBottomRPM() - desiredVelocityBottom) < ShooterConstants.shooterRPMThreshhold;
-    }
-    else{ //Timer for percent out?
+          && Math.abs(getBottomRPM() - desiredVelocityBottom) < ShooterConstants.shooterRPMThreshhold;
+    } else {
+      /* DEFAULT: percent output is used. */
       return true;
     }
   }
-
-  // }
-  // public boolean isAtSpeed(ControlRequest output){
-    
-  //   if (output instanceof MotionMagicVelocityDutyCycle){
-
-  //     double desiredVelocity = ((MotionMagicVelocityDutyCycle)output).Velocity;
-
-  //     return Math.abs(getTopRPM() - desiredVelocity) < ShooterConstants.shooterRPMThreshhold
-  //     && Math.abs((getBottomRPM() - desiredVelocity)) < ShooterConstants.shooterRPMThreshhold;
-
-  //   }
-  //   else{ //Timer for percent out?
-  //     return true;
-  //   }
-
-  // }
-
-  // public boolean isAtSpeed(ControlRequest outputTop, ControlRequest outputBottom){
-    
-  //   if (outputTop instanceof MotionMagicVelocityDutyCycle){
-
-  //     double desiredVelocityTop = ((MotionMagicVelocityDutyCycle)outputTop).Velocity;
-  //     double desiredVelocityBottom = ((MotionMagicVelocityVoltage)outputBottom).Velocity;
-
-  //     return Math.abs(getTopRPM() - desiredVelocityTop) < ShooterConstants.shooterRPMThreshhold
-  //     && Math.abs(getBottomRPM() - desiredVelocityBottom) < ShooterConstants.shooterRPMThreshhold;
-
-  //   }
-  //   else{ //Timer for percent out?
-  //     return true;
-  //   }
-
-  // }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    /* Update BB4's value. */
     StateHandler.getInstance().bb4Covered = !beamBreak4.get();
-    
 
-    //TODO: ((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated value;
+    // TODO: ((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated
+    // value;
   }
 }

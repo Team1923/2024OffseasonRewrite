@@ -8,9 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler.ScoringType;
-import frc.robot.Subsystems.ShooterSubsystem;
+import frc.robot.commands.Intake.BabyBirdCommand;
+import frc.robot.commands.Intake.FullEjectCommand;
+import frc.robot.statecommands.ShooterStateMachine;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
 
@@ -18,7 +22,7 @@ public class RobotContainer {
 
   /* Controller Instantiations */
   private final CommandXboxController driverXboxController = new CommandXboxController(0);
-  private final CommandPS4Controller operatorPS4Controller = new CommandPS4Controller(1);
+  private final CommandPS5Controller operatorPS5Controller = new CommandPS5Controller(1);
 
 
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
@@ -29,15 +33,30 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    /* Default commands */
+    shooterSubsystem.setDefaultCommand(new ShooterStateMachine(shooterSubsystem));
+
+
+    /* Driver Button Bindings */
+
 
     /* Operator Button Bindings */
-    operatorPS4Controller.triangle().onTrue(scoringMode(ScoringType.RANGED) );
-    operatorPS4Controller.square().onTrue(scoringMode(ScoringType.AMP) );
-    operatorPS4Controller.cross().onTrue(scoringMode(ScoringType.SUBWOOFER) );
-    operatorPS4Controller.circle().onTrue(scoringMode(ScoringType.REVERSE_SUBWOOFER) );
-    operatorPS4Controller.povUp().onTrue(scoringMode(ScoringType.TRAP) );
+    operatorPS5Controller.triangle().onTrue(scoringMode(ScoringType.RANGED));
+    operatorPS5Controller.square().onTrue(scoringMode(ScoringType.AMP));
+    operatorPS5Controller.cross().onTrue(scoringMode(ScoringType.SUBWOOFER));
+    operatorPS5Controller.circle().onTrue(scoringMode(ScoringType.REVERSE_SUBWOOFER) );
+    operatorPS5Controller.povUp().onTrue(scoringMode(ScoringType.TRAP));
+    operatorPS5Controller.L2().onTrue(scoringMode(ScoringType.LOW_PUNT));
+    operatorPS5Controller.R2().onTrue(scoringMode(ScoringType.HIGH_PUNT));
 
-    operatorPS4Controller.R2().whileTrue(scoringMode(ScoringType.TRAP));
+    operatorPS5Controller.create().whileTrue(new FullEjectCommand());
+
+    operatorPS5Controller.povLeft().whileTrue(new BabyBirdCommand());
+
+
+
+
+
 
   }
 

@@ -131,7 +131,6 @@ public class ShooterSubsystem extends SubsystemBase {
           && Math.abs(getBottomRPM() - desiredVelocityBottom) < ShooterConstants.shooterRPMThreshhold;
     } else {
       /* DEFAULT: percent output is used. */
-      //TODO: incorporate timer logic for punts.
       return true;
     }
   }

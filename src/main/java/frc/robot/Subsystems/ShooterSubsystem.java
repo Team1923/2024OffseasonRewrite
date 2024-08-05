@@ -105,8 +105,8 @@ public class ShooterSubsystem extends SubsystemBase {
     if (state.OUTPUT_TOP instanceof MotionMagicVelocityDutyCycle){
 
 
-      double desiredVelocityTop = ((MotionMagicVelocityDutyCycle)state.OUTPUT_TOP).Velocity;
-      double desiredVelocityBottom = ((MotionMagicVelocityVoltage)state.OUTPUT_BOTTOM).Velocity;
+      double desiredVelocityTop = ((MotionMagicVelocityDutyCycle)state.OUTPUT_TOP).Velocity * ShooterConstants.RPSToRPM;
+      double desiredVelocityBottom = ((MotionMagicVelocityVoltage)state.OUTPUT_BOTTOM).Velocity * ShooterConstants.RPSToRPM;
 
 
       return Math.abs(getTopRPM() - desiredVelocityTop) < ShooterConstants.shooterRPMThreshhold

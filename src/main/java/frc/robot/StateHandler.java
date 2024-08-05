@@ -1,7 +1,7 @@
 package frc.robot;
 
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.Subsystems.ShooterSubsystem;
+import frc.robot.Subsystems.SwerveSubsystem;
 
 public class StateHandler {
     private static StateHandler stateHandler;
@@ -14,7 +14,7 @@ public class StateHandler {
         return stateHandler;
     }
 
-    public static enum ScoringType{
+    public static enum ScoringType {
         AMP,
         SUBWOOFER,
         REVERSE_SUBWOOFER,
@@ -25,7 +25,6 @@ public class StateHandler {
         UNGUARDABLE,
         CLIMB,
     }
-
 
     public ScoringType scoringType = ScoringType.RANGED;
 
@@ -41,9 +40,7 @@ public class StateHandler {
     /* BEAM BREAK Values */
     public boolean bb4Covered = false;
 
-    /* BLOWER % */
+    /* BLOWER PERCENT */
     public double blowerPercent = 0;
-
-
 
 }

@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Commands.Intake.BabyBirdCommand;
-import frc.robot.Commands.Intake.FullEjectCommand;
-import frc.robot.StateCommands.ShooterStateMachine;
 import frc.robot.StateHandler.ScoringType;
-import frc.robot.Subsystems.ShooterSubsystem;
+import frc.robot.commands.Intake.BabyBirdCommand;
+import frc.robot.commands.Intake.FullEjectCommand;
+import frc.robot.statecommands.ShooterStateMachine;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
 

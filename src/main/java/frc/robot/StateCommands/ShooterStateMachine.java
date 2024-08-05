@@ -2,15 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.StateCommands;
+package frc.robot.statecommands;
 
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
-import frc.robot.Subsystems.ShooterSubsystem;
-import frc.robot.Subsystems.ShooterSubsystem.States;
+import frc.robot.subsystems.ShooterSubsystem;
+
 
 public class ShooterStateMachine extends Command {
 
@@ -40,16 +40,16 @@ public class ShooterStateMachine extends Command {
 
     switch(desiredState){
       
-      case PUNT_HIGH_SHOT:
+      case PUNT_HIGH_VELO:
         if (puntTimer.get() == 0){
           puntTimer.start();
         }
         else if (puntTimer.hasElapsed(0.5)){
-          stateHandler.currentShooterStates = ShooterSubsystem.States.PUNT_HIGH_SHOT;
+          stateHandler.currentShooterStates = ShooterSubsystem.States.PUNT_HIGH_VELO;
         }
         break;
 
-      case RANGED_SHOT:
+      case RANGED_VELO:
         //((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated value;
 
       default:

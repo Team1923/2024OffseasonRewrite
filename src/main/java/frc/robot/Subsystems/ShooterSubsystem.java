@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -24,17 +24,17 @@ import frc.robot.Constants.ShooterConstants;
 public class ShooterSubsystem extends SubsystemBase {
 
   public static enum States{ //TODO: fix unit conversions
-      IDLE(new MotionMagicVelocityVoltage(0)), 
-      BABY_BIRD_INTAKE(new MotionMagicVelocityVoltage(-1000 * ShooterConstants.RPMToRPS)),
-      FRONT_AMP_SHOT(new MotionMagicVelocityVoltage(415 * ShooterConstants.RPMToRPS)),
-      UNGUARDABLE_SHOT(new MotionMagicVelocityVoltage(1190 * ShooterConstants.RPMToRPS), new MotionMagicVelocityVoltage(1905 * ShooterConstants.RPMToRPS)),
-      TRAP_SHOT(new MotionMagicVelocityVoltage(650 * ShooterConstants.RPMToRPS), new MotionMagicVelocityVoltage(1000 * ShooterConstants.RPMToRPS)),
-      PUNT_HIGH_SHOT(new MotionMagicVelocityVoltage(2100 * ShooterConstants.RPMToRPS)), 
-      PUNT_LOW_SHOT(new DutyCycleOut(1)), 
-      SUBWOOFER_SHOT(new MotionMagicVelocityVoltage(2000 * ShooterConstants.RPMToRPS)),
-      REVERSE_SUBWOOFER_SHOT(new MotionMagicVelocityVoltage(2000 * ShooterConstants.RPMToRPS)),
-      RANGED_SHOT(new MotionMagicVelocityVoltage(0)),
-      FULL_EJECT(new DutyCycleOut(1));
+      IDLE_VELO(MMVelocityWithRPM(0)), 
+      BABY_BIRD_VELO(MMVelocityWithRPM(-1000)),
+      FRONT_AMP_VELO(MMVelocityWithRPM(415)),
+      UNGUARDABLE_VELO(MMVelocityWithRPM(1190), MMVelocityWithRPM(1905)),
+      TRAP_VELO(MMVelocityWithRPM(650), MMVelocityWithRPM(1000)),
+      PUNT_HIGH_VELO(MMVelocityWithRPM(2100)), 
+      PUNT_LOW_DUTY(new DutyCycleOut(1)), 
+      SUBWOOFER_VELO(MMVelocityWithRPM(2000)),
+      REVERSE_SUBWOOFER_VELO(MMVelocityWithRPM(2000)),
+      RANGED_VELO(MMVelocityWithRPM(0)),
+      FULL_EJECT_DUTY(new DutyCycleOut(1));
 
       public ControlRequest OUTPUT_TOP;
       public ControlRequest OUTPUT_BOTTOM;
@@ -47,6 +47,10 @@ public class ShooterSubsystem extends SubsystemBase {
       private States(ControlRequest OUTPUT_TOP, ControlRequest OUTPUT_BOTTOM){
         this.OUTPUT_TOP = OUTPUT_TOP;
         this.OUTPUT_BOTTOM = OUTPUT_BOTTOM;
+      }
+
+      private static MotionMagicVelocityVoltage MMVelocityWithRPM(double RPM){
+        return new MotionMagicVelocityVoltage(RPM * ShooterConstants.RPMToRPS);
       }
   }
 
@@ -108,7 +112,7 @@ public class ShooterSubsystem extends SubsystemBase {
       return Math.abs(getTopRPM() - desiredVelocityTop) < ShooterConstants.shooterRPMThreshhold
       && Math.abs(getBottomRPM() - desiredVelocityBottom) < ShooterConstants.shooterRPMThreshhold;
     }
-    else{ //Timer for percent out?
+    else{
       return true;
     }
   }

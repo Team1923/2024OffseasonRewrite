@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 
@@ -58,6 +59,34 @@ public class Constants {
         public static final double shooterRPMThreshhold = 25; 
 
     }
+
+    public static class IntakeConstants {
+        public static int intakeArmPrimaryID = 22;
+        public static int intakeArmFollowerID = 21;
+
+        public static int intakeWheelTopID = 25;
+        public static int intakeWheelBottomID = 26;
+
+        public static int beamBreakOneID = 1;
+
+        public static final TalonFXConfiguration ARM_CONFIGS = new TalonFXConfiguration()
+                                                                .withSlot0(new Slot0Configs() //PID
+                                                                            .withKP(0.9)
+                                                                            .withKI(0.005)
+                                                                            .withKD(0)
+                                                                            .withKS(0.25)
+                                                                            .withKV(0.1)
+                                                                        )
+                                                                .withMotorOutput(new MotorOutputConfigs()
+                                                                            .withInverted(InvertedValue.Clockwise_Positive)
+                                                                            .withNeutralMode(NeutralModeValue.Brake)
+                                                                            );
+                                                                        
+                                                                    
+        public static final TalonFXConfiguration WHEEL_CONFIGS = new TalonFXConfiguration()
+                                                                        ;
+    } 
+
 
 
 }

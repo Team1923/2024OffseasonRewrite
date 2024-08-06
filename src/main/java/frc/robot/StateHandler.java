@@ -1,5 +1,10 @@
 package frc.robot;
 
+import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+
+import frc.robot.Subsystems.IntakeSubsystem;
+import frc.robot.Subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -30,15 +35,20 @@ public class StateHandler {
 
     /* DESIRED STATES: These tell mechanisms to "go" to the state specified. */
     public ShooterSubsystem.States desiredShooterState = ShooterSubsystem.States.IDLE_VELO;
+    public IntakeSubsystem.ArmStates desiredIntakeArmState = IntakeSubsystem.ArmStates.STOWED;
+    public IntakeSubsystem.RollerStates desiredIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
 
     /* CURRENT STATES: Mechanisms have arrived to the desired state. */
-    public ShooterSubsystem.States currentShooterState = ShooterSubsystem.States.IDLE_VELO;
+    public ShooterSubsystem.States currentShooterStates = ShooterSubsystem.States.IDLE_VELO;
+    public IntakeSubsystem.ArmStates currentArmStates = IntakeSubsystem.ArmStates.STOWED;
+    public IntakeSubsystem.RollerStates currentIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
 
     /* SWERVE STUFF */
     public SwerveSubsystem.States currentSwerveState = SwerveSubsystem.States.FIELD_CENTRIC;
 
     /* BEAM BREAK Values */
     public boolean bb4Covered = false;
+    public boolean bb1Covered = false;
 
     /* BLOWER PERCENT */
     public double blowerPercent = 0;

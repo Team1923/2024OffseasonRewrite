@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.BabyBirdCommand;
 import frc.robot.commands.intake.FullEjectCommand;
+import frc.robot.statecommands.IntakeStateMachine;
 import frc.robot.statecommands.ShooterStateMachine;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
@@ -25,6 +27,7 @@ public class RobotContainer {
 
 
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 
   public RobotContainer() {
@@ -34,6 +37,7 @@ public class RobotContainer {
   private void configureBindings() {
     /* Default commands */
     shooterSubsystem.setDefaultCommand(new ShooterStateMachine(shooterSubsystem));
+    intakeSubsystem.setDefaultCommand(new IntakeStateMachine(intakeSubsystem));
 
 
     /* Driver Button Bindings */

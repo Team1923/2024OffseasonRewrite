@@ -29,36 +29,34 @@ public class IntakeSubsystem extends SubsystemBase {
     public ControlRequest intakePosition;
 
     private ArmStates(ControlRequest request) {
-        this.intakePosition = request;
+      this.intakePosition = request;
     }
 
     private static MotionMagicVoltage MMVoltageWithDegrees(double degrees) {
       return new MotionMagicVoltage(degrees * IntakeConstants.intakeDegreesToRotations);
     }
-}
-
-/* Roller States Enum */
-public static enum RollerStates {
-  OFF(new DutyCycleOut(0)),
-  EJECT(new DutyCycleOut(0.75)),
-  INTAKE(new DutyCycleOut(-0.85));
-
-  private ControlRequest OUTPUT;
-  private RollerStates(ControlRequest OUTPUT){
-    this.OUTPUT = OUTPUT;
   }
-}
 
-  /** Creates a new IntakeSubsystem. */
+  /* Roller States Enum */
+  public static enum RollerStates {
+    OFF(new DutyCycleOut(0)),
+    EJECT(new DutyCycleOut(0.75)),
+    INTAKE(new DutyCycleOut(-0.85));
+
+    private ControlRequest OUTPUT;
+
+    private RollerStates(ControlRequest OUTPUT) {
+      this.OUTPUT = OUTPUT;
+    }
+  }
+
   private DigitalInput beamBreakOne = new DigitalInput(IntakeConstants.beamBreakOneID);
-  private StateHandler stateHandler = StateHandler.getInstance();
 
   private TalonFX intakeArmPrimary = new TalonFX(Constants.IntakeConstants.intakeArmPrimaryID);
   private TalonFX intakeArmFollower = new TalonFX(Constants.IntakeConstants.intakeArmFollowerID);
 
   private TalonFX intakeWheelTop = new TalonFX(Constants.IntakeConstants.intakeWheelTopID);
   private TalonFX intakeWheelBottom = new TalonFX(Constants.IntakeConstants.intakeWheelBottomID);
-
 
   /* Constructor */
   public IntakeSubsystem() {
@@ -70,70 +68,80 @@ public static enum RollerStates {
 
     intakeArmFollower.setControl(new Follower(IntakeConstants.intakeArmPrimaryID, false));
     intakeWheelBottom.setControl(new Follower(IntakeConstants.intakeWheelTopID, false));
-
   }
 
-  /*Getter Methods*/
-  public double getWheelTopRPS(){
-    return intakeWheelTop.getVelocity().getValueAsDouble();
-  }
-   public double getWheelBottomRPS(){
-    return intakeWheelBottom.getVelocity().getValueAsDouble();
-  }
-
-  // Change to degrees
+  /**
+   * Method to get the current intake arm's position (in degrees)
+   * @return a double value representing the intake's position in degrees
+   */
   public double getIntakeArmPositionDegrees() {
     return intakeArmPrimary.getPosition().getValueAsDouble() * IntakeConstants.intakeRotsToDegrees;
   }
 
-  /* isAt boolean checker methods */
-  public boolean isAtArmPosition(ArmStates state){
-    if (state.intakePosition instanceof MotionMagicVoltage){
-      // Is this the correct way to get the desired position
-      double desiredPosition = ((MotionMagicVoltage)state.intakePosition).Position * IntakeConstants.intakeRotsToDegrees;
-      
+  /**
+   * Method to determine if the intake has reached its desired position.
+   * @param state the state specifying the desired position
+   * @return a boolean representing if the intake arm has reached its desired position
+   */
+  public boolean isAtArmPosition(ArmStates state) {
+      double desiredPosition = ((MotionMagicVoltage) state.intakePosition).Position
+          * IntakeConstants.intakeRotsToDegrees;
+
       return Math.abs(getIntakeArmPositionDegrees() - desiredPosition) < IntakeConstants.intakePositionAllowableOffset;
-    }
-    else{ //Timer for percent out?
-      return true;
-    }
+
   }
 
+  /**
+   * Method to determine if the intake roller wheels have reached their desired setpoint.
+   * @param state the desired RollerState
+   * @return true (always)
+   */
   public boolean isAtRollerVelocity(RollerStates state) {
     return true;
   }
 
-  // setter method for arm should be in degrees
 
-  /* setter methods */
-  public void setIntakeArmTo(ControlRequest Output) {
-    intakeArmPrimary.setControl(Output);
+  /**
+   * Method to set the intake arm to a specific ControlRequest
+   * @param output the specified desired ControlRequest.
+   */
+  public void setIntakeArmTo(ControlRequest output) {
+    intakeArmPrimary.setControl(output);
   }
 
-  public void setRollerSpeedTo(ControlRequest Output) {
-    intakeWheelTop.setControl(Output);
+  /**
+   * Method to set the intake's rollers to a specific ControlRequest.
+   * @param output the specified desired ControlRequest.
+   */
+  public void setRollerSpeedTo(ControlRequest output) {
+    intakeWheelTop.setControl(output);
   }
 
-  /* stop/zero methods */
+  /**
+   * Method to stop the intake arm's motors.
+   */
   public void stopIntakeArmMotors() {
-    intakeArmPrimary.stopMotor();;
+    intakeArmPrimary.set(0);
   }
 
+  /**
+   * Method ot stop the intake wheels.
+   */
   public void stopIntakeWheels() {
-    intakeWheelTop.stopMotor();;
+    intakeWheelTop.set(0);
+    ;
   }
 
-  /* TODO: Check this */
+  /**
+   * Method to zero the intake arm.
+   */
   public void zeroIntakeArm() {
     intakeArmPrimary.setPosition(0);
     intakeArmFollower.setPosition(0);
   }
 
-
   @Override
   public void periodic() {
-
     StateHandler.getInstance().bb1Covered = !beamBreakOne.get();
-    // This method will be called once per scheduler run
   }
 }

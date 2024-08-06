@@ -7,6 +7,7 @@ package frc.robot.statecommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
 import frc.robot.subsystems.IntakeSubsystem.RollerStates;
 
@@ -26,7 +27,11 @@ public class IntakeStateMachine extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    //TODO: Boolean reset?
+    bb1Crossed = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -47,22 +52,23 @@ public class IntakeStateMachine extends Command {
       case STOWED:
       /* Latching boolean condition for bb1 making sure intake doesn't deploy until note is fully situated */
         if (!stateHandler.bb3Covered && bb1Crossed) {
-          intakesubsystem.setIntakeArmTo(IntakeArmStates.DEPLOYED.intakePosition);
-          intakesubsystem.setRollerSpeedTo(RollerStates.INTAKE.OUTPUT);
+          desiredArmState = IntakeArmStates.DEPLOYED; //TODO: not setting here
+          desiredRollerState = RollerStates.INTAKE;
         } 
 
         /* Makes sure if arm is not deployed yet but want to eject, rollers don't spin */
-        if (desiredArmState != IntakeArmStates.DEPLOYED & desiredRollerState == RollerStates.EJECT) {
-          intakesubsystem.setRollerSpeedTo(RollerStates.OFF.OUTPUT);
+        if (stateHandler.currentIntakeArmState != IntakeArmStates.DEPLOYED & desiredRollerState == RollerStates.EJECT) {
+          desiredRollerState = RollerStates.OFF;
         }
+  
       default:
         intakesubsystem.setIntakeArmTo(desiredArmState.intakePosition);
         if(intakesubsystem.isAtIntakeArmPosition(desiredArmState)) {
-          stateHandler.currentIntakeArmState = stateHandler.desiredIntakeArmState;
+          stateHandler.currentIntakeArmState = desiredArmState;
         }
         intakesubsystem.setRollerSpeedTo(desiredRollerState.OUTPUT);
         if(intakesubsystem.isAtRollerVelocity(desiredRollerState)) {
-          stateHandler.currentIntakeRollerState = stateHandler.desiredIntakeRollerState;
+          stateHandler.currentIntakeRollerState = desiredRollerState;
         }
     }
 

@@ -25,6 +25,8 @@ public class FeederStateMachine extends Command {
      * - SCORING --> INWARD (look at old code, see how many cases in which the feeder runs inward)
      * - EJECT --> same idea as scoring, but only validate the intake position
      */
+    
+     
   }
 
   // Called once the command ends or is interrupted.

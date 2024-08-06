@@ -30,6 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     private static MotionMagicVoltage MMVoltageWithDegrees(double degrees) {
+
       return new MotionMagicVoltage(degrees * IntakeConstants.intakeDegreesToRotations);
     }
   }
@@ -40,7 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
     EJECT(new DutyCycleOut(0.75)),
     INTAKE(new DutyCycleOut(-0.85));
 
-    private ControlRequest OUTPUT;
+    public ControlRequest OUTPUT;
 
     private RollerStates(ControlRequest OUTPUT) {
       this.OUTPUT = OUTPUT;
@@ -124,7 +125,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   /**
-   * Method ot stop the intake wheels.
+   * Method to stop the intake wheels.
    */
   public void stopIntakeWheels() {
     intakeWheelTop.stopMotor();

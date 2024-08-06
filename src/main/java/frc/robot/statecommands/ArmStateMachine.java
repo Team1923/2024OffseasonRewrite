@@ -38,11 +38,15 @@ public class ArmStateMachine extends Command {
 
     ArmSubsystem.ArmStates desiredArmState = stateHandler.desiredArmState;
 
-    if (!armSubsystem.isAtArmPosition(desiredArmState)) {
+
+    // case RANGED_VELO:
+    //     //((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated value;
+
+    if (!armSubsystem.isAtState(desiredArmState)) {
       timer.restart();
     }
 
-    if (timer.hasElapsed(desiredArmState.settleTime) && armSubsystem.isAtArmPosition(desiredArmState)) {
+    if (timer.hasElapsed(desiredArmState.settleTime) && armSubsystem.isAtState(desiredArmState)) {
       stateHandler.currentArmState = desiredArmState;
     }
 

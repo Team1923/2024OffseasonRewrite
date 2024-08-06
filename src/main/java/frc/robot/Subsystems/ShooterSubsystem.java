@@ -31,17 +31,17 @@ public class ShooterSubsystem extends SubsystemBase {
     RANGED_VELO(MMVelocityWithRPM(0)),
     FULL_EJECT_DUTY(new DutyCycleOut(1));
 
-    public ControlRequest OUTPUT_TOP;
-    public ControlRequest OUTPUT_BOTTOM;
+    public ControlRequest REQUEST_TOP;
+    public ControlRequest REQUEST_BOTTOM;
 
-    private ShooterStates(ControlRequest OUTPUT) {
-      this.OUTPUT_TOP = OUTPUT;
-      this.OUTPUT_BOTTOM = OUTPUT;
+    private ShooterStates(ControlRequest request) {
+      this.REQUEST_TOP = request;
+      this.REQUEST_BOTTOM = request;
     }
 
-    private ShooterStates(ControlRequest OUTPUT_TOP, ControlRequest OUTPUT_BOTTOM) {
-      this.OUTPUT_TOP = OUTPUT_TOP;
-      this.OUTPUT_BOTTOM = OUTPUT_BOTTOM;
+    private ShooterStates(ControlRequest REQUEST_TOP, ControlRequest REQUEST_BOTTOM) {
+      this.REQUEST_TOP = REQUEST_TOP;
+      this.REQUEST_BOTTOM = REQUEST_BOTTOM;
     }
 
     private static MotionMagicVelocityVoltage MMVelocityWithRPM(double RPM) {
@@ -120,10 +120,10 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return a boolean representing whether or not the desired state has been reached.
    */
   public boolean isAtState(ShooterStates state) {
-    if (state.OUTPUT_TOP instanceof MotionMagicVelocityVoltage) {
+    if (state.REQUEST_TOP instanceof MotionMagicVelocityVoltage) {
       /* Get the shooter's velocities (in RPM) */
-      double desiredVelocityTop = ((MotionMagicVelocityVoltage) state.OUTPUT_TOP).Velocity * ShooterConstants.RPSToRPM;
-      double desiredVelocityBottom = ((MotionMagicVelocityVoltage) state.OUTPUT_BOTTOM).Velocity * ShooterConstants.RPSToRPM;
+      double desiredVelocityTop = ((MotionMagicVelocityVoltage) state.REQUEST_TOP).Velocity * ShooterConstants.RPSToRPM;
+      double desiredVelocityBottom = ((MotionMagicVelocityVoltage) state.REQUEST_BOTTOM).Velocity * ShooterConstants.RPSToRPM;
 
       /* Check if the shooter's RPM is within the RPM tolerance (25 RPM). */
       return Math.abs(getTopRPM() - desiredVelocityTop) < ShooterConstants.shooterRPMThreshhold

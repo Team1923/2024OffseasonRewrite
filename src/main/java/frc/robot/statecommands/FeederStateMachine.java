@@ -153,7 +153,7 @@ public class FeederStateMachine extends Command {
             desiredState = FeederStates.BACKING;
     }
 
-    feederSubsystem.setFeederTo(desiredState.OUTPUT);
+    feederSubsystem.setFeederTo(desiredState.REQUEST);
 
     if (feederSubsystem.isAtState(desiredState)){
       stateHandler.currentFeederState = desiredState;

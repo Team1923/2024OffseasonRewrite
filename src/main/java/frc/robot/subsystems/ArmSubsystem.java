@@ -29,16 +29,16 @@ public class ArmSubsystem extends SubsystemBase {
     DEFENSE(MMVoltageWithDegrees(-77.3)),
     CLIMB(MMVoltageWithDegrees(-77.3));
 
-    public ControlRequest armOutput;
+    public ControlRequest REQUEST;
     public double settleTime;
 
-    private ArmStates(ControlRequest OUTPUT) {
-      this.armOutput = OUTPUT;
+    private ArmStates(ControlRequest request) {
+      this.REQUEST = request;
       this.settleTime = 0;
     }
 
-    private ArmStates(ControlRequest OUTPUT, double settleTime) {
-      this.armOutput = OUTPUT;
+    private ArmStates(ControlRequest request, double settleTime) {
+      this.REQUEST = request;
       this.settleTime = settleTime;
     }
 
@@ -105,11 +105,16 @@ public class ArmSubsystem extends SubsystemBase {
    * @return a boolean representing if the intake arm has reached its desired
    *         position
    */
-  public boolean isAtArmPosition(ArmStates state) {
-    double desiredPosition = ((MotionMagicVoltage) state.armOutput).Position
-        * ArmConstants.armRotsToDegrees;
+  public boolean isAtState(ArmStates state) {
+    if (state.REQUEST instanceof MotionMagicVoltage){
+      double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position * ArmConstants.armRotsToDegrees;
 
-    return Math.abs(getArmPositionDegrees() - desiredPosition) < ArmConstants.armPositionAllowableOffset;
+      return Math.abs(getArmPositionDegrees() - desiredPosition) < ArmConstants.armPositionAllowableOffset;
+    }
+    else{
+      return true;
+    }
+    
 
   }
 

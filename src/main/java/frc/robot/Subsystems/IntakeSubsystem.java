@@ -23,10 +23,10 @@ public class IntakeSubsystem extends SubsystemBase {
     DEPLOYED(MMVoltageWithDegrees(114.592)), // original: 2.00 radians
     STOWED(MMVoltageWithDegrees(0));
 
-    public ControlRequest intakePosition;
+    public ControlRequest REQUEST;
 
     private IntakeArmStates(ControlRequest request) {
-      this.intakePosition = request;
+      this.REQUEST = request;
     }
 
     private static MotionMagicVoltage MMVoltageWithDegrees(double degrees) {
@@ -41,10 +41,10 @@ public class IntakeSubsystem extends SubsystemBase {
     EJECT(new DutyCycleOut(0.75)),
     INTAKE(new DutyCycleOut(-0.85));
 
-    public ControlRequest OUTPUT;
+    public ControlRequest REQUEST;
 
-    private IntakeRollerStates(ControlRequest OUTPUT) {
-      this.OUTPUT = OUTPUT;
+    private IntakeRollerStates(ControlRequest request) {
+      this.REQUEST = request;
     }
   }
 
@@ -84,7 +84,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @return a boolean representing if the intake arm has reached its desired position
    */
   public boolean isAtIntakeArmPosition(IntakeArmStates state) {
-      double desiredPosition = ((MotionMagicVoltage) state.intakePosition).Position
+      double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position
           * IntakeConstants.intakeRotsToDegrees;
 
       return Math.abs(getIntakeArmPositionDegrees() - desiredPosition) < IntakeConstants.intakePositionAllowableOffset;

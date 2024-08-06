@@ -23,10 +23,10 @@ public class FeederSubsystem extends SubsystemBase {
     BACKING(new DutyCycleOut(-0.1)),
     FULL_EJECT(new DutyCycleOut(0.85));
 
-    public ControlRequest OUTPUT;
+    public ControlRequest REQUEST;
 
-    private FeederStates(ControlRequest output) {
-      OUTPUT = output;
+    private FeederStates(ControlRequest request) {
+      REQUEST = request;
     }
   }
 

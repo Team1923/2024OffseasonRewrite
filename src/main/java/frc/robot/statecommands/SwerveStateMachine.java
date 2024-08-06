@@ -75,18 +75,27 @@ public class SwerveStateMachine extends Command {
     SwerveRequest request;
 
     switch(currentState){
+      case FIELD_CENTRIC: 
+          request = ((SwerveRequest.FieldCentric)SwerveSubsystem.States.FIELD_CENTRIC.REQUEST)
+            .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
+            .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
+            .withRotationalRate(rotation * Units.degreesToRadians(TunerConstants.kMaxAngularVelocity));
+            break;
+
       case ROBOT_CENTRIC:
         request = ((SwerveRequest.RobotCentric)SwerveSubsystem.States.ROBOT_CENTRIC.REQUEST)
         .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
         .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
         .withRotationalRate(rotation * Units.degreesToRadians(TunerConstants.kMaxAngularVelocity));
         break;
+
       case FACING_AMP:
         request = ((SwerveRequest.FieldCentricFacingAngle)SwerveSubsystem.States.FACING_AMP.REQUEST)
         .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
         .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
         .withTargetDirection(Rotation2d.fromDegrees((DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? -90 : -90));
         break;
+        
       case GOAL_CENTRIC:
         // if (hasTag && Math.abs(rotation) < 0.5){
         //   request = ((SwerveRequest.FieldCentricFacingAngle)SwerveSubsystem.States.GOAL_CENTRIC.request)
@@ -95,8 +104,7 @@ public class SwerveStateMachine extends Command {
         //   .withTargetDirection(Rotation2d.fromDegrees(swerve.getGyroYaw().getDegrees()-stateHandler.getxAngleOffset()));
         //   break;
         // }
-      case FIELD_CENTRIC: //fall through to default lol
-      default:
+      default://Equivilent to field centric
         request = ((SwerveRequest.FieldCentric)SwerveSubsystem.States.FIELD_CENTRIC.REQUEST)
                   .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
                   .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)

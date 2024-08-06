@@ -32,7 +32,7 @@ public class StateHandler {
     public ShooterSubsystem.States desiredShooterState = ShooterSubsystem.States.IDLE_VELO;
 
     /* CURRENT STATES: Mechanisms have arrived to the desired state. */
-    public ShooterSubsystem.States currentShooterStates = ShooterSubsystem.States.IDLE_VELO;
+    public ShooterSubsystem.States currentShooterState = ShooterSubsystem.States.IDLE_VELO;
 
     /* SWERVE STUFF */
     public SwerveSubsystem.States currentSwerveState = SwerveSubsystem.States.FIELD_CENTRIC;

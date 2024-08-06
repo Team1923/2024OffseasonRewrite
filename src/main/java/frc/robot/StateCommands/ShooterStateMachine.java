@@ -45,7 +45,7 @@ public class ShooterStateMachine extends Command {
           puntTimer.start();
         }
         else if (puntTimer.hasElapsed(0.5)){
-          stateHandler.currentShooterStates = ShooterSubsystem.States.PUNT_HIGH_VELO;
+          stateHandler.currentShooterState = ShooterSubsystem.States.PUNT_HIGH_VELO;
         }
         break;
 
@@ -56,7 +56,7 @@ public class ShooterStateMachine extends Command {
         puntTimer.stop();
         puntTimer.reset();
         if (shooterSubsystem.isAtState(desiredState)){
-            stateHandler.currentShooterStates = desiredState;
+            stateHandler.currentShooterState = desiredState;
         }
         break;
     }

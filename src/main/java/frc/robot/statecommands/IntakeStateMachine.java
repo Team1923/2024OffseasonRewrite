@@ -18,7 +18,13 @@ public class IntakeStateMachine extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    /*
+     * KEY NOTES FOR FUNCTIONALITY:
+     * - Need the latching boolean for BB1 --> if a note is detected, leave the intake down until the note has fully cleared the intake
+     * - Otherwise, standard up down depending on state
+     */
+  }
 
   // Called once the command ends or is interrupted.
   @Override

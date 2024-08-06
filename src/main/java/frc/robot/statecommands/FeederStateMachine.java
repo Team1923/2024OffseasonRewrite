@@ -22,7 +22,7 @@ public class FeederStateMachine extends Command {
     /*
      * MAIN FUNCTIONALITY REQUIRED:
      * - BACKING + FORWARD MOTION --> should be done in a switch statement's default case
-     * - SCORING --> INWARD (scoring is now regardless of state which should just be making sure the arm + shooter is at state)
+     * - SCORING --> INWARD (look at old code, see how many cases in which the feeder runs inward)
      * - EJECT --> same idea as scoring, but only validate the intake position
      */
   }

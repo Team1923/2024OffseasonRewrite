@@ -59,6 +59,8 @@ public class StateHandler {
     public boolean bb2Covered = false;
     public boolean bb3Covered = false;
     public boolean bb4Covered = false;
+
+    public boolean latchingBB = false;
    
 
     /* BLOWER PERCENT OUTPUT */
@@ -70,7 +72,7 @@ public class StateHandler {
     }
 
     // public boolean isCenteredToSpeakerTag(){
-    //     return tX that will be stored here < range setup in Limelight constants (maybe this method should be in VisionSubsystem to reduce passing of tX to StateHandler?)
+    //     return tX that will be stored here < range setup in Limelight constants (maybe this method should be in VisionSubsystem to reduce passing of tX to StateHandler? but it probably should be here to be central? Unless VisionSubsystem was a Singleton?)
     // }
 
     // public boolean isInSpeakerRange(){

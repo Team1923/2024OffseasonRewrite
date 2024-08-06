@@ -69,6 +69,10 @@ public class FeederStateMachine extends Command {
           && stateHandler.currentIntakeArmState != IntakeArmStates.DEPLOYED){
             desiredState = FeederStates.OFF;
     }
+    else if (stateHandler.latchingBB){
+      desiredState = FeederStates.FEED_TO_SHOOTER;
+    }
+    /* I think there may be merit to putting this here */
     // else if (stateHandler.hasGamePiece() && stateHandler.bb4Covered){
     //   desiredState = FeederStates.BACKING;
     // }
@@ -80,26 +84,63 @@ public class FeederStateMachine extends Command {
 
       if (!stallTimer.hasElapsed(FeederConstants.timeout)){
         switch(stateHandler.scoringType){
+
         case AMP:
-          break;
+          if (stateHandler.currentArmState == ArmStates.AMP
+            && stateHandler.currentShooterState == ShooterStates.FRONT_AMP_VELO){
+              break;
+          }
+
         case SUBWOOFER:
-          break;
+          if (stateHandler.currentArmState == ArmStates.SUBWOOFER
+            && stateHandler.currentShooterState == ShooterStates.SUBWOOFER_VELO){
+              break;
+          }
+
         case REVERSE_SUBWOOFER:
-          break;
+          if (stateHandler.currentArmState == ArmStates.REVERSE_SUBWOOFER
+            && stateHandler.currentShooterState == ShooterStates.REVERSE_SUBWOOFER_VELO){
+              break;
+          }
+
         case RANGED:
-          if ()
-          break;
+          // if (stateHandler.currentArmState == ArmStates.RANGED
+          //   && stateHandler.currentShooterState == ShooterStates.RANGED_VELO
+          //   && ( (stateHandler.isCenteredToSpeakerTag() && stateHandler.isInSpeakerRange()) || stateHandler.autoOverride())){
+            if(false){
+              break;
+            }  
+            // } 
+
         case TRAP:
-          break;
+          if (stateHandler.currentArmState == ArmStates.TRAP
+            && stateHandler.currentShooterState == ShooterStates.TRAP_VELO){
+              break;
+            }
+
         case HIGH_PUNT:
-          break;
+          if (stateHandler.currentArmState == ArmStates.PUNT_HIGH
+            && stateHandler.currentShooterState == ShooterStates.PUNT_HIGH_VELO){
+              break;
+            }
+
         case LOW_PUNT:
-          break;
+          if (stateHandler.currentArmState == ArmStates.PUNT_LOW
+            && stateHandler.currentShooterState == ShooterStates.PUNT_LOW_DUTY){
+              break;
+            }
+
         case UNGUARDABLE:
-          break;
-        case CLIMB:
-          break;
-        }
+          if (stateHandler.currentArmState == ArmStates.UNGUARDABLE
+            && stateHandler.currentShooterState == ShooterStates.UNGUARDABLE_VELO){
+              break;
+            }
+
+        case CLIMB: //falls through, shouldn't be feeding in climb
+                  
+        default:
+          desiredState = FeederStates.OFF;
+          }
       }
       
       

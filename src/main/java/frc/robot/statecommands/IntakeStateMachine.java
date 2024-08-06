@@ -7,14 +7,12 @@ package frc.robot.statecommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeRollerStates;
 
 public class IntakeStateMachine extends Command {
   /** Creates a new IntakeStateMachine. */
   private IntakeSubsystem intakeSubsystem;
-  private boolean bb1Crossed = false;
 
   private StateHandler stateHandler = StateHandler.getInstance();
 
@@ -28,9 +26,7 @@ public class IntakeStateMachine extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    //TODO: Boolean reset?
-    bb1Crossed = false;
+    stateHandler.latchingBB = false; //TODO: resetting here good?
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,18 +36,18 @@ public class IntakeStateMachine extends Command {
     IntakeArmStates desiredArmState = stateHandler.desiredIntakeArmState;
 
     if (stateHandler.bb1Covered && desiredRollerState != IntakeRollerStates.EJECT) {
-      bb1Crossed = true;
+      stateHandler.latchingBB = true;
     }
   
       /* Boolean value changes based on BB3 and !BB1 */
     if (stateHandler.bb3Covered && !stateHandler.bb1Covered) {
-      bb1Crossed = false;
+      stateHandler.latchingBB = false;
     }
 
     switch(desiredArmState) {
       case STOWED:
       /* Latching boolean condition for bb1 making sure intake doesn't deploy until note is fully situated */
-        if (!stateHandler.bb3Covered && bb1Crossed) {
+        if (!stateHandler.bb3Covered && stateHandler.latchingBB) {
           desiredArmState = IntakeArmStates.DEPLOYED; //TODO: not setting here
           desiredRollerState = IntakeRollerStates.INTAKE;
         } 

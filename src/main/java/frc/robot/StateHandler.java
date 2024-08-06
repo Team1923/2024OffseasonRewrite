@@ -1,10 +1,6 @@
 package frc.robot;
 
-import com.ctre.phoenix6.controls.ControlRequest;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -35,12 +31,12 @@ public class StateHandler {
 
     /* DESIRED STATES: These tell mechanisms to "go" to the state specified. */
     public ShooterSubsystem.States desiredShooterState = ShooterSubsystem.States.IDLE_VELO;
-    public IntakeSubsystem.ArmStates desiredIntakeArmState = IntakeSubsystem.ArmStates.STOWED;
+    public IntakeSubsystem.IntakeArmStates desiredIntakeArmState = IntakeSubsystem.IntakeArmStates.STOWED;
     public IntakeSubsystem.RollerStates desiredIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
 
     /* CURRENT STATES: Mechanisms have arrived to the desired state. */
     public ShooterSubsystem.States currentShooterState = ShooterSubsystem.States.IDLE_VELO;
-    public IntakeSubsystem.ArmStates currentArmState = IntakeSubsystem.ArmStates.STOWED;
+    public IntakeSubsystem.IntakeArmStates currentArmState = IntakeSubsystem.IntakeArmStates.STOWED;
     public IntakeSubsystem.RollerStates currentIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
 
     /* SWERVE STUFF */

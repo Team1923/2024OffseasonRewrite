@@ -14,29 +14,32 @@ import frc.robot.StateHandler;
 import frc.robot.Constants.FeederConstants;
 
 public class FeederSubsystem extends SubsystemBase {
-  
-  public enum States{ //Maybe these should be more specific, like intaking speed vs shooting speed as enums
+
+  public enum States {
     OFF(new DutyCycleOut(0)),
-    INWARD(new DutyCycleOut(0.85)), //intake -> shooter
-    OUTWARD(new DutyCycleOut(-0.8)), //shooter -> intake
+    FEED_TO_SHOOTER(new DutyCycleOut(0.85)), // intake -> shooter
+    FEED_TO_INTAKE(new DutyCycleOut(-0.8)), // shooter -> intake
     FRONTING(new DutyCycleOut(0.1)),
     BACKING(new DutyCycleOut(-0.1)),
     FULL_EJECT(new DutyCycleOut(0.85));
 
     public ControlRequest OUTPUT;
 
-    private States(ControlRequest output){
+    private States(ControlRequest output) {
       OUTPUT = output;
     }
   }
 
-  private TalonFX feederMotor = new TalonFX(FeederConstants.feederID);
+  private TalonFX feederMotor = new TalonFX(FeederConstants.feederID, "rio");
 
-   /* Beam Break initializations. These are DigitalInput objects that return true/false. */
+  /*
+   * Beam Break initializations. These are DigitalInput objects that return
+   * true/false.
+   */
   private DigitalInput beamBreakTwo = new DigitalInput(FeederConstants.beamBreak2ID);
   private DigitalInput beamBreakThree = new DigitalInput(FeederConstants.beamBreak3ID);
 
-  /* CONFIGURATION METHODS */  
+  /* CONFIGURATION METHODS */
   /** Creates a new FeederSubsystem. */
   public FeederSubsystem() {
 
@@ -44,21 +47,19 @@ public class FeederSubsystem extends SubsystemBase {
   }
 
   /* FUNCTIONAL METHODS */
-  
-  public void setFeederTo(ControlRequest output){
+
+  public void setFeederTo(ControlRequest output) {
     feederMotor.setControl(output);
   }
 
   /* INFO METHODS */
-  public double getFeederPercent(){
+  public double getFeederPercent() {
     return feederMotor.get();
   }
 
-  public boolean isAtState(States state){
+  public boolean isAtState(States state) {
     return true;
   }
-
-
 
   @Override
   public void periodic() {

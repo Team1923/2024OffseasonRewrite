@@ -19,13 +19,13 @@ import frc.robot.StateHandler;
 
 public class IntakeSubsystem extends SubsystemBase {
   /* Arm States Enum */
-  public static enum ArmStates {
+  public static enum IntakeArmStates {
     DEPLOYED(MMVoltageWithDegrees(114.592)), // original: 2.00 radians
     STOWED(MMVoltageWithDegrees(0));
 
     public ControlRequest intakePosition;
 
-    private ArmStates(ControlRequest request) {
+    private IntakeArmStates(ControlRequest request) {
       this.intakePosition = request;
     }
 
@@ -49,11 +49,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private DigitalInput beamBreakOne = new DigitalInput(IntakeConstants.beamBreakOneID);
 
-  private TalonFX intakeArmPrimary = new TalonFX(Constants.IntakeConstants.intakeArmPrimaryID);
-  private TalonFX intakeArmFollower = new TalonFX(Constants.IntakeConstants.intakeArmFollowerID);
+  private TalonFX intakeArmPrimary = new TalonFX(Constants.IntakeConstants.intakeArmPrimaryID, "rio");
+  private TalonFX intakeArmFollower = new TalonFX(Constants.IntakeConstants.intakeArmFollowerID, "rio");
 
-  private TalonFX intakeWheelTop = new TalonFX(Constants.IntakeConstants.intakeWheelTopID);
-  private TalonFX intakeWheelBottom = new TalonFX(Constants.IntakeConstants.intakeWheelBottomID);
+  private TalonFX intakeWheelTop = new TalonFX(Constants.IntakeConstants.intakeWheelTopID, "rio");
+  private TalonFX intakeWheelBottom = new TalonFX(Constants.IntakeConstants.intakeWheelBottomID, "rio");
 
   /* Constructor */
   public IntakeSubsystem() {
@@ -65,6 +65,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     intakeArmFollower.setControl(new Follower(IntakeConstants.intakeArmPrimaryID, false));
     intakeWheelBottom.setControl(new Follower(IntakeConstants.intakeWheelTopID, false));
+
+    zeroIntakeArm();
   }
 
   /**
@@ -80,7 +82,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @param state the state specifying the desired position
    * @return a boolean representing if the intake arm has reached its desired position
    */
-  public boolean isAtArmPosition(ArmStates state) {
+  public boolean isAtIntakeArmPosition(IntakeArmStates state) {
       double desiredPosition = ((MotionMagicVoltage) state.intakePosition).Position
           * IntakeConstants.intakeRotsToDegrees;
 

@@ -81,7 +81,7 @@ public class Constants {
                 public static final double intakeDegreesToRotations = 1 / intakeRotsToDegrees;
 
                 /* Define allowable offset for the intake arm's position */
-                public static final double intakePositionAllowableOffset = 2.864789;
+                public static final double intakePositionAllowableOffset = 2.9;
 
                 /* Arm Configuration - NOTE: clockwise positive is correct */
                 public static final TalonFXConfiguration ARM_CONFIGS = new TalonFXConfiguration()
@@ -117,6 +117,52 @@ public class Constants {
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true));
+        }
+
+        public static class ArmConstants {
+                /* Motor IDs */
+                public static final int armMotorPrimaryID = 15; // right
+                public static final int armMotorFollowerID = 16; // left
+
+                /* Motion Magic Constants */
+                public static final double armKS = 0;
+                public static final double armkP = 1.2;
+                public static final double armkI = 0.005;
+                public static final double armkD = 0;
+                public static final double maxArmVel = 100;
+                public static final double maxArmAccel = 250;
+                public static final double maxArmJerk = 1000;
+
+                /* Gearbox Ratios & Unit Conversions */
+                public static final double armGearRatio = 129.6;
+                public static final double armRotsToDegrees = 360 / armGearRatio;
+                public static final double armDegreesToRots = 1 / armRotsToDegrees;
+
+                /* kG - gravity constant for motion of arm */
+                public static final double armMaxGravityConstant = 0.03 * 12; // 2 volts max ff
+
+                public static final double armPositionAllowableOffset = 1.7;
+
+                public static final double armPositionChange = 0.01;
+
+                public static final double armSettleTime = 0.5;
+
+                public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
+                                .withSlot0(new Slot0Configs() // PID
+                                                .withKP(armkP)
+                                                .withKI(armkI)
+                                                .withKD(armkD)
+                                                .withKS(armKS))
+                                .withMotionMagic(new MotionMagicConfigs()
+                                                .withMotionMagicCruiseVelocity(maxArmVel)
+                                                .withMotionMagicAcceleration(maxArmAccel)
+                                                .withMotionMagicJerk(maxArmJerk))
+                                .withMotorOutput(new MotorOutputConfigs()
+                                                .withNeutralMode(NeutralModeValue.Brake))
+                                .withCurrentLimits(new CurrentLimitsConfigs()
+                                                .withStatorCurrentLimit(80)
+                                                .withStatorCurrentLimitEnable(true));
+
         }
 
 }

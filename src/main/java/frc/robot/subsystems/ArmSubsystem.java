@@ -3,91 +3,124 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+
 import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ArmConstants;
 
 public class ArmSubsystem extends SubsystemBase {
 
-    public static enum States {
-        STOWED(new ArmPosition(0)),
-        REVERSE_SUBWOOFER(new ArmPosition(-1.96)),
-        UNGUARDABLE(new ArmPosition(-1.96)),
-        AMP(new ArmPosition(-1.96)), 
-        SPEAKER(new ArmPosition(-0.77)), //THIS IS A DEFAULT VALUE FOR SUBWOOFER SHOOTING - (-0.77)
-        TRAP(new ArmPosition(-0.9)), //TODO: FIND
-        BABY_BIRD(new ArmPosition(-0.7)), //TODO: FIND
-        PUNT_HIGH(new ArmPosition(-0.67)),
-        PUNT_LOW(new ArmPosition(0)),
-        FRONT_AMP(new ArmPosition(-0.77)),
-        DEFENSE(new ArmPosition(-1.35)),
-        CLIMB(new ArmPosition(-1.35));
+  public static enum ArmStates {
+    STOWED(MMVoltageWithDegrees(0)),
+    REVERSE_SUBWOOFER(MMVoltageWithDegrees(-112.3)),
+    UNGUARDABLE(MMVoltageWithDegrees(-112.3)),
+    AMP(MMVoltageWithDegrees(-112.3)),
+    SPEAKER(MMVoltageWithDegrees(-44.1)),
+    TRAP(MMVoltageWithDegrees(-51.6)),
+    BABY_BIRD(MMVoltageWithDegrees(-40.1)),
+    PUNT_HIGH(MMVoltageWithDegrees(-38.4)),
+    PUNT_LOW(MMVoltageWithDegrees(0)),
+    FRONT_AMP(MMVoltageWithDegrees(-44.1)),
+    DEFENSE(MMVoltageWithDegrees(-77.3)),
+    CLIMB(MMVoltageWithDegrees(-77.3));
 
+    public ControlRequest armOutput;
 
-        public ControlRequest primary;
-        public ControlRequest follower;
-
-        private States(ControlRequest OUTPUT) {
-            this.primary = OUTPUT;
-            this.follower = OUTPUT;
-        }
-
-        private States(ControlRequest primary, ControlRequest follower) {
-            this.primary = primary;
-            this.follower = follower;
-        }
+    private ArmStates(ControlRequest OUTPUT) {
+      this.armOutput = OUTPUT;
     }
 
-    private TalonFX armPrimary = new TalonFX(ArmConstants.armMotorPrimaryID, "rio");
-    private TalonFX armFollower = new TalonFX(ArmConstants.armMotorFollowerID, "rio");
+    private static MotionMagicVoltage MMVoltageWithDegrees(double degrees) {
+      return new MotionMagicVoltage(degrees * ArmConstants.armDegreesToRots);
+    }
+  }
+
+  /* Initialize arm motors */
+  private TalonFX armPrimary = new TalonFX(ArmConstants.armMotorPrimaryID, "rio");
+  private TalonFX armFollower = new TalonFX(ArmConstants.armMotorFollowerID, "rio");
 
   /** Creates a new ArmSubsystem. */
   public ArmSubsystem() {
-    armPrimary.getConfigurator().apply(ShooterConstants.CONFIGS);
-    armFollower.getConfigurator().apply(ShooterConstants.CONFIGS);
+    armPrimary.getConfigurator().apply(ArmConstants.CONFIGS);
+    armFollower.getConfigurator().apply(ArmConstants.CONFIGS);
 
     armFollower.setControl(new Follower(ArmConstants.armMotorPrimaryID, true));
+
+    zeroArm();
   }
 
-    public void setArmPosition(ControlRequest output) {
-        armPrimary.setControl(output);
-    }
+  /**
+   * Method to set the arm position.
+   * 
+   * @param output the specified ControlRequest to output the motor at.
+   */
+  public void setArmPosition(ControlRequest output) {
+    armPrimary.setControl(output);
+  }
 
-      /**
-       * Move the arm using percent output. Primarily used for testing purposes.
-       * 
-       * @param out percent out speed to run the arm at
-       */
-      public void setPercentOut(double out) {
-        armPrimary.set(out);
-      }
-    
-      /**
-       * Get the position of the arm from the encoder reading.
-       * 
-       * @return The arm position in radians.
-       */
-      public double getArmPositionRads() {
-        return armPrimary.getPosition().getValueAsDouble() * ArmConstants.armRotsToRads;
-      }
-    
-      /**
-       * Gets the position of the arm, converted from the encoder reading.
-       * 
-       * @return The arm position in rotations.
-       */
-      public double getArmPositionRots() {
-        return armPrimary.getPosition().getValueAsDouble();
-      }
+  /**
+   * Move the arm using percent output. Primarily used for testing purposes.
+   * 
+   * @param out percent out speed to run the arm at
+   */
+  public void setPercentOut(double out) {
+    armPrimary.set(out);
+  }
 
-      public boolean isAtArmState(double desiredSetpoint) {
-        return Math.abs(getArmPositionRads() - desiredSetpoint) < ArmConstants.armPositionAllowableOffset; 
-      }
+  /**
+   * Get the position of the arm, converted from the encoder reading.
+   * 
+   * @return The arm position in degrees.
+   */
+  public double getArmPositionDegrees() {
+    return armPrimary.getPosition().getValueAsDouble() * ArmConstants.armRotsToDegrees;
+  }
 
+  /**
+   * Gets the position of the arm directly from the encoder reading.
+   * 
+   * @return The arm position in rotations.
+   */
+  public double getArmPositionRots() {
+    return armPrimary.getPosition().getValueAsDouble();
+  }
 
-    @Override
-    public void periodic() {
-        
-    }
+  /**
+   * Method to determine if the intake has reached its desired position.
+   * 
+   * @param state the state specifying the desired position
+   * @return a boolean representing if the intake arm has reached its desired
+   *         position
+   */
+  public boolean isAtArmPosition(ArmStates state) {
+    double desiredPosition = ((MotionMagicVoltage) state.armOutput).Position
+        * ArmConstants.armRotsToDegrees;
+
+    return Math.abs(getArmPositionDegrees() - desiredPosition) < ArmConstants.armPositionAllowableOffset;
+
+  }
+
+  /**
+   * Method to stop the arm's motors.
+   */
+  public void stopArmMotors() {
+    armPrimary.stopMotor();
+  }
+
+  /**
+   * Method to zero the arm.
+   */
+  public void zeroArm() {
+    armPrimary.setPosition(0);
+    armFollower.setPosition(0);
+  }
+
+  @Override
+  public void periodic() {
+
+  }
 }

@@ -1,7 +1,7 @@
 package frc.robot;
 
-import frc.robot.Subsystems.ArmSubsystem;
-import frc.robot.Subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class StateHandler {
     private static StateHandler stateHandler;

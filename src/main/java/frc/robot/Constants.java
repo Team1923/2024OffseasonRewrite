@@ -68,7 +68,7 @@ public class Constants {
                 public static int intakeWheelBottomID = 26;
 
                 /* BB1 ID (port on RoboRIO) */
-                public static int beamBreakOneID = 1;
+                public static int beamBreak1ID = 1;
 
                 /* Parameters for the intake's motion */
                 public static final double maxIntakeVel = 100;

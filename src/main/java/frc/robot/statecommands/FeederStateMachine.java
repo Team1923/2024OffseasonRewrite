@@ -18,7 +18,7 @@ import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class FeederStateMachine extends Command {
 
-  private FeederSubsystem feederSubsystem = new FeederSubsystem();
+  private FeederSubsystem feederSubsystem;
   
   private StateHandler stateHandler = StateHandler.getInstance();
 

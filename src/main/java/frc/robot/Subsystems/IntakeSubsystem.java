@@ -48,7 +48,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
-  private DigitalInput beamBreakOne = new DigitalInput(IntakeConstants.beamBreakOneID);
+  private DigitalInput beamBreakOne = new DigitalInput(IntakeConstants.beamBreak1ID);
 
   private TalonFX intakeArmPrimary = new TalonFX(Constants.IntakeConstants.intakeArmPrimaryID, "rio");
   private TalonFX intakeArmFollower = new TalonFX(Constants.IntakeConstants.intakeArmFollowerID, "rio");

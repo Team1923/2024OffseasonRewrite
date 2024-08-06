@@ -105,4 +105,18 @@ public class Constants {
                 public static final TalonFXConfiguration WHEEL_CONFIGS = new TalonFXConfiguration();
         }
 
+        public static class FeederConstants {
+                public static final int feederID = 14;
+
+                public static final int beamBreak2ID = 2;
+                public static final int beamBreak3ID = 3;
+
+                public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
+                                .withMotorOutput(new MotorOutputConfigs()
+                                                .withNeutralMode(NeutralModeValue.Brake))
+                                .withCurrentLimits(new CurrentLimitsConfigs()
+                                                .withStatorCurrentLimit(80)
+                                                .withStatorCurrentLimitEnable(true));
+        }
+
 }

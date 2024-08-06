@@ -47,8 +47,11 @@ public class StateHandler {
     public SwerveSubsystem.States currentSwerveState = SwerveSubsystem.States.FIELD_CENTRIC;
 
     /* BEAM BREAK Values */
-    public boolean bb4Covered = false;
     public boolean bb1Covered = false;
+    public boolean bb2Covered = false;
+    public boolean bb3Covered = false;
+    public boolean bb4Covered = false;
+   
 
     /* BLOWER PERCENT */
     public double blowerPercent = 0;

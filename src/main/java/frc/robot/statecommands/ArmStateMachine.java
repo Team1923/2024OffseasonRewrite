@@ -4,6 +4,8 @@
 
 package frc.robot.statecommands;
 
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,11 +38,14 @@ public class ArmStateMachine extends Command {
   @Override
   public void execute() {
 
-    ArmSubsystem.ArmStates desiredArmState = stateHandler.desiredArmState;
+    ArmStates desiredArmState = stateHandler.desiredArmState;
+
+    switch(desiredArmState){
+      case RANGED:
+        // ((MotionMagicVoltage)(ArmStates.RANGED.REQUEST)).Position = updated value;
+    }
 
 
-    // case RANGED_VELO:
-    //     //((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated value;
 
     if (!armSubsystem.isAtState(desiredArmState)) {
       timer.restart();

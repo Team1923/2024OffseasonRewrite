@@ -29,14 +29,22 @@ public class ArmSubsystem extends SubsystemBase {
     CLIMB(MMVoltageWithDegrees(-77.3));
 
     public ControlRequest armOutput;
+    public double settleTime;
 
     private ArmStates(ControlRequest OUTPUT) {
       this.armOutput = OUTPUT;
+      this.settleTime = 0;
+    }
+
+    private ArmStates(ControlRequest OUTPUT, double settleTime) {
+      this.armOutput = OUTPUT;
+      this.settleTime = settleTime;
     }
 
     private static MotionMagicVoltage MMVoltageWithDegrees(double degrees) {
       return new MotionMagicVoltage(degrees * ArmConstants.armDegreesToRots);
     }
+
   }
 
   /* Initialize arm motors */

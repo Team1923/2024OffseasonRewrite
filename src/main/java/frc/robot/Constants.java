@@ -10,6 +10,13 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class Constants {
 
+    public static class ControllerConstants{
+        public static class Driver{
+                public static final double deadband = 0.07;
+        }
+    }
+
+
     public static class ShooterConstants {
         /* Shooter Motor IDs */
         public static final int shooterTopID = 17;
@@ -51,5 +58,6 @@ public class Constants {
         public static final double shooterRPMThreshhold = 25; 
 
     }
+
 
 }

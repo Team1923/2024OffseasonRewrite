@@ -50,13 +50,13 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
 
         //TODO: TUNE DEADBANDS
         private static SwerveRequest.FieldCentric Default(SwerveRequest.FieldCentric FC){
-            return FC.withDeadband(-1).withRotationalDeadband(-1);
+            return FC.withDeadband(0).withRotationalDeadband(0);
         }
         private static SwerveRequest.RobotCentric Default(SwerveRequest.RobotCentric RC){
-            return RC.withDeadband(-1).withRotationalDeadband(-1);
+            return RC.withDeadband(0).withRotationalDeadband(0);
         }
         private static SwerveRequest.FieldCentricFacingAngle Default(SwerveRequest.FieldCentricFacingAngle FCA){ //this should probably have VERY low deadbands
-            return FCA.withDeadband(-1).withRotationalDeadband(-1);
+            return FCA.withDeadband(0).withRotationalDeadband(0);
         }
 
         private static SwerveRequest.FieldCentricFacingAngle withPID(SwerveRequest.FieldCentricFacingAngle FCA, PhoenixPIDController PID){
@@ -221,32 +221,31 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
 
     //getting from the pigeon used to generate CommandSwerveDriveTrain
     public void zeroGyro(){
+        this.getPigeon2().setYaw(0);
         // this.getPigeon2().setYaw(stateHandler.getAutoHeadingOffset());
         // this.getPigeon2().setYaw( (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? 0 : 180);
 
     }
 
-    // public Rotation2d getGyroYaw(){
-    //     // return Rotation2d.fromDegrees(Math.IEEEremainder(this.getPigeon2().getYaw().getValueAsDouble(),360));
-    //     // return Rotation2d.fromDegrees(Math.IEEEremainder(((DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) ? 180 : 0) +this.m_yawGetter.getValueAsDouble(),360));
-    //     return Rotation2d.fromDegrees( (DriverStation.getAlliance().isPresent() == true && DriverStation.getAlliance().get() == Alliance.Blue) 
-    //                         ? Math.IEEEremainder(this.m_yawGetter.getValueAsDouble() + stateHandler.getAutoHeadingOffset(),360) 
-    //                         : Math.IEEEremainder(this.m_yawGetter.getValueAsDouble() - stateHandler.getAutoHeadingOffset(),360)
-    //                         );
+    public double getGyroYaw(){
+        return this.m_yawGetter.getValueAsDouble();
+        // return Rotation2d.fromDegrees(Math.IEEEremainder(this.getPigeon2().getYaw().getValueAsDouble(),360));
+        // return Rotation2d.fromDegrees(Math.IEEEremainder(((DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) ? 180 : 0) +this.m_yawGetter.getValueAsDouble(),360));
+        // return Rotation2d.fromDegrees( (DriverStation.getAlliance().isPresent() == true && DriverStation.getAlliance().get() == Alliance.Blue) 
+                            // ? Math.IEEEremainder(this.m_yawGetter.getValueAsDouble() + stateHandler.getAutoHeadingOffset(),360) 
+                            // : Math.IEEEremainder(this.m_yawGetter.getValueAsDouble() - stateHandler.getAutoHeadingOffset(),360)
+                            // );
 
-    // }
+    }
 
 
 
     @Override
     public void periodic() {
-        stateHandler.setRobotPose(this.m_odometry.getEstimatedPosition());
-        stateHandler.setCurrentRobotHeading(getGyroYaw().getDegrees());
+        // stateHandler.setRobotPose(this.m_odometry.getEstimatedPosition());
+        // stateHandler.setCurrentRobotHeading(getGyroYaw().getDegrees());
 
         
-        SmartDashboard.putNumber("Heading (Gyro)",getGyroYaw().getDegrees());
-        // SmartDashboard.putNumber("Heading (odo)",this.m_odometry.getEstimatedPosition().getRotation().getDegrees());
-        SmartDashboard.putNumber("Raw Bounded heading", Math.IEEEremainder(this.m_yawGetter.getValueAsDouble(), 360));
-        SmartDashboard.putNumber("OFFSET", stateHandler.getAutoHeadingOffset());
+        SmartDashboard.putNumber("Heading (Gyro)",getGyroYaw());
     }
 }

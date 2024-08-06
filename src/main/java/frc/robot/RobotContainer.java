@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler.ScoringType;
-import frc.robot.commands.Intake.BabyBirdCommand;
-import frc.robot.commands.Intake.FullEjectCommand;
+import frc.robot.commands.intake.BabyBirdCommand;
+import frc.robot.commands.intake.FullEjectCommand;
 import frc.robot.statecommands.ShooterStateMachine;
 import frc.robot.subsystems.ShooterSubsystem;
 

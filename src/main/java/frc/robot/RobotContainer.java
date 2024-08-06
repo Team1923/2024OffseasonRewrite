@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.BabyBirdCommand;
 import frc.robot.commands.intake.FullEjectCommand;
+import frc.robot.lib.swerve.Telemetry;
 import frc.robot.lib.swerve.TunerConstants;
 import frc.robot.statecommands.ArmStateMachine;
 import frc.robot.statecommands.FeederStateMachine;
@@ -42,6 +43,7 @@ public class RobotContainer {
 
   /* Helper class Instantiation */
   private final InfoSubsystem infoSubsystem = new InfoSubsystem(driverXboxController, operatorPS5Controller);
+  private final Telemetry swerveLogger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
 
 
   public RobotContainer() {

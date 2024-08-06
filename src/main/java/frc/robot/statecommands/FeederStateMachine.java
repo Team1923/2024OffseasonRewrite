@@ -6,9 +6,9 @@ package frc.robot.statecommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class IntakeStateMachine extends Command {
-  /** Creates a new IntakeStateMachine. */
-  public IntakeStateMachine() {
+public class FeederStateMachine extends Command {
+  /** Creates a new FeederStateMachine. */
+  public FeederStateMachine() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -18,7 +18,14 @@ public class IntakeStateMachine extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    /*
+     * MAIN FUNCTIONALITY REQUIRED:
+     * - BACKING + FORWARD MOTION --> should be done in a switch statement's default case
+     * - SCORING --> INWARD (scoring is now regardless of state which should just be making sure the arm + shooter is at state)
+     * - EJECT --> same idea as scoring, but only validate the intake position
+     */
+  }
 
   // Called once the command ends or is interrupted.
   @Override

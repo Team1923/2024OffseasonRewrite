@@ -49,7 +49,6 @@ public class RobotContainer {
     operatorPS5Controller.R2().onTrue(scoringMode(ScoringType.HIGH_PUNT));
 
     operatorPS5Controller.create().whileTrue(new FullEjectCommand());
-
     operatorPS5Controller.povLeft().whileTrue(new BabyBirdCommand());
 
 

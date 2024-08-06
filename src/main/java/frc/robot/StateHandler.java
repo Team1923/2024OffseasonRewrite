@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -33,13 +34,15 @@ public class StateHandler {
     public ShooterSubsystem.States desiredShooterState = ShooterSubsystem.States.IDLE_VELO;
     public IntakeSubsystem.IntakeArmStates desiredIntakeArmState = IntakeSubsystem.IntakeArmStates.STOWED;
     public IntakeSubsystem.RollerStates desiredIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
+    public ArmSubsystem.ArmStates desiredArmState = ArmSubsystem.ArmStates.STOWED;
 
     /* CURRENT STATES: Mechanisms have arrived to the desired state. */
     public ShooterSubsystem.States currentShooterState = ShooterSubsystem.States.IDLE_VELO;
-    public IntakeSubsystem.IntakeArmStates currentArmState = IntakeSubsystem.IntakeArmStates.STOWED;
+    public IntakeSubsystem.IntakeArmStates currentIntakeArmState = IntakeSubsystem.IntakeArmStates.STOWED;
     public IntakeSubsystem.RollerStates currentIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
+    public ArmSubsystem.ArmStates currentArmState = ArmSubsystem.ArmStates.STOWED;
 
-    /* SWERVE STUFF */
+    /* SWERVE STATES - ONLY CURRENT STATE IS REQUIRED */
     public SwerveSubsystem.States currentSwerveState = SwerveSubsystem.States.FIELD_CENTRIC;
 
     /* BEAM BREAK Values */
@@ -49,7 +52,7 @@ public class StateHandler {
     public boolean bb4Covered = false;
    
 
-    /* BLOWER PERCENT */
+    /* BLOWER PERCENT OUTPUT */
     public double blowerPercent = 0;
 
 }

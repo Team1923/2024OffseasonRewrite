@@ -6,9 +6,9 @@ package frc.robot.statecommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class IntakeStateMachine extends Command {
-  /** Creates a new IntakeStateMachine. */
-  public IntakeStateMachine() {
+public class ArmStateMachine extends Command {
+  /** Creates a new ArmStateMachine. */
+  public ArmStateMachine() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

@@ -41,7 +41,7 @@ public class RobotContainer {
 
 
     /* Driver Button Bindings */
-
+    driverXboxController.rightTrigger().and(() -> stateHandler.scoringType == ScoringType.AMP).whileTrue(new FullEjectCommand());
 
     /* Operator Button Bindings */
     operatorPS5Controller.triangle().onTrue(scoringMode(ScoringType.RANGED));
@@ -54,6 +54,7 @@ public class RobotContainer {
 
     operatorPS5Controller.create().whileTrue(new FullEjectCommand());
     operatorPS5Controller.povLeft().whileTrue(new BabyBirdCommand());
+
 
 
 

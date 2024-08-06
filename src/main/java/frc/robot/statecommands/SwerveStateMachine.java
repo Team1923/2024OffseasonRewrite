@@ -18,7 +18,7 @@ import frc.robot.StateHandler;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.lib.swerve.TunerConstants;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.SwerveSubsystem.States;
+import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 
 public class SwerveStateMachine extends Command {
 
@@ -60,7 +60,7 @@ public class SwerveStateMachine extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SwerveSubsystem.States currentState = stateHandler.currentSwerveState;
+    SwerveStates currentState = stateHandler.currentSwerveState;
 
 
     double translation = MathUtil.applyDeadband(translationSupplier.getAsDouble() * sideInversions()[0], ControllerConstants.Driver.deadband);
@@ -76,21 +76,21 @@ public class SwerveStateMachine extends Command {
 
     switch(currentState){
       case FIELD_CENTRIC: 
-          request = ((SwerveRequest.FieldCentric)SwerveSubsystem.States.FIELD_CENTRIC.REQUEST)
+          request = ((SwerveRequest.FieldCentric)SwerveStates.FIELD_CENTRIC.REQUEST)
             .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
             .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
             .withRotationalRate(rotation * Units.degreesToRadians(TunerConstants.kMaxAngularVelocity));
             break;
 
       case ROBOT_CENTRIC:
-        request = ((SwerveRequest.RobotCentric)SwerveSubsystem.States.ROBOT_CENTRIC.REQUEST)
+        request = ((SwerveRequest.RobotCentric)SwerveStates.ROBOT_CENTRIC.REQUEST)
         .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
         .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
         .withRotationalRate(rotation * Units.degreesToRadians(TunerConstants.kMaxAngularVelocity));
         break;
 
       case FACING_AMP:
-        request = ((SwerveRequest.FieldCentricFacingAngle)SwerveSubsystem.States.FACING_AMP.REQUEST)
+        request = ((SwerveRequest.FieldCentricFacingAngle)SwerveStates.FACING_AMP.REQUEST)
         .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
         .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
         .withTargetDirection(Rotation2d.fromDegrees((DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? -90 : -90));
@@ -105,7 +105,7 @@ public class SwerveStateMachine extends Command {
         //   break;
         // }
       default://Equivilent to field centric
-        request = ((SwerveRequest.FieldCentric)SwerveSubsystem.States.FIELD_CENTRIC.REQUEST)
+        request = ((SwerveRequest.FieldCentric)SwerveStates.FIELD_CENTRIC.REQUEST)
                   .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
                   .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
                   .withRotationalRate(rotation * Units.degreesToRadians(TunerConstants.kMaxAngularVelocity));

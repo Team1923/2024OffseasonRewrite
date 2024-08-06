@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.States;
+import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class ShooterStateMachine extends Command {
 
@@ -36,7 +36,7 @@ public class ShooterStateMachine extends Command {
   @Override
   public void execute() {
 
-    ShooterSubsystem.States desiredState = stateHandler.desiredShooterState;
+    ShooterStates desiredState = stateHandler.desiredShooterState;
 
     switch(desiredState){
       
@@ -45,7 +45,7 @@ public class ShooterStateMachine extends Command {
           puntTimer.start();
         }
         else if (puntTimer.hasElapsed(0.5)){
-          stateHandler.currentShooterState = ShooterSubsystem.States.PUNT_HIGH_VELO;
+          stateHandler.currentShooterState = ShooterStates.PUNT_HIGH_VELO;
         }
         break;
 

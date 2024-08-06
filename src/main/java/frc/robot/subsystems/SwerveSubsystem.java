@@ -33,7 +33,7 @@ import frc.robot.lib.swerve.TunerConstants;
  * so it can be used in command-based projects easily.
  */
 public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
-    public static enum States{ 
+    public static enum SwerveStates{ 
         FIELD_CENTRIC(Default(new SwerveRequest.FieldCentric())),
         ROBOT_CENTRIC(Default(new SwerveRequest.RobotCentric())),
         GOAL_CENTRIC(withPID(Default(new SwerveRequest.FieldCentricFacingAngle()), new PhoenixPIDController(0.003, 0, 0.0025))),
@@ -44,7 +44,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
 
         public SwerveRequest REQUEST;
         
-        private States(SwerveRequest request){
+        private SwerveStates(SwerveRequest request){
             REQUEST = request;
         }
 

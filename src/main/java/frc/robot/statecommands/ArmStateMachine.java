@@ -13,18 +13,18 @@ import frc.robot.subsystems.ArmSubsystem.ArmStates;
 
 public class ArmStateMachine extends Command {
 
-  private ArmSubsystem armsubsystem;
+  private ArmSubsystem armSubsystem;
   private Timer timer;
 
   private StateHandler stateHandler = StateHandler.getInstance();
 
   /** Creates a new ArmStateMachine. */
 
-  public ArmStateMachine(ArmSubsystem ARMSUBSYSTEM) {
+  public ArmStateMachine(ArmSubsystem armSubsystem) {
 
-    armsubsystem = ARMSUBSYSTEM;
+    this.armSubsystem = armSubsystem;
     timer = new Timer();
-    addRequirements(armsubsystem);
+    addRequirements(armSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -38,11 +38,11 @@ public class ArmStateMachine extends Command {
 
     ArmSubsystem.ArmStates desiredArmState = stateHandler.desiredArmState;
 
-    if (!armsubsystem.isAtArmPosition(desiredArmState)) {
+    if (!armSubsystem.isAtArmPosition(desiredArmState)) {
       timer.restart();
     }
 
-    if (timer.hasElapsed(desiredArmState.settleTime) && armsubsystem.isAtArmPosition(desiredArmState)) {
+    if (timer.hasElapsed(desiredArmState.settleTime) && armSubsystem.isAtArmPosition(desiredArmState)) {
       stateHandler.currentArmState = desiredArmState;
     }
 

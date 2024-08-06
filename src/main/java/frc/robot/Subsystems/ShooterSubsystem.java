@@ -18,7 +18,7 @@ import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  public static enum States {
+  public static enum ShooterStates {
     IDLE_VELO(MMVelocityWithRPM(0)),
     BABY_BIRD_VELO(MMVelocityWithRPM(-1000)),
     FRONT_AMP_VELO(MMVelocityWithRPM(415)),
@@ -34,12 +34,12 @@ public class ShooterSubsystem extends SubsystemBase {
     public ControlRequest OUTPUT_TOP;
     public ControlRequest OUTPUT_BOTTOM;
 
-    private States(ControlRequest OUTPUT) {
+    private ShooterStates(ControlRequest OUTPUT) {
       this.OUTPUT_TOP = OUTPUT;
       this.OUTPUT_BOTTOM = OUTPUT;
     }
 
-    private States(ControlRequest OUTPUT_TOP, ControlRequest OUTPUT_BOTTOM) {
+    private ShooterStates(ControlRequest OUTPUT_TOP, ControlRequest OUTPUT_BOTTOM) {
       this.OUTPUT_TOP = OUTPUT_TOP;
       this.OUTPUT_BOTTOM = OUTPUT_BOTTOM;
     }
@@ -119,7 +119,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param state the desired state to evaluate.
    * @return a boolean representing whether or not the desired state has been reached.
    */
-  public boolean isAtState(States state) {
+  public boolean isAtState(ShooterStates state) {
     if (state.OUTPUT_TOP instanceof MotionMagicVelocityVoltage) {
       /* Get the shooter's velocities (in RPM) */
       double desiredVelocityTop = ((MotionMagicVelocityVoltage) state.OUTPUT_TOP).Velocity * ShooterConstants.RPSToRPM;

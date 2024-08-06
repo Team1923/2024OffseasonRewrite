@@ -36,14 +36,14 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   /* Roller States Enum */
-  public static enum RollerStates {
+  public static enum IntakeRollerStates {
     OFF(new DutyCycleOut(0)),
     EJECT(new DutyCycleOut(0.75)),
     INTAKE(new DutyCycleOut(-0.85));
 
     public ControlRequest OUTPUT;
 
-    private RollerStates(ControlRequest OUTPUT) {
+    private IntakeRollerStates(ControlRequest OUTPUT) {
       this.OUTPUT = OUTPUT;
     }
   }
@@ -96,7 +96,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @param state the desired RollerState
    * @return true (always)
    */
-  public boolean isAtRollerVelocity(RollerStates state) {
+  public boolean isAtRollerVelocity(IntakeRollerStates state) {
     return true;
   }
 

@@ -12,7 +12,9 @@ import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
+import frc.robot.subsystems.FeederSubsystem.FeederStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
+import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class FeederStateMachine extends Command {
 
@@ -50,27 +52,27 @@ public class FeederStateMachine extends Command {
 
      
 
-    FeederSubsystem.States desiredState = stateHandler.desiredFeederState;
+    FeederStates desiredState = stateHandler.desiredFeederState;
 
 
-    if (desiredState != FeederSubsystem.States.FEED_TO_SHOOTER && stallTimer.get() != 0){
+    if (desiredState != FeederStates.FEED_TO_SHOOTER && stallTimer.get() != 0){
       stallTimer.stop();
       stallTimer.reset();
     }
 
 
-    if (desiredState == FeederSubsystem.States.FULL_EJECT){
+    if (desiredState == FeederStates.FULL_EJECT){
 
     }
-    else if (desiredState == FeederSubsystem.States.FEED_TO_INTAKE
-          && stateHandler.desiredIntakeArmState == IntakeSubsystem.IntakeArmStates.DEPLOYED
-          && stateHandler.currentIntakeArmState != IntakeSubsystem.IntakeArmStates.DEPLOYED){
-            desiredState = FeederSubsystem.States.OFF;
+    else if (desiredState == FeederStates.FEED_TO_INTAKE
+          && stateHandler.desiredIntakeArmState == IntakeArmStates.DEPLOYED
+          && stateHandler.currentIntakeArmState != IntakeArmStates.DEPLOYED){
+            desiredState = FeederStates.OFF;
     }
     // else if (stateHandler.hasGamePiece() && stateHandler.bb4Covered){
-    //   desiredState = FeederSubsystem.States.BACKING;
+    //   desiredState = FeederStates.BACKING;
     // }
-    else if (stateHandler.hasGamePiece() && desiredState == FeederSubsystem.States.FEED_TO_SHOOTER){ //this will technically activate while intaking, but shouldn't matter since no shooting command will run.  
+    else if (stateHandler.hasGamePiece() && desiredState == FeederStates.FEED_TO_SHOOTER){ //this will technically activate while intaking, but shouldn't matter since no shooting command will run.  
 
       if (stallTimer.get() == 0){
         stallTimer.start();
@@ -102,12 +104,12 @@ public class FeederStateMachine extends Command {
       
       
     }
-    else if (desiredState == FeederSubsystem.States.OFF
+    else if (desiredState == FeederStates.OFF
             && stateHandler.desiredArmState == ArmStates.STOWED
             && stateHandler.currentArmState == ArmStates.STOWED
-            && stateHandler.desiredShooterState == ShooterSubsystem.States.IDLE_VELO){
+            && stateHandler.desiredShooterState == ShooterStates.IDLE_VELO){
 
-            desiredState = FeederSubsystem.States.BACKING;
+            desiredState = FeederStates.BACKING;
     }
 
     feederSubsystem.setFeederTo(desiredState.OUTPUT);

@@ -15,7 +15,7 @@ import frc.robot.Constants.FeederConstants;
 
 public class FeederSubsystem extends SubsystemBase {
 
-  public enum States {
+  public enum FeederStates {
     OFF(new DutyCycleOut(0)),
     FEED_TO_SHOOTER(new DutyCycleOut(0.85)), // intake -> shooter
     FEED_TO_INTAKE(new DutyCycleOut(-0.8)), // shooter -> intake
@@ -25,7 +25,7 @@ public class FeederSubsystem extends SubsystemBase {
 
     public ControlRequest OUTPUT;
 
-    private States(ControlRequest output) {
+    private FeederStates(ControlRequest output) {
       OUTPUT = output;
     }
   }
@@ -57,7 +57,7 @@ public class FeederSubsystem extends SubsystemBase {
     return feederMotor.get();
   }
 
-  public boolean isAtState(States state) {
+  public boolean isAtState(FeederStates state) {
     return true;
   }
 

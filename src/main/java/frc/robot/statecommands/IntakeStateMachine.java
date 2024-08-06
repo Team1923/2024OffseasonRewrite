@@ -9,20 +9,20 @@ import frc.robot.StateHandler;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
-import frc.robot.subsystems.IntakeSubsystem.RollerStates;
+import frc.robot.subsystems.IntakeSubsystem.IntakeRollerStates;
 
 public class IntakeStateMachine extends Command {
   /** Creates a new IntakeStateMachine. */
-  private IntakeSubsystem intakesubsystem;
+  private IntakeSubsystem intakeSubsystem;
   private boolean bb1Crossed = false;
 
   private StateHandler stateHandler = StateHandler.getInstance();
 
-  public IntakeStateMachine(IntakeSubsystem intakesubsystem) {
+  public IntakeStateMachine(IntakeSubsystem intakeSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.intakesubsystem = intakesubsystem;
+    this.intakeSubsystem = intakeSubsystem;
 
-    addRequirements(intakesubsystem);
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,10 +36,10 @@ public class IntakeStateMachine extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSubsystem.RollerStates desiredRollerState = stateHandler.desiredIntakeRollerState;
-    IntakeSubsystem.IntakeArmStates desiredArmState = stateHandler.desiredIntakeArmState;
+    IntakeRollerStates desiredRollerState = stateHandler.desiredIntakeRollerState;
+    IntakeArmStates desiredArmState = stateHandler.desiredIntakeArmState;
 
-    if (stateHandler.bb1Covered && desiredRollerState != RollerStates.EJECT) {
+    if (stateHandler.bb1Covered && desiredRollerState != IntakeRollerStates.EJECT) {
       bb1Crossed = true;
     }
   
@@ -53,21 +53,21 @@ public class IntakeStateMachine extends Command {
       /* Latching boolean condition for bb1 making sure intake doesn't deploy until note is fully situated */
         if (!stateHandler.bb3Covered && bb1Crossed) {
           desiredArmState = IntakeArmStates.DEPLOYED; //TODO: not setting here
-          desiredRollerState = RollerStates.INTAKE;
+          desiredRollerState = IntakeRollerStates.INTAKE;
         } 
 
         /* Makes sure if arm is not deployed yet but want to eject, rollers don't spin */
-        if (stateHandler.currentIntakeArmState != IntakeArmStates.DEPLOYED & desiredRollerState == RollerStates.EJECT) {
-          desiredRollerState = RollerStates.OFF;
+        if (stateHandler.currentIntakeArmState != IntakeArmStates.DEPLOYED & desiredRollerState == IntakeRollerStates.EJECT) {
+          desiredRollerState = IntakeRollerStates.OFF;
         }
   
       default:
-        intakesubsystem.setIntakeArmTo(desiredArmState.intakePosition);
-        if(intakesubsystem.isAtIntakeArmPosition(desiredArmState)) {
+        intakeSubsystem.setIntakeArmTo(desiredArmState.intakePosition);
+        if(intakeSubsystem.isAtIntakeArmPosition(desiredArmState)) {
           stateHandler.currentIntakeArmState = desiredArmState;
         }
-        intakesubsystem.setRollerSpeedTo(desiredRollerState.OUTPUT);
-        if(intakesubsystem.isAtRollerVelocity(desiredRollerState)) {
+        intakeSubsystem.setRollerSpeedTo(desiredRollerState.OUTPUT);
+        if(intakeSubsystem.isAtRollerVelocity(desiredRollerState)) {
           stateHandler.currentIntakeRollerState = desiredRollerState;
         }
     }

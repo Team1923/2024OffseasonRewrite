@@ -7,6 +7,7 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class BabyBirdCommand extends Command {
 
@@ -20,7 +21,7 @@ public class BabyBirdCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stateHandler.desiredShooterState = ShooterSubsystem.States.BABY_BIRD_VELO;
+    stateHandler.desiredShooterState = ShooterStates.BABY_BIRD_VELO;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +32,7 @@ public class BabyBirdCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stateHandler.desiredShooterState = ShooterSubsystem.States.IDLE_VELO;
+    stateHandler.desiredShooterState = ShooterStates.IDLE_VELO;
   }
 
   // Returns true when the command should end.

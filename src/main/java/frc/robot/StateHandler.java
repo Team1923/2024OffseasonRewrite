@@ -4,7 +4,12 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
+import frc.robot.subsystems.ArmSubsystem.ArmStates;
+import frc.robot.subsystems.FeederSubsystem.FeederStates;
+import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
+import frc.robot.subsystems.IntakeSubsystem.IntakeRollerStates;
+import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class StateHandler {
     private static StateHandler stateHandler;
@@ -32,22 +37,22 @@ public class StateHandler {
     public ScoringType scoringType = ScoringType.RANGED;
 
     /* DESIRED STATES: These tell mechanisms to "go" to the state specified. */
-    public ShooterSubsystem.States desiredShooterState = ShooterSubsystem.States.IDLE_VELO;
-    public IntakeSubsystem.IntakeArmStates desiredIntakeArmState = IntakeSubsystem.IntakeArmStates.STOWED;
-    public IntakeSubsystem.RollerStates desiredIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
-    public ArmSubsystem.ArmStates desiredArmState = ArmSubsystem.ArmStates.STOWED;
-    public FeederSubsystem.States desiredFeederState = FeederSubsystem.States.OFF;
+    public ShooterStates desiredShooterState = ShooterStates.IDLE_VELO;
+    public IntakeArmStates desiredIntakeArmState = IntakeArmStates.STOWED;
+    public IntakeRollerStates desiredIntakeRollerState = IntakeRollerStates.OFF;
+    public ArmStates desiredArmState = ArmStates.STOWED;
+    public FeederStates desiredFeederState = FeederStates.OFF;
 
     /* CURRENT STATES: Mechanisms have arrived to the desired state. */
-    public ShooterSubsystem.States currentShooterState = ShooterSubsystem.States.IDLE_VELO;
-    public IntakeSubsystem.IntakeArmStates currentIntakeArmState = IntakeSubsystem.IntakeArmStates.STOWED;
-    public IntakeSubsystem.RollerStates currentIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
-    public ArmSubsystem.ArmStates currentArmState = ArmSubsystem.ArmStates.STOWED;
-    public FeederSubsystem.States currentFeederState = FeederSubsystem.States.OFF;
+    public ShooterStates currentShooterState = ShooterStates.IDLE_VELO;
+    public IntakeArmStates currentIntakeArmState = IntakeArmStates.STOWED;
+    public IntakeRollerStates currentIntakeRollerState = IntakeRollerStates.OFF;
+    public ArmStates currentArmState = ArmStates.STOWED;
+    public FeederStates currentFeederState = FeederStates.OFF;
 
 
     /* SWERVE STATES - ONLY CURRENT STATE IS REQUIRED */
-    public SwerveSubsystem.States currentSwerveState = SwerveSubsystem.States.FIELD_CENTRIC;
+    public SwerveStates currentSwerveState = SwerveStates.FIELD_CENTRIC;
 
     /* BEAM BREAK Values */
     public boolean bb1Covered = false;

@@ -39,8 +39,8 @@ public class StateHandler {
     public IntakeSubsystem.RollerStates desiredIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
 
     /* CURRENT STATES: Mechanisms have arrived to the desired state. */
-    public ShooterSubsystem.States currentShooterStates = ShooterSubsystem.States.IDLE_VELO;
-    public IntakeSubsystem.ArmStates currentArmStates = IntakeSubsystem.ArmStates.STOWED;
+    public ShooterSubsystem.States currentShooterState = ShooterSubsystem.States.IDLE_VELO;
+    public IntakeSubsystem.ArmStates currentArmState = IntakeSubsystem.ArmStates.STOWED;
     public IntakeSubsystem.RollerStates currentIntakeRollerState = IntakeSubsystem.RollerStates.OFF;
 
     /* SWERVE STUFF */

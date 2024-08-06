@@ -91,9 +91,16 @@ public class Constants {
                                                 .withKD(0)
                                                 .withKS(0)
                                                 .withKV(0.1))
+                                .withMotionMagic(new MotionMagicConfigs()
+                                                .withMotionMagicCruiseVelocity(maxIntakeVel)
+                                                .withMotionMagicAcceleration(maxIntakeAccel)
+                                                .withMotionMagicJerk(maxIntakeJerk))
                                 .withMotorOutput(new MotorOutputConfigs()
                                                 .withNeutralMode(NeutralModeValue.Brake)
-                                .withInverted(InvertedValue.Clockwise_Positive));
+                                                .withInverted(InvertedValue.Clockwise_Positive))
+                                .withCurrentLimits(new CurrentLimitsConfigs()
+                                                .withStatorCurrentLimit(80)
+                                                .withStatorCurrentLimitEnable(true));
 
                 public static final TalonFXConfiguration WHEEL_CONFIGS = new TalonFXConfiguration();
         }

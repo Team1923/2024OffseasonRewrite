@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.MotionMagicVelocityDutyCycle;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 

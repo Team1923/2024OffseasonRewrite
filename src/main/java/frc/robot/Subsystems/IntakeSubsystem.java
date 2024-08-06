@@ -118,15 +118,14 @@ public class IntakeSubsystem extends SubsystemBase {
    * Method to stop the intake arm's motors.
    */
   public void stopIntakeArmMotors() {
-    intakeArmPrimary.set(0);
+    intakeArmPrimary.stopMotor();
   }
 
   /**
    * Method ot stop the intake wheels.
    */
   public void stopIntakeWheels() {
-    intakeWheelTop.set(0);
-    ;
+    intakeWheelTop.stopMotor();
   }
 
   /**

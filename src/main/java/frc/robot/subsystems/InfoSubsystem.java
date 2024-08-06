@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler;
 import frc.robot.StateHandler.ScoringType;
@@ -26,10 +27,10 @@ public class InfoSubsystem extends SubsystemBase {
   private StateHandler stateHandler = StateHandler.getInstance();
 
   private CommandXboxController xboxController;
-  private CommandPS4Controller ps4Controller;
+  private CommandPS5Controller ps4Controller;
 
   
-  public InfoSubsystem(CommandXboxController x, CommandPS4Controller p){
+  public InfoSubsystem(CommandXboxController x, CommandPS5Controller p){
     this.xboxController = x;
     this.ps4Controller = p;
 

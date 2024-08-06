@@ -12,10 +12,18 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.BabyBirdCommand;
 import frc.robot.commands.intake.FullEjectCommand;
+import frc.robot.lib.swerve.TunerConstants;
+import frc.robot.statecommands.ArmStateMachine;
+import frc.robot.statecommands.FeederStateMachine;
 import frc.robot.statecommands.IntakeStateMachine;
 import frc.robot.statecommands.ShooterStateMachine;
+import frc.robot.statecommands.SwerveStateMachine;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.InfoSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 
@@ -25,9 +33,15 @@ public class RobotContainer {
   private final CommandXboxController driverXboxController = new CommandXboxController(0);
   private final CommandPS5Controller operatorPS5Controller = new CommandPS5Controller(1);
 
-
+  /* Subsystem Instantiations */
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final FeederSubsystem feederSubsystem = new FeederSubsystem();
+  private final SwerveSubsystem swerveSubsystem = TunerConstants.DriveTrain;
+
+  /* Helper class Instantiation */
+  private final InfoSubsystem infoSubsystem = new InfoSubsystem(driverXboxController, operatorPS5Controller);
 
 
   public RobotContainer() {
@@ -38,10 +52,15 @@ public class RobotContainer {
     /* Default commands */
     shooterSubsystem.setDefaultCommand(new ShooterStateMachine(shooterSubsystem));
     intakeSubsystem.setDefaultCommand(new IntakeStateMachine(intakeSubsystem));
-
+    armSubsystem.setDefaultCommand(new ArmStateMachine(armSubsystem));
+    feederSubsystem.setDefaultCommand(new FeederStateMachine(feederSubsystem));
+    swerveSubsystem.setDefaultCommand(new SwerveStateMachine(swerveSubsystem, 
+                                      () -> driverXboxController.getLeftY(),
+                                      () -> driverXboxController.getLeftX(), 
+                                      () -> driverXboxController.getRightX()));
 
     /* Driver Button Bindings */
-    driverXboxController.rightTrigger().and(() -> stateHandler.scoringType == ScoringType.AMP).whileTrue(new FullEjectCommand());
+    
 
     /* Operator Button Bindings */
     operatorPS5Controller.triangle().onTrue(scoringMode(ScoringType.RANGED));

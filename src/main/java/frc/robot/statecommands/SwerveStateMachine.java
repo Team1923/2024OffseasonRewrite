@@ -60,7 +60,7 @@ public class SwerveStateMachine extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SwerveStates currentState = stateHandler.currentSwerveState;
+    SwerveStates currentState = stateHandler.swerveState;
 
 
     double translation = MathUtil.applyDeadband(translationSupplier.getAsDouble() * sideInversions()[0], ControllerConstants.Driver.deadband);

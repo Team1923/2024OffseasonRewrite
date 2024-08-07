@@ -21,7 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
     AMP(MMVoltageWithDegrees(-112.3)),
     SUBWOOFER(MMVoltageWithDegrees(-44.1)),
     RANGED(MMVoltageWithDegrees(0)),
-    TRAP(MMVoltageWithDegrees(-51.6)),
+    TRAP(MMVoltageWithDegrees(-51.6), 0.5),
     BABY_BIRD(MMVoltageWithDegrees(-40.1)),
     PUNT_HIGH(MMVoltageWithDegrees(-38.4)),
     PUNT_LOW(MMVoltageWithDegrees(0)),
@@ -67,7 +67,7 @@ public class ArmSubsystem extends SubsystemBase {
    * 
    * @param output the specified ControlRequest to output the motor at.
    */
-  public void setArmPosition(ControlRequest output) {
+  public void setArmTo(ControlRequest output) {
     armPrimary.setControl(output);
   }
 

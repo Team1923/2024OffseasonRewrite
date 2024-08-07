@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler.ScoringType;
+import frc.robot.commands.climb.ArmUpToClimb;
+import frc.robot.commands.climb.ManualClimbCommand;
 import frc.robot.commands.intake.BabyBirdCommand;
 import frc.robot.commands.intake.FullEjectCommand;
 import frc.robot.lib.swerve.Telemetry;
@@ -65,6 +67,8 @@ public class RobotContainer {
     
 
     /* Operator Button Bindings */
+
+    /* Scoring selection */
     operatorPS5Controller.triangle().onTrue(scoringMode(ScoringType.RANGED));
     operatorPS5Controller.square().onTrue(scoringMode(ScoringType.AMP));
     operatorPS5Controller.cross().onTrue(scoringMode(ScoringType.SUBWOOFER));
@@ -73,8 +77,13 @@ public class RobotContainer {
     operatorPS5Controller.L2().onTrue(scoringMode(ScoringType.LOW_PUNT));
     operatorPS5Controller.R2().onTrue(scoringMode(ScoringType.HIGH_PUNT));
 
-    operatorPS5Controller.create().whileTrue(new FullEjectCommand());
+    /* Intaking/Ejecting */
     operatorPS5Controller.povLeft().whileTrue(new BabyBirdCommand());
+    operatorPS5Controller.create().whileTrue(new FullEjectCommand());
+
+    /* Misc */
+    operatorPS5Controller.options().toggleOnTrue(new ArmUpToClimb().andThen(new ManualClimbCommand(armSubsystem, () -> operatorPS5Controller.getRightY())));
+    
 
 
 

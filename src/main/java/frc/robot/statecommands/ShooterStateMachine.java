@@ -64,7 +64,7 @@ public class ShooterStateMachine extends Command {
 
     
     shooterSubsystem.setShooterMotorsTo(desiredState.REQUEST_TOP, desiredState.REQUEST_BOTTOM);
-    shooterSubsystem.setBlowerTo(stateHandler.blowerPercent);
+    shooterSubsystem.setBlowerTo(stateHandler.blowerState.PERCENT);
     
 
   }

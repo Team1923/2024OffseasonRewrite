@@ -9,10 +9,15 @@ import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.FeederSubsystem.FeederStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeRollerStates;
+import frc.robot.subsystems.ShooterSubsystem.BlowerStates;
 import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class StateHandler {
     private static StateHandler stateHandler;
+
+    private StateHandler(){
+        System.out.println("StateHandler just got created");
+    }
 
     public static synchronized StateHandler getInstance() {
         if (stateHandler == null) {
@@ -49,10 +54,11 @@ public class StateHandler {
     public IntakeRollerStates currentIntakeRollerState = IntakeRollerStates.OFF;
     public ArmStates currentArmState = ArmStates.STOWED;
     public FeederStates currentFeederState = FeederStates.OFF;
+    public BlowerStates blowerState = BlowerStates.OFF;
 
 
     /* SWERVE STATES - ONLY CURRENT STATE IS REQUIRED */
-    public SwerveStates currentSwerveState = SwerveStates.FIELD_CENTRIC;
+    public SwerveStates swerveState = SwerveStates.FIELD_CENTRIC;
 
     /* BEAM BREAK Values */
     public boolean bb1Covered = false;
@@ -62,9 +68,6 @@ public class StateHandler {
 
     public boolean latchingBB = false;
    
-
-    /* BLOWER PERCENT OUTPUT */
-    public double blowerPercent = 0;
 
     /* HELPER METHODS */
     public boolean hasGamePiece(){

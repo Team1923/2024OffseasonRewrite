@@ -14,6 +14,10 @@ public class Constants {
                 public static class Driver {
                         public static final double deadband = 0.07;
                 }
+
+                public static class Operator {
+                        public static final double deadband = 0.1;
+                }
         }
 
         public static class ShooterConstants {

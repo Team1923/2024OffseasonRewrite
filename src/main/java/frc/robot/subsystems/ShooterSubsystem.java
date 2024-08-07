@@ -49,6 +49,17 @@ public class ShooterSubsystem extends SubsystemBase {
     }
   }
 
+  public static enum BlowerStates{
+    ON(1),
+    OFF(0);
+
+    public double PERCENT;
+    
+    private BlowerStates(double percent){
+      PERCENT = percent;
+    }
+  }
+
   /* Initialize Shooter Motors */
   private TalonFX shooterTop = new TalonFX(ShooterConstants.shooterTopID, "rio");
   private TalonFX shooterBottom = new TalonFX(ShooterConstants.shooterBottomID, "rio");

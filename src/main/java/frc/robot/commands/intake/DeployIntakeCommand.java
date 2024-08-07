@@ -6,36 +6,35 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.FeederSubsystem.FeederStates;
+import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeRollerStates;
-import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
-public class FullEjectCommand extends Command {
-  StateHandler stateHandler = StateHandler.getInstance();
+public class DeployIntakeCommand extends Command {
 
-  /** Creates a new FullEjectCommand. */
-  public FullEjectCommand() {
+  private StateHandler stateHandler = StateHandler.getInstance();
+
+  /** Creates a new DeployIntakeCommand. */
+  public DeployIntakeCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stateHandler.desiredShooterState = ShooterStates.FULL_EJECT_DUTY;
-    stateHandler.desiredFeederState = FeederStates.FULL_EJECT;
+    stateHandler.desiredIntakeArmState = IntakeArmStates.DEPLOYED;
     stateHandler.desiredIntakeRollerState = IntakeRollerStates.INTAKE;
+    stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stateHandler.desiredShooterState = ShooterStates.IDLE_VELO;
+    stateHandler.desiredIntakeArmState = IntakeArmStates.STOWED;
     stateHandler.desiredFeederState = FeederStates.OFF;
     stateHandler.desiredIntakeRollerState = IntakeRollerStates.OFF;
   }
@@ -43,6 +42,6 @@ public class FullEjectCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return stateHandler.bb3Covered;
   }
 }

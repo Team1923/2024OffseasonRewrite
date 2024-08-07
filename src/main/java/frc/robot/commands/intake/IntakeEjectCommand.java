@@ -6,38 +6,37 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.FeederSubsystem.FeederStates;
+import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeRollerStates;
-import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
-public class FullEjectCommand extends Command {
-  StateHandler stateHandler = StateHandler.getInstance();
+public class IntakeEjectCommand extends Command {
 
-  /** Creates a new FullEjectCommand. */
-  public FullEjectCommand() {
+  private StateHandler stateHandler = StateHandler.getInstance();
+
+  /** Creates a new IntakeEjectCommand. */
+  public IntakeEjectCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stateHandler.desiredShooterState = ShooterStates.FULL_EJECT_DUTY;
-    stateHandler.desiredFeederState = FeederStates.FULL_EJECT;
-    stateHandler.desiredIntakeRollerState = IntakeRollerStates.INTAKE;
+    stateHandler.desiredIntakeRollerState = IntakeRollerStates.EJECT;
+    stateHandler.desiredIntakeArmState = IntakeArmStates.DEPLOYED;
+    stateHandler.desiredFeederState = FeederStates.FEED_TO_INTAKE;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stateHandler.desiredShooterState = ShooterStates.IDLE_VELO;
-    stateHandler.desiredFeederState = FeederStates.OFF;
     stateHandler.desiredIntakeRollerState = IntakeRollerStates.OFF;
+    stateHandler.desiredIntakeArmState = IntakeArmStates.STOWED;
+    stateHandler.desiredFeederState = FeederStates.OFF;
   }
 
   // Returns true when the command should end.

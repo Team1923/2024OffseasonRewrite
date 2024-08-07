@@ -61,7 +61,7 @@ public class InfoSubsystem extends SubsystemBase {
 			.withPosition(0, 2)
 			.withProperties(Map.of("Color when false", "#000000", "Color when true", "#000080"))
 			.getEntry();
-    private GenericEntry manualClimbing = driverDashboard.add("Manual Climbing", false)
+    private GenericEntry climbing = driverDashboard.add("Climbing", false)
   		.withSize(3, 1)
 			.withPosition(2, 1)
 			.withProperties(Map.of("Color when false", "#000000", "Color when true", "#000080"))
@@ -124,8 +124,8 @@ public class InfoSubsystem extends SubsystemBase {
     reverseSubwooferPos.setBoolean(stateHandler.scoringType == ScoringType.REVERSE_SUBWOOFER);
     // seeSpeakerTag.setBoolean(stateHandler.getHasValidSpeakerTag());
     // seeTrapTag.setBoolean(stateHandler.getHasValidTrapTag());
-    // manualClimbing.setBoolean(stateHandler.getManuallyClimbing());
-    // unGuardablePos.setBoolean(stateHandler.getWantUnguardable());
+    climbing.setBoolean(stateHandler.scoringType == ScoringType.CLIMB);
+    unGuardablePos.setBoolean(stateHandler.scoringType == ScoringType.UNGUARDABLE);
 
     if(DriverStation.isTeleop() && stateHandler.bb1Covered /*&& !stateHandler.getBB1Dead()*/){ // add condition for non functional bb1 
       xboxController.getHID().setRumble(RumbleType.kBothRumble, 0.2);

@@ -34,9 +34,12 @@ public class ArmUpToClimb extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("MANUALLY CLIMBING");
     if (stateHandler.currentArmState != ArmStates.CLIMB){
       stateHandler.scoringType = ScoringType.RANGED;
+    }
+    else{
+      System.out.println("MANUALLY CLIMBING");
+
     }
   }
 

@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
 import frc.robot.Constants.ControllerConstants;
@@ -56,6 +57,7 @@ public class ManualClimbCommand extends Command {
       }
       holdingRequest = new MotionMagicVoltage(0);
     }
+
   } 
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -68,6 +70,7 @@ public class ManualClimbCommand extends Command {
     else{
       armSubsystem.setArmTo(holdingRequest);
     }
+
   }
 
   // Called once the command ends or is interrupted.

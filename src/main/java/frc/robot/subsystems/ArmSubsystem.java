@@ -6,10 +6,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 
@@ -78,7 +80,7 @@ public class ArmSubsystem extends SubsystemBase {
    * @param out percent out speed to run the arm at
    */
   public void setPercentOut(double out) {
-    armPrimary.set(out);
+    armPrimary.setControl(new DutyCycleOut(out));
   }
 
   /**
@@ -139,6 +141,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    // SmartDashboard.putString("PRIMARY MODE", armPrimary.getAppliedControl().getName());
+    //     SmartDashboard.putString("FOLLOWER MODE", armFollower.getAppliedControl().getName());
 
   }
 }

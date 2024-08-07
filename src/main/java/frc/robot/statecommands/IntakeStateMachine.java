@@ -46,8 +46,11 @@ public class IntakeStateMachine extends Command {
 
     switch(desiredArmState) {
       case STOWED:
-      /* Latching boolean condition for bb1 making sure intake doesn't deploy until note is fully situated */
-        if (!stateHandler.bb3Covered && stateHandler.latchingBB) { 
+        /* reset latching boolean if ejecting */
+        if (stateHandler.desiredIntakeRollerState == IntakeRollerStates.EJECT){
+          stateHandler.latchingBB = false;
+        }     /* Latching boolean condition for bb1 making sure intake doesn't deploy until note is fully situated */
+        else if (!stateHandler.bb3Covered && stateHandler.latchingBB) { 
           desiredArmState = IntakeArmStates.DEPLOYED; //TODO: not setting here
           desiredRollerState = IntakeRollerStates.INTAKE;
         } 

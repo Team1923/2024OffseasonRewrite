@@ -204,7 +204,7 @@ public class SimulationSubsystem extends SubsystemBase {
 
     
   }
-
+  
 
 
 
@@ -248,7 +248,7 @@ public class SimulationSubsystem extends SubsystemBase {
 
           for (int i = notePoses.size()-1; i >=0; i--){
             Translation2d notePos = notePoses.get(i);
-            if (notePos.getDistance(currentPose.getTranslation())< collectionDist){
+            if (true /*notePos.getDistance(currentPose.getTranslation())< collectionDist*/){
 
 
               isCollecting = true;
@@ -261,7 +261,7 @@ public class SimulationSubsystem extends SubsystemBase {
       //Source Intaking
       if (stateHandler.currentArmState== ArmStates.BABY_BIRD 
       && stateHandler.currentShooterState == ShooterStates.BABY_BIRD_VELO
-      && isInSource()){
+      && true/*isInSource()*/){
         if (babyBirdTimer.get() ==0){
           babyBirdTimer.start();
           stateHandler.bb4Covered = (true);
@@ -284,7 +284,7 @@ public class SimulationSubsystem extends SubsystemBase {
         babyBirdTimer.reset();
       }
       //Shooting
-      if (stateHandler.currentFeederState == FeederStates.FEED_TO_SHOOTER){
+      if (stateHandler.currentFeederState == FeederStates.FEED_TO_SHOOTER && stateHandler.currentArmState != ArmStates.STOWED){
 
         if (shootTimer.get() == 0){
           shootTimer.start();

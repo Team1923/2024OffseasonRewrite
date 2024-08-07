@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler;
 import frc.robot.StateHandler.ScoringType;
+import frc.robot.subsystems.ArmSubsystem.ArmStates;
 
 public class InfoSubsystem extends SubsystemBase {
   /** Creates a new ShuffleboardSubsystem. */
@@ -128,7 +129,7 @@ public class InfoSubsystem extends SubsystemBase {
     climbing.setBoolean(stateHandler.scoringType == ScoringType.CLIMB);
     unGuardablePos.setBoolean(stateHandler.scoringType == ScoringType.UNGUARDABLE);
 
-    if(DriverStation.isTeleop() && stateHandler.bb1Covered /*&& !stateHandler.getBB1Dead()*/){ // add condition for non functional bb1 
+    if(DriverStation.isTeleop() && (stateHandler.bb1Covered || (stateHandler.bb4Covered && stateHandler.currentArmState == ArmStates.BABY_BIRD)) /*&& !stateHandler.getBB1Dead()*/){ // add condition for non functional bb1 
       xboxController.getHID().setRumble(RumbleType.kBothRumble, 0.2);
       ps4Controller.getHID().setRumble(RumbleType.kBothRumble, 0.4);
     } else{

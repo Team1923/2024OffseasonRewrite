@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.lib.simulation.SimulationSubsystem;
+import frc.robot.lib.tuningwidgets.SwerveRequestPIDWidget;
+import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -24,6 +26,8 @@ public class Robot extends TimedRobot {
     if (Utils.isSimulation()){
       SimulationSubsystem.getInstance();
     }
+
+    SwerveRequestPIDWidget ampPID = new SwerveRequestPIDWidget(SwerveStates.FACING_AMP);
   }
 
   @Override

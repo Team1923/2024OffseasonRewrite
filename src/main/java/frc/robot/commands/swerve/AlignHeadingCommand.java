@@ -2,29 +2,35 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.climb;
+package frc.robot.commands.swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
-import frc.robot.StateHandler.ScoringType;
-import frc.robot.subsystems.ArmSubsystem.ArmStates;
-import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
+import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 
-public class ArmUpToClimb extends Command {
+public class AlignHeadingCommand extends Command {
 
   private StateHandler stateHandler = StateHandler.getInstance();
 
-  /** Creates a new ArmUpToClimb. */
-  public ArmUpToClimb() {
+  /** Creates a new AlignHeadingCommand. */
+  public AlignHeadingCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      stateHandler.desiredArmState = ArmStates.CLIMB;
-      stateHandler.desiredIntakeArmState = IntakeArmStates.DEPLOYED;
-      stateHandler.scoringType = ScoringType.CLIMB;
+    switch(stateHandler.scoringType){
+      case CLIMB:
+        stateHandler.swerveState = SwerveStates.FACING_CLIMB;
+        break;
+      case TRAP:
+        stateHandler.swerveState = SwerveStates.FACING_TRAP;
+        break;
+      case AMP:
+        stateHandler.swerveState = SwerveStates.FACING_AMP;
+        break;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,16 +39,11 @@ public class ArmUpToClimb extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    System.out.println("MANUALLY CLIMBING");
-    if (stateHandler.currentArmState != ArmStates.CLIMB){
-      stateHandler.scoringType = ScoringType.RANGED;
-    }
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stateHandler.currentArmState == ArmStates.CLIMB;
+    return false;
   }
 }

@@ -95,7 +95,18 @@ public class SwerveStateMachine extends Command {
         .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
         .withTargetDirection(Rotation2d.fromDegrees((DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? -90 : -90));
         break;
-        
+      case FACING_TRAP:
+        request = ((SwerveRequest.FieldCentricFacingAngle)SwerveStates.FACING_AMP.REQUEST)
+        .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
+        .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
+        .withTargetDirection(Rotation2d.fromDegrees(roundToClosestTrapHeading(swerve.getGyroYaw())));
+        break;
+      case FACING_CLIMB:
+         request = ((SwerveRequest.FieldCentricFacingAngle)SwerveStates.FACING_AMP.REQUEST)
+        .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
+        .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
+        .withTargetDirection(Rotation2d.fromDegrees(roundToClosestClimbHeading(swerve.getGyroYaw())));
+        break;
       case GOAL_CENTRIC:
         // if (hasTag && Math.abs(rotation) < 0.5){
         //   request = ((SwerveRequest.FieldCentricFacingAngle)SwerveSubsystem.States.GOAL_CENTRIC.request)
@@ -140,5 +151,46 @@ public class SwerveStateMachine extends Command {
   public static int[] sideInversions(){
     return (DriverStation.getAlliance().get() == Alliance.Blue) ? new int[]{1,1,1}
                                                                 : new int[]{-1,-1, 1};
+  }
+
+  public static double roundToClosestTrapHeading(double ang){
+    double remainder = ang % 360;
+
+    if(remainder > 180){
+      remainder -= 360;
+    }
+    else if(remainder < -180){
+      remainder += 360;
+    }
+
+    if(remainder >= -60 && remainder < 60){
+      return 0;
+    }
+    else if(remainder >= 60 && remainder < 180){
+      return 120;
+    }
+    else{
+      return -120;
+    }
+  }
+
+  public static double roundToClosestClimbHeading(double ang){
+    double remainder = ang % 360;
+    if(remainder > 180){
+      remainder -= 360;
+    }
+    else if(remainder < -180){
+      remainder += 360;
+    }
+
+     if(remainder >= 0 && remainder < 120){
+      return 60;
+    }
+    else if(remainder >= -120 && remainder < 0){
+      return -60;
+    }
+    else{
+      return 180;
+    }
   }
 }

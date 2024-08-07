@@ -9,7 +9,9 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.StateHandler;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.StateHandler.ScoringType;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
 
@@ -70,7 +72,9 @@ public class ManualClimbCommand extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    StateHandler.getInstance().scoringType = ScoringType.RANGED;
+  }
 
   // Returns true when the command should end.
   @Override

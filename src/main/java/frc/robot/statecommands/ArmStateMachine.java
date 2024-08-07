@@ -45,12 +45,12 @@ public class ArmStateMachine extends Command {
     ArmStates desiredArmState = stateHandler.desiredArmState;
 
     switch(desiredArmState){
-      case RANGED: //Update the ranged shot's motion magic value
+      case RANGED: //Update the ranged shot's motion magic value if we want ot shoot ranged
         // ((MotionMagicVoltage)(ArmStates.RANGED.REQUEST)).Position = updated value;
     }
 
 
-    if (desiredArmState != stateHandler.currentArmState && armSubsystem.isAtState(desiredArmState) && timer.get() == 0){
+    if (desiredArmState != stateHandler.currentArmState && armSubsystem.isAtState(desiredArmState) && timer.get() == 0){ //Start the timer for the arm to settle when the arm motors are at the desired state (settle timer starts AFTER the motors are in the right place)
       timer.restart();
     }
 
@@ -62,6 +62,7 @@ public class ArmStateMachine extends Command {
 
     SmartDashboard.putNumber("TIMER", timer.get());
 
+    //Check for current position; arm motors must read that they are at position AND settle timer must have elapsed
     if (timer.hasElapsed(desiredArmState.settleTime) && armSubsystem.isAtState(desiredArmState)) {
       stateHandler.currentArmState = desiredArmState;
       timer.stop();

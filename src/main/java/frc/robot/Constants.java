@@ -102,7 +102,7 @@ public class Constants {
                                                 .withMotionMagicAcceleration(maxIntakeAccel)
                                                 .withMotionMagicJerk(maxIntakeJerk))
                                 .withMotorOutput(new MotorOutputConfigs()
-                                                .withNeutralMode(NeutralModeValue.Brake)
+                                                .withNeutralMode(NeutralModeValue.Coast) // #4 CHANGE TO BREAK WHEN RUNNING STATE MACHINE
                                                 .withInverted(InvertedValue.Clockwise_Positive))
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
@@ -166,7 +166,7 @@ public class Constants {
                                                 .withMotionMagicAcceleration(maxArmAccel)
                                                 .withMotionMagicJerk(maxArmJerk))
                                 .withMotorOutput(new MotorOutputConfigs()
-                                                .withNeutralMode(NeutralModeValue.Brake))
+                                                .withNeutralMode(NeutralModeValue.Coast)) // #6 CHANGE TO BREAK WHEN RUNNING STATE MACHINE
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true));

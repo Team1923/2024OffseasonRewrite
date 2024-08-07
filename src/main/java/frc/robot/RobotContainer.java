@@ -82,6 +82,7 @@ public class RobotContainer {
     /* Driver Button Bindings */
     driverXboxController.rightTrigger().whileTrue(new ShootGamePiece());
     driverXboxController.rightStick().whileTrue(new AlignHeadingCommand());
+    driverXboxController.y().onTrue(swerveSubsystem.runOnce(() -> swerveSubsystem.zeroGyro()));
 
     /* Operator Button Bindings */
 

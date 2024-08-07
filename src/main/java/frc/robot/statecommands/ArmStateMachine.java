@@ -38,6 +38,8 @@ public class ArmStateMachine extends Command {
   @Override
   public void execute() {
 
+    //add arm self zeroing
+
     ArmStates desiredArmState = stateHandler.desiredArmState;
 
     switch(desiredArmState){

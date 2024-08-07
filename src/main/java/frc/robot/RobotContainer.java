@@ -9,11 +9,17 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.climb.ArmUpToClimb;
 import frc.robot.commands.climb.ManualClimbCommand;
+import frc.robot.commands.defense.ArmToDefense;
 import frc.robot.commands.intake.BabyBirdCommand;
+import frc.robot.commands.intake.DeployIntakeCommand;
 import frc.robot.commands.intake.FullEjectCommand;
+import frc.robot.commands.intake.IntakeEjectCommand;
+import frc.robot.commands.scoring.ShootGamePiece;
+import frc.robot.commands.swerve.AlignHeadingCommand;
 import frc.robot.lib.swerve.Telemetry;
 import frc.robot.lib.swerve.TunerConstants;
 import frc.robot.statecommands.ArmStateMachine;
@@ -64,7 +70,8 @@ public class RobotContainer {
                                       () -> driverXboxController.getRightX()));
 
     /* Driver Button Bindings */
-    
+    driverXboxController.rightTrigger().whileTrue(new ShootGamePiece());
+    driverXboxController.rightStick().whileTrue(new AlignHeadingCommand());
 
     /* Operator Button Bindings */
 
@@ -80,10 +87,13 @@ public class RobotContainer {
     /* Intaking/Ejecting */
     operatorPS5Controller.povLeft().whileTrue(new BabyBirdCommand());
     operatorPS5Controller.create().whileTrue(new FullEjectCommand());
+    operatorPS5Controller.R1().whileTrue(new DeployIntakeCommand());
+    operatorPS5Controller.L1().whileTrue(new IntakeEjectCommand());
+
 
     /* Misc */
     operatorPS5Controller.options().toggleOnTrue(new ArmUpToClimb().andThen(new ManualClimbCommand(armSubsystem, () -> operatorPS5Controller.getRightY())));
-    
+    operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
 
 
 

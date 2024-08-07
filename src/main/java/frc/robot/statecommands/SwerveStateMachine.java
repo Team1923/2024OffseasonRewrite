@@ -75,7 +75,7 @@ public class SwerveStateMachine extends Command {
 
     SwerveRequest request;
 
-    switch(currentState){
+    switch(currentState){ //set based on the states using the controller input
       case FIELD_CENTRIC: 
           request = ((SwerveRequest.FieldCentric)SwerveStates.FIELD_CENTRIC.REQUEST)
             .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
@@ -94,7 +94,7 @@ public class SwerveStateMachine extends Command {
         request = ((SwerveRequest.FieldCentricFacingAngle)SwerveStates.FACING_AMP.REQUEST)
         .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
         .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
-        .withTargetDirection(Rotation2d.fromDegrees((DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? -90 : -90));
+        .withTargetDirection(Rotation2d.fromDegrees((DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? -90 : -90)); //TODO: check headings
         break;
       case FACING_TRAP:
         request = ((SwerveRequest.FieldCentricFacingAngle)SwerveStates.FACING_AMP.REQUEST)

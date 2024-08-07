@@ -49,6 +49,7 @@ public class ArmStateMachine extends Command {
         // ((MotionMagicVoltage)(ArmStates.RANGED.REQUEST)).Position = updated value;
     }
 
+    
 
     if (desiredArmState != stateHandler.currentArmState && armSubsystem.isAtState(desiredArmState) && timer.get() == 0){ //Start the timer for the arm to settle when the arm motors are at the desired state (settle timer starts AFTER the motors are in the right place)
       timer.restart();
@@ -59,8 +60,7 @@ public class ArmStateMachine extends Command {
     //   System.out.println("HERE");
     //   timer.restart();
     // }
-
-    SmartDashboard.putNumber("TIMER", timer.get());
+    // SmartDashboard.putNumber("TIMER", timer.get());
 
     //Check for current position; arm motors must read that they are at position AND settle timer must have elapsed
     if (timer.hasElapsed(desiredArmState.settleTime) && armSubsystem.isAtState(desiredArmState)) {
@@ -68,6 +68,10 @@ public class ArmStateMachine extends Command {
       timer.stop();
       timer.reset();
     }
+
+
+    armSubsystem.setArmTo(desiredArmState.REQUEST);
+
 
 
 

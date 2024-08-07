@@ -55,37 +55,39 @@ public class FeederStateMachine extends Command {
     FeederStates desiredState = stateHandler.desiredFeederState;
 
 
-    if (desiredState != FeederStates.FEED_TO_SHOOTER && stallTimer.get() != 0){
+    if (desiredState != FeederStates.FEED_TO_SHOOTER && stallTimer.get() != 0){ //Timer that forces feeder to feed if desired is FEED_TO_SHOOTER and current hasn't been allowed to change (prevents shooter stalling)
       stallTimer.stop();
       stallTimer.reset();
     }
 
 
-    if (desiredState == FeederStates.FULL_EJECT){
+    if (desiredState == FeederStates.FULL_EJECT){ //if full eject, fall through to the end and let the motors be set (we want to prioritize this)
 
     }
     else if (desiredState == FeederStates.FEED_TO_INTAKE
           && stateHandler.desiredIntakeArmState == IntakeArmStates.DEPLOYED
-          && stateHandler.currentIntakeArmState != IntakeArmStates.DEPLOYED){
-            desiredState = FeederStates.OFF;
+          && stateHandler.currentIntakeArmState != IntakeArmStates.DEPLOYED){ //wait to eject note until IntakeArm is fully deployed
+
+            desiredState = FeederStates.OFF; 
     }
-    else if (stateHandler.latchingBB){
+    else if (stateHandler.latchingBB){ //continue feeding if there is a note actively in the intake (latching boolean)
       desiredState = FeederStates.FEED_TO_SHOOTER;
     }
     /* I think there may be merit to putting this here */
     // else if (stateHandler.hasGamePiece() && stateHandler.bb4Covered){
     //   desiredState = FeederStates.BACKING;
     // }
+    /* SCORING */
     else if (stateHandler.hasGamePiece() && desiredState == FeederStates.FEED_TO_SHOOTER){ //this will technically activate while intaking, but shouldn't matter since no shooting command will run.  
 
-      if (stallTimer.get() == 0){
+      if (stallTimer.get() == 0){ //if the feeder was just set to FEED_TO_SHOOTER, reset the stall timer
         stallTimer.start();
       }
 
-      if (!stallTimer.hasElapsed(FeederConstants.timeout)){
-        switch(stateHandler.scoringType){
+      if (!stallTimer.hasElapsed(FeederConstants.timeout)){ //if we haven't stalled out, check the normal shooting logic checks to make sure that the other subsystems are at the correct states to shoot.
+        switch(stateHandler.scoringType){                   // (If we have stalled out, this statement will end, and we will fall through to the setting statements at the bottom of execute)
 
-        case AMP:
+        case AMP: 
           if (stateHandler.currentArmState == ArmStates.AMP
             && stateHandler.currentShooterState == ShooterStates.FRONT_AMP_VELO){
               break;
@@ -103,7 +105,7 @@ public class FeederStateMachine extends Command {
               break;
           }
 
-        case RANGED:
+        case RANGED: //TODO: implement this when limelight is implemented
           // if (stateHandler.currentArmState == ArmStates.RANGED
           //   && stateHandler.currentShooterState == ShooterStates.RANGED_VELO
           //   && ( (stateHandler.isCenteredToSpeakerTag() && stateHandler.isInSpeakerRange()) || stateHandler.autoOverride())){
@@ -138,7 +140,7 @@ public class FeederStateMachine extends Command {
 
         case CLIMB: //falls through, shouldn't be feeding in climb
                   
-        default:
+        default: //if one of these checks failed, make sure the feeder stays off until it is fufilled
           desiredState = FeederStates.OFF;
           }
       }
@@ -149,16 +151,18 @@ public class FeederStateMachine extends Command {
             && stateHandler.desiredArmState == ArmStates.STOWED
             && stateHandler.currentArmState == ArmStates.STOWED
             && stateHandler.desiredShooterState == ShooterStates.IDLE_VELO
-            && stateHandler.bb4Covered){
+            && stateHandler.bb4Covered){ //backing condition when we aren't doing anything else
 
             desiredState = FeederStates.BACKING;
     }
 
-    feederSubsystem.setFeederTo(desiredState.REQUEST);
 
     if (feederSubsystem.isAtState(desiredState)){
       stateHandler.currentFeederState = desiredState;
     }
+
+    feederSubsystem.setFeederTo(desiredState.REQUEST);
+
 
   }
 

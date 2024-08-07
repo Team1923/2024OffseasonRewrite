@@ -40,22 +40,22 @@ public class ShooterStateMachine extends Command {
 
     switch(desiredState){
       
-      case PUNT_HIGH_VELO:
+      case PUNT_LOW_DUTY: //If doing a low punt, set current position via a timer
         if (puntTimer.get() == 0){
           puntTimer.start();
         }
         else if (puntTimer.hasElapsed(0.5)){
-          stateHandler.currentShooterState = ShooterStates.PUNT_HIGH_VELO;
+          stateHandler.currentShooterState = ShooterStates.PUNT_LOW_DUTY;
         }
         break;
 
-      case RANGED_VELO:
+      case RANGED_VELO: //If in ranged mode, set update current velocity
         //((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated value;
 
-      default:
-        puntTimer.stop();
+      default: //fall through to this in most cases
+        puntTimer.stop(); //resetting punt timer once we are no longer doing a punt shot
         puntTimer.reset();
-        if (shooterSubsystem.isAtState(desiredState)){
+        if (shooterSubsystem.isAtState(desiredState)){ // current state check
             stateHandler.currentShooterState = desiredState;
         }
         break;

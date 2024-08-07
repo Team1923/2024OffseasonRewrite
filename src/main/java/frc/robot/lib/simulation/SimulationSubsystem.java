@@ -284,7 +284,7 @@ public class SimulationSubsystem extends SubsystemBase {
         babyBirdTimer.reset();
       }
       //Shooting
-      if ( (stateHandler.currentShooterState == ShooterStates.SUBWOOFER_VELO || stateHandler.currentShooterState == ShooterStates.REVERSE_SUBWOOFER_VELO || stateHandler.currentShooterState == ShooterStates.RANGED_VELO || stateHandler.currentShooterState == ShooterStates.FRONT_AMP_VELO) && stateHandler.currentFeederState == FeederStates.FEED_TO_SHOOTER){
+      if (stateHandler.currentFeederState == FeederStates.FEED_TO_SHOOTER){
 
         if (shootTimer.get() == 0){
           shootTimer.start();

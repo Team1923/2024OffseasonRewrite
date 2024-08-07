@@ -35,19 +35,19 @@ public class IntakeStateMachine extends Command {
     IntakeRollerStates desiredRollerState = stateHandler.desiredIntakeRollerState;
     IntakeArmStates desiredArmState = stateHandler.desiredIntakeArmState;
 
-    if (stateHandler.bb1Covered && desiredRollerState != IntakeRollerStates.EJECT) {
+    if (stateHandler.bb1Covered && desiredRollerState != IntakeRollerStates.EJECT) { //initiate the latching boolean when a note first comes into the robot
       stateHandler.latchingBB = true;
     }
   
       /* Boolean value changes based on BB3 and !BB1 */
-    if (stateHandler.bb3Covered && !stateHandler.bb1Covered) {
+    if (stateHandler.bb3Covered && !stateHandler.bb1Covered) { //deactivate the latching boolean when the note is securely in the shooter
       stateHandler.latchingBB = false;
     }
 
     switch(desiredArmState) {
       case STOWED:
       /* Latching boolean condition for bb1 making sure intake doesn't deploy until note is fully situated */
-        if (!stateHandler.bb3Covered && stateHandler.latchingBB) {
+        if (!stateHandler.bb3Covered && stateHandler.latchingBB) { 
           desiredArmState = IntakeArmStates.DEPLOYED; //TODO: not setting here
           desiredRollerState = IntakeRollerStates.INTAKE;
         } 
@@ -57,16 +57,17 @@ public class IntakeStateMachine extends Command {
           desiredRollerState = IntakeRollerStates.OFF;
         }
   
-      default:
-        intakeSubsystem.setIntakeArmTo(desiredArmState.REQUEST);
+      default: //fall through to this after prior conditions are checked
         if(intakeSubsystem.isAtIntakeArmState(desiredArmState)) {
           stateHandler.currentIntakeArmState = desiredArmState;
         }
-        intakeSubsystem.setRollerSpeedTo(desiredRollerState.REQUEST);
         if(intakeSubsystem.isAtRollerVelocity(desiredRollerState)) {
           stateHandler.currentIntakeRollerState = desiredRollerState;
         }
     }
+
+    intakeSubsystem.setIntakeArmTo(desiredArmState.REQUEST);
+    intakeSubsystem.setRollerSpeedTo(desiredRollerState.REQUEST);
 
     /*
      * KEY NOTES FOR FUNCTIONALITY:

@@ -37,6 +37,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.InfoSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -58,6 +59,7 @@ public class RobotContainer {
   /* Helper class Instantiation */
   private final InfoSubsystem infoSubsystem = new InfoSubsystem(driverXboxController, operatorPS5Controller);
   private final Telemetry swerveLogger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
+  private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 
 
   public RobotContainer() {

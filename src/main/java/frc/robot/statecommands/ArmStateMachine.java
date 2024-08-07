@@ -27,14 +27,12 @@ public class ArmStateMachine extends Command {
     this.armSubsystem = armSubsystem;
     timer = new Timer();
     addRequirements(armSubsystem);
-    lastArmState = ArmStates.STOWED;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    lastArmState = stateHandler.currentArmState;
     timer.stop();
     timer.reset();
   }

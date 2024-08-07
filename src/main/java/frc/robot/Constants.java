@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -151,16 +152,14 @@ public class Constants {
 
                 public static final double armPositionAllowableOffset = 1.7;
 
-                public static final double armPositionChange = 0.01;
-
-                public static final double armSettleTime = 0.5;
-
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
                                 .withSlot0(new Slot0Configs() // PID
                                                 .withKP(armkP)
                                                 .withKI(armkI)
                                                 .withKD(armkD)
-                                                .withKS(armKS))
+                                                .withKS(armKS)
+                                                .withKG(armMaxGravityConstant)
+                                                .withGravityType(GravityTypeValue.Arm_Cosine))
                                 .withMotionMagic(new MotionMagicConfigs()
                                                 .withMotionMagicCruiseVelocity(maxArmVel)
                                                 .withMotionMagicAcceleration(maxArmAccel)
@@ -187,5 +186,12 @@ public class Constants {
                 public static final Point redSourceStart = new Point(0.135, 1.562);
                 public static final Point redSourceEnd = new Point(1.732, 0.392);
         }
+
+        public static final class LEDConstants{
+                public static final int LEDCount = 41 + 8;
+                public static final int CANdleID = 23;
+        
+        
+            }
 
 }

@@ -18,8 +18,6 @@ public class ArmStateMachine extends Command {
 
   private ArmSubsystem armSubsystem;
   private Timer timer;
-  private ArmStates lastArmState;
-
   private StateHandler stateHandler = StateHandler.getInstance();
 
   /** Creates a new ArmStateMachine. */

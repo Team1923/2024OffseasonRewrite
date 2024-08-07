@@ -67,7 +67,10 @@ public class FeederSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    StateHandler.getInstance().bb2Covered = !beamBreakTwo.get();
-    StateHandler.getInstance().bb3Covered = !beamBreakThree.get();
+    if (!Utils.isSimulation()){
+      StateHandler.getInstance().bb2Covered = !beamBreakTwo.get();
+      StateHandler.getInstance().bb3Covered = !beamBreakThree.get();
+    }
+    
   }
 }

@@ -4,11 +4,13 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.lib.simulation.SimulationSubsystem;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -18,6 +20,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+
+    if (Utils.isSimulation()){
+      SimulationSubsystem.getInstance();
+    }
   }
 
   @Override

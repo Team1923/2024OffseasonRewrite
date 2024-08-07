@@ -155,7 +155,11 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     /* Update BB4's value. */
-    StateHandler.getInstance().bb4Covered = !beamBreak4.get();
+
+    if (!Utils.isSimulation()){
+      StateHandler.getInstance().bb4Covered = !beamBreak4.get();
+
+    }
 
     // TODO: ((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated
     // value;

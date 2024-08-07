@@ -151,6 +151,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    StateHandler.getInstance().bb1Covered = !beamBreakOne.get();
+    if (!Utils.isSimulation()){
+      StateHandler.getInstance().bb1Covered = !beamBreakOne.get();
+    }
   }
 }

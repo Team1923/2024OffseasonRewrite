@@ -33,6 +33,9 @@ import frc.robot.lib.swerve.TunerConstants;
  * so it can be used in command-based projects easily.
  */
 public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
+
+    private StateHandler stateHandler = StateHandler.getInstance();
+
     public static enum SwerveStates{ 
         FIELD_CENTRIC(Default(new SwerveRequest.FieldCentric())),
         ROBOT_CENTRIC(Default(new SwerveRequest.RobotCentric())),
@@ -245,7 +248,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
 
     @Override
     public void periodic() {
-        // stateHandler.setRobotPose(this.m_odometry.getEstimatedPosition());
+        stateHandler.swervePose = this.m_odometry.getEstimatedPosition();
         // stateHandler.setCurrentRobotHeading(getGyroYaw().getDegrees());
 
         

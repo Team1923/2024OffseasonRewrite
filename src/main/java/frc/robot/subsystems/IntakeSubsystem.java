@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
@@ -83,11 +84,20 @@ public class IntakeSubsystem extends SubsystemBase {
    * @param state the state specifying the desired position
    * @return a boolean representing if the intake arm has reached its desired position
    */
-  public boolean isAtIntakeArmPosition(IntakeArmStates state) {
+  public boolean isAtIntakeArmState(IntakeArmStates state) {
+
+    if (Utils.isSimulation()) return true;
+
+
+    if (state.REQUEST instanceof MotionMagicVoltage){
       double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position
           * IntakeConstants.intakeRotsToDegrees;
 
       return Math.abs(getIntakeArmPositionDegrees() - desiredPosition) < IntakeConstants.intakePositionAllowableOffset;
+    }
+
+    return true;
+      
 
   }
 

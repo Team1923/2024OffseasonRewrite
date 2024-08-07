@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.Utils;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -65,9 +70,14 @@ public class RobotContainer {
     armSubsystem.setDefaultCommand(new ArmStateMachine(armSubsystem));
     feederSubsystem.setDefaultCommand(new FeederStateMachine(feederSubsystem));
     swerveSubsystem.setDefaultCommand(new SwerveStateMachine(swerveSubsystem, 
-                                      () -> driverXboxController.getLeftY(),
-                                      () -> driverXboxController.getLeftX(), 
-                                      () -> driverXboxController.getRightX()));
+                                      () -> -driverXboxController.getLeftY(),
+                                      () -> -driverXboxController.getLeftX(), 
+                                      () -> -driverXboxController.getRightX()));
+
+    if (Utils.isSimulation()) {
+      swerveSubsystem.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(0)));
+    }
+    swerveSubsystem.registerTelemetry(swerveLogger::telemeterize);
 
     /* Driver Button Bindings */
     driverXboxController.rightTrigger().whileTrue(new ShootGamePiece());

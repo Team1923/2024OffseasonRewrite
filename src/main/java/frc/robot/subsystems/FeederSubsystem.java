@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -58,6 +59,8 @@ public class FeederSubsystem extends SubsystemBase {
   }
 
   public boolean isAtState(FeederStates state) {
+    if (Utils.isSimulation()) return true;
+
     return true;
   }
 

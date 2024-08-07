@@ -59,7 +59,7 @@ public class IntakeStateMachine extends Command {
   
       default:
         intakeSubsystem.setIntakeArmTo(desiredArmState.REQUEST);
-        if(intakeSubsystem.isAtIntakeArmPosition(desiredArmState)) {
+        if(intakeSubsystem.isAtIntakeArmState(desiredArmState)) {
           stateHandler.currentIntakeArmState = desiredArmState;
         }
         intakeSubsystem.setRollerSpeedTo(desiredRollerState.REQUEST);

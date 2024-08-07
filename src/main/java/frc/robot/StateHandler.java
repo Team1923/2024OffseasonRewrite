@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -59,6 +60,7 @@ public class StateHandler {
 
     /* SWERVE STATES - ONLY CURRENT STATE IS REQUIRED */
     public SwerveStates swerveState = SwerveStates.FIELD_CENTRIC;
+    public Pose2d swervePose = new Pose2d();
 
     /* BEAM BREAK Values */
     public boolean bb1Covered = false;

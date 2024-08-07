@@ -94,10 +94,11 @@ public class InfoSubsystem extends SubsystemBase {
   private SuppliedValueWidget<String> desiredIntakeWheelSpeeds = stateDashboard.addString("Desired Intake Wheel Speeds", () -> stateHandler.desiredIntakeRollerState.toString()).withPosition(1, 1);
   private SuppliedValueWidget<String> currentIntakePosition = stateDashboard.addString("Current Intake Position", () -> stateHandler.currentIntakeArmState.toString()).withPosition(2, 0);
   private SuppliedValueWidget<String> desiredIntakePosition = stateDashboard.addString("Desired Intake Position", () -> stateHandler.desiredIntakeArmState.toString()).withPosition(2, 1);
-  private SuppliedValueWidget<String> currentShooterSpeeds = stateDashboard.addString("Current Shooter Speed", () -> stateHandler.currentFeederState.toString()).withPosition(3, 0);
-  private SuppliedValueWidget<String> desiredShooterSpeeds = stateDashboard.addString("Desired Shooter Speeds", () -> stateHandler.desiredFeederState.toString()).withPosition(3, 1);
+  private SuppliedValueWidget<String> currentShooterSpeeds = stateDashboard.addString("Current Shooter Speed", () -> stateHandler.currentShooterState.toString()).withPosition(3, 0);
+  private SuppliedValueWidget<String> desiredShooterSpeeds = stateDashboard.addString("Desired Shooter Speeds", () -> stateHandler.desiredShooterState.toString()).withPosition(3, 1);
   private SuppliedValueWidget<String> currentFeederSpeed = stateDashboard.addString("Current Feeder Speed", () -> stateHandler.currentFeederState.toString()).withPosition(4, 0);
   private SuppliedValueWidget<String> desiredFeederSpeed = stateDashboard.addString("Desired Feeder Speed", () -> stateHandler.desiredFeederState.toString()).withPosition(4, 1);
+  private SuppliedValueWidget<String> swerveState = stateDashboard.addString("Swerve State", () -> stateHandler.swerveState.toString()).withPosition(4, 3);
 
   private SuppliedValueWidget<Boolean> bb1 = stateDashboard.addBoolean("BB ONE COVERED", () -> stateHandler.bb1Covered).withPosition(0, 2);
   private SuppliedValueWidget<Boolean> bb2 = stateDashboard.addBoolean("BB TWO COVERED", () -> stateHandler.bb2Covered).withPosition(1, 2);;

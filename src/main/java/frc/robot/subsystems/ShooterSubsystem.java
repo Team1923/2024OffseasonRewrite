@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -131,6 +132,10 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return a boolean representing whether or not the desired state has been reached.
    */
   public boolean isAtState(ShooterStates state) {
+
+    if (Utils.isSimulation()) return true;
+
+
     if (state.REQUEST_TOP instanceof MotionMagicVelocityVoltage) {
       /* Get the shooter's velocities (in RPM) */
       double desiredVelocityTop = ((MotionMagicVelocityVoltage) state.REQUEST_TOP).Velocity * ShooterConstants.RPSToRPM;

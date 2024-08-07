@@ -37,6 +37,8 @@ public class BabyBirdCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     stateHandler.desiredShooterState = ShooterStates.IDLE_VELO;
+     stateHandler.desiredArmState = ArmStates.STOWED;
+    stateHandler.desiredFeederState = FeederStates.OFF;
   }
 
   // Returns true when the command should end.

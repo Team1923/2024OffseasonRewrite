@@ -148,7 +148,8 @@ public class FeederStateMachine extends Command {
     else if (desiredState == FeederStates.OFF
             && stateHandler.desiredArmState == ArmStates.STOWED
             && stateHandler.currentArmState == ArmStates.STOWED
-            && stateHandler.desiredShooterState == ShooterStates.IDLE_VELO){
+            && stateHandler.desiredShooterState == ShooterStates.IDLE_VELO
+            && stateHandler.bb4Covered){
 
             desiredState = FeederStates.BACKING;
     }

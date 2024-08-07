@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
@@ -106,6 +107,9 @@ public class ArmSubsystem extends SubsystemBase {
    *         position
    */
   public boolean isAtState(ArmStates state) {
+
+    if (Utils.isSimulation()) return true;
+
     if (state.REQUEST instanceof MotionMagicVoltage){
       double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position * ArmConstants.armRotsToDegrees;
 

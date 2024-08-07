@@ -4,6 +4,7 @@
 
 package frc.robot.commands.scoring;
 
+import edu.wpi.first.math.trajectory.ExponentialProfile.State;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
@@ -16,7 +17,7 @@ import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 
 public class ShootGamePiece extends Command {
 
-  private StateHandler stateHandler;
+  private StateHandler stateHandler = StateHandler.getInstance();
 
   private Timer multipurposeTimer;
 
@@ -109,6 +110,7 @@ public class ShootGamePiece extends Command {
     stateHandler.desiredShooterState = ShooterStates.IDLE_VELO;
 
     stateHandler.swerveState = SwerveStates.FIELD_CENTRIC;
+    stateHandler.blowerState = BlowerStates.OFF;
   }
 
   // Returns true when the command should end.

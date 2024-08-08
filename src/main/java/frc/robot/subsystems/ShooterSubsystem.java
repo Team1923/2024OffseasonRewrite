@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.StateHandler;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -79,6 +80,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     /* Apply a Default Configuration to the Blower Motor */
     blower.configFactoryDefault();
+
+    MotorPIDFVAJWidget shooterTuner = new MotorPIDFVAJWidget("SHOOTER", ShooterConstants.CONFIGS, 0, ShooterConstants.RPSToRPM, shooterTop, shooterBottom);
   }
 
   /**

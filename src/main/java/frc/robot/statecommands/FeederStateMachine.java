@@ -88,7 +88,7 @@ public class FeederStateMachine extends Command {
         switch(stateHandler.scoringType){                   // (If we have stalled out, this statement will end, and we will fall through to the setting statements at the bottom of execute)
 
         case AMP: 
-          if (stateHandler.currentArmState == ArmStates.AMP
+          if (stateHandler.currentArmState == ArmStates.FRONT_AMP
             && stateHandler.currentShooterState == ShooterStates.FRONT_AMP_VELO){
               break;
           }
@@ -148,13 +148,14 @@ public class FeederStateMachine extends Command {
       
     }
     else if (desiredState == FeederStates.OFF
-            && stateHandler.desiredArmState == ArmStates.STOWED
-            && stateHandler.currentArmState == ArmStates.STOWED
-            && stateHandler.desiredShooterState == ShooterStates.IDLE_VELO
             && stateHandler.bb4Covered){ //backing condition when we aren't doing anything else
 
             desiredState = FeederStates.BACKING;
-    }
+    } else if(desiredState == FeederStates.OFF
+            && stateHandler.bb2Covered
+            && !stateHandler.bb3Covered) {
+              desiredState = FeederStates.FRONTING;
+            }
 
 
     if (feederSubsystem.isAtState(desiredState)){

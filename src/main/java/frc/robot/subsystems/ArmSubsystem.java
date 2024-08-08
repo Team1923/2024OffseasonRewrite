@@ -14,18 +14,19 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
 
 public class ArmSubsystem extends SubsystemBase {
 
   public static enum ArmStates {
     STOWED(MMVoltageWithDegrees(0)),
-    REVERSE_SUBWOOFER(MMVoltageWithDegrees(-112.3)),
-    UNGUARDABLE(MMVoltageWithDegrees(-112.3)),
-    AMP(MMVoltageWithDegrees(-112.3)),
-    SUBWOOFER(MMVoltageWithDegrees(-44.1)),
+    REVERSE_SUBWOOFER(MMVoltageWithDegrees(-108.5)),
+    UNGUARDABLE(MMVoltageWithDegrees(-108.5)),
+    // AMP(MMVoltageWithDegrees(-108.5)),
+    SUBWOOFER(MMVoltageWithDegrees(-44.1)), 
     RANGED(MMVoltageWithDegrees(0)),
     TRAP(MMVoltageWithDegrees(-51.6), 0.5),
-    BABY_BIRD(MMVoltageWithDegrees(-40.1)),
+    BABY_BIRD(MMVoltageWithDegrees(-40.1)), 
     PUNT_HIGH(MMVoltageWithDegrees(-38.4)),
     PUNT_LOW(MMVoltageWithDegrees(0)),
     FRONT_AMP(MMVoltageWithDegrees(-44.1)),
@@ -62,6 +63,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     armFollower.setControl(new Follower(ArmConstants.armMotorPrimaryID, true));
 
+    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, ArmConstants.armRotsToDegrees, 0, armPrimary, armFollower);
     zeroArm();
   }
 
@@ -72,6 +74,7 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void setArmTo(ControlRequest output) {
     armPrimary.setControl(output);
+    // System.out.println("request :" + output.getControlInfo().toString());
   }
 
   /**
@@ -144,6 +147,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     // SmartDashboard.putString("PRIMARY MODE", armPrimary.getAppliedControl().getName());
     //     SmartDashboard.putString("FOLLOWER MODE", armFollower.getAppliedControl().getName());
+
+    SmartDashboard.putNumber("Primary arm", getArmPositionDegrees());
+    SmartDashboard.putNumber("Follower arm", armFollower.getPosition().getValueAsDouble() * ArmConstants.armRotsToDegrees);
 
   }
 }

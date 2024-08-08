@@ -44,6 +44,6 @@ public class BabyBirdCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !stateHandler.bb4Covered && stateHandler.bb3Covered; //TODO: this is slightly different logic, is it fine?
+    return stateHandler.bb4Covered && stateHandler.bb3Covered; //TODO: this is slightly different logic, is it fine?
   }
 }

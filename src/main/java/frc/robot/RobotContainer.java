@@ -50,10 +50,10 @@ public class RobotContainer {
   private final CommandPS5Controller operatorPS5Controller = new CommandPS5Controller(1);
 
   /* Subsystem Instantiations */
-  // private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); // #1
-  // private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(); // #3
-  // private final ArmSubsystem armSubsystem = new ArmSubsystem(); // #5
-  // private final FeederSubsystem feederSubsystem = new FeederSubsystem(); // #2
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); // #1
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(); // #3
+  private final ArmSubsystem armSubsystem = new ArmSubsystem(); // #5
+  private final FeederSubsystem feederSubsystem = new FeederSubsystem(); // #2
   private final SwerveSubsystem swerveSubsystem = TunerConstants.DriveTrain;
 
   /* Helper class Instantiation */
@@ -68,10 +68,10 @@ public class RobotContainer {
 
   private void configureBindings() {
     /* Default commands */
-    // shooterSubsystem.setDefaultCommand(new ShooterStateMachine(shooterSubsystem)); // #1
-    // intakeSubsystem.setDefaultCommand(new IntakeStateMachine(intakeSubsystem)); //#4
-    // armSubsystem.setDefaultCommand(new ArmStateMachine(armSubsystem)); //#6
-    // feederSubsystem.setDefaultCommand(new FeederStateMachine(feederSubsystem)); // #2
+    shooterSubsystem.setDefaultCommand(new ShooterStateMachine(shooterSubsystem)); // #1
+    intakeSubsystem.setDefaultCommand(new IntakeStateMachine(intakeSubsystem)); //#4
+    armSubsystem.setDefaultCommand(new ArmStateMachine(armSubsystem)); //#6
+    feederSubsystem.setDefaultCommand(new FeederStateMachine(feederSubsystem)); // #2
     swerveSubsystem.setDefaultCommand(new SwerveStateMachine(swerveSubsystem, 
                                       () -> -driverXboxController.getLeftY(),
                                       () -> -driverXboxController.getLeftX(), 
@@ -106,7 +106,7 @@ public class RobotContainer {
 
 
     /* Misc */
-    // operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
+    operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
     operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
 
 

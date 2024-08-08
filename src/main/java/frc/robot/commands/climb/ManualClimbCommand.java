@@ -49,7 +49,7 @@ public class ManualClimbCommand extends Command {
   @Override
   public void initialize() {
     if (ArmStates.CLIMB.REQUEST instanceof MotionMagicVoltage){
-        holdingRequest = (MotionMagicVoltage)ArmStates.CLIMB.REQUEST;
+        holdingRequest.Position = ((MotionMagicVoltage)ArmStates.CLIMB.REQUEST).Position;
     }
     else{
       for (int i = 0; i < 100; i++){
@@ -58,13 +58,14 @@ public class ManualClimbCommand extends Command {
       holdingRequest = new MotionMagicVoltage(0);
     }
 
+
   } 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (Math.abs(input.getAsDouble()) > ControllerConstants.Operator.deadband){
-      armSubsystem.setPercentOut(input.getAsDouble());
+      armSubsystem.setPercentOut(input.getAsDouble() * 0.5);
       holdingRequest.Position = armSubsystem.getArmPositionRots();
     }
     else{

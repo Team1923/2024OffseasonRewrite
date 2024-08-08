@@ -34,7 +34,7 @@ public class ShootGamePiece extends Command {
   public void initialize() {
     switch(stateHandler.scoringType){
       case AMP:
-        stateHandler.desiredArmState = ArmStates.AMP;
+        stateHandler.desiredArmState = ArmStates.FRONT_AMP;
         stateHandler.desiredShooterState = ShooterStates.FRONT_AMP_VELO;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         stateHandler.blowerState = BlowerStates.ON;

@@ -31,7 +31,8 @@ public class ArmSubsystem extends SubsystemBase {
     PUNT_LOW(MMVoltageWithDegrees(0)),
     FRONT_AMP(MMVoltageWithDegrees(-44.1)),
     DEFENSE(MMVoltageWithDegrees(-77.3)),
-    CLIMB(MMVoltageWithDegrees(-77.3));
+    CLIMB(MMVoltageWithDegrees(-77.3)),
+    ZEROING(new DutyCycleOut(0.1));
 
     public ControlRequest REQUEST;
     public double settleTime;
@@ -105,6 +106,14 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   /**
+   * Gets the supply current of the arm primary motor
+   * @return arm supply current in Amps
+   */
+  public double getArmSupplyCurrent(){
+    return armPrimary.getSupplyCurrent().getValueAsDouble();
+  }
+
+  /**
    * Method to determine if the intake has reached its desired position.
    * 
    * @param state the state specifying the desired position
@@ -148,8 +157,10 @@ public class ArmSubsystem extends SubsystemBase {
     // SmartDashboard.putString("PRIMARY MODE", armPrimary.getAppliedControl().getName());
     //     SmartDashboard.putString("FOLLOWER MODE", armFollower.getAppliedControl().getName());
 
-    SmartDashboard.putNumber("Primary arm", getArmPositionDegrees());
-    SmartDashboard.putNumber("Follower arm", armFollower.getPosition().getValueAsDouble() * ArmConstants.armRotsToDegrees);
+    // SmartDashboard.putNumber("Primary arm", getArmPositionDegrees());
+    // SmartDashboard.putNumber("Follower arm", armFollower.getPosition().getValueAsDouble() * ArmConstants.armRotsToDegrees);
+
+    SmartDashboard.putNumber("Arm Supply", getArmSupplyCurrent());
 
   }
 }

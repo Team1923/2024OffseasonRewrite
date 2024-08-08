@@ -177,6 +177,8 @@ public class Constants {
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true));
+                
+                public static final double armSupplyToZero = 10; //Amps
 
         }
 

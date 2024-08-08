@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
 
@@ -21,6 +22,8 @@ public class ArmStateMachine extends Command {
   private StateHandler stateHandler = StateHandler.getInstance();
 
   /** Creates a new ArmStateMachine. */
+
+  private boolean armZeroed = false;
 
   public ArmStateMachine(ArmSubsystem armSubsystem) {
 
@@ -35,6 +38,8 @@ public class ArmStateMachine extends Command {
   public void initialize() {
     timer.stop();
     timer.reset();
+
+    armZeroed = false;
   }
 
   @Override
@@ -45,9 +50,24 @@ public class ArmStateMachine extends Command {
     ArmStates desiredArmState = stateHandler.desiredArmState;
 
     switch(desiredArmState){
+    
+
       case RANGED: //Update the ranged shot's motion magic value if we want ot shoot ranged
         // ((MotionMagicVoltage)(ArmStates.RANGED.REQUEST)).Position = updated value;
     }
+
+
+    // if (desiredArmState == ArmStates.STOWED && stateHandler.currentArmState == ArmStates.ZEROING && armSubsystem.getArmSupplyCurrent() >= ArmConstants.armSupplyToZero){
+    //   armSubsystem.zeroArm();
+    //   armZeroed = true;
+    // }
+    // else if (desiredArmState == ArmStates.STOWED && (stateHandler.currentArmState == ArmStates.STOWED ||  stateHandler.currentArmState == ArmStates.ZEROING) && !armZeroed){
+    //     desiredArmState = ArmStates.ZEROING;
+    // }
+    // else if (desiredArmState != ArmStates.STOWED || stateHandler.currentArmState != ArmStates.STOWED){
+    //   armZeroed = false;
+    // }
+   
 
     
 

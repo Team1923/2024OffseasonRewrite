@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -103,7 +104,7 @@ public class Constants {
                                                 .withMotionMagicAcceleration(maxIntakeAccel)
                                                 .withMotionMagicJerk(maxIntakeJerk))
                                 .withMotorOutput(new MotorOutputConfigs()
-                                                .withNeutralMode(NeutralModeValue.Coast) // #4 CHANGE TO BREAK WHEN RUNNING STATE MACHINE
+                                                .withNeutralMode(NeutralModeValue.Coast) 
                                                 .withInverted(InvertedValue.Clockwise_Positive))
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
@@ -134,12 +135,12 @@ public class Constants {
                 public static final int armMotorFollowerID = 16; // left
 
                 /* Motion Magic Constants */
-                public static final double armKS = 0;
-                public static final double armkP = 1.2;
-                public static final double armkI = 0.005;
-                public static final double armkD = 0;
-                public static final double maxArmVel = 100;
-                public static final double maxArmAccel = 250;
+                // public static final double armKS = 0;
+                // public static final double armkP = 1.2;
+                // public static final double armkI = 0.005;
+                // public static final double armkD = 0;
+                public static final double maxArmVel = 300;
+                public static final double maxArmAccel = 175;
                 public static final double maxArmJerk = 1000;
 
                 /* Gearbox Ratios & Unit Conversions */
@@ -153,19 +154,26 @@ public class Constants {
                 public static final double armPositionAllowableOffset = 1.7;
 
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
-                                .withSlot0(new Slot0Configs() // PID
-                                                .withKP(armkP)
-                                                .withKI(armkI)
-                                                .withKD(armkD)
-                                                .withKS(armKS)
+                                .withSlot0(new Slot0Configs() // Fast PID
+                                                .withKP(2)
+                                                .withKI(0)
+                                                .withKD(0.01)
+                                                .withKS(0.05)
                                                 .withKG(armMaxGravityConstant)
-                                                .withGravityType(GravityTypeValue.Arm_Cosine))
+                                                .withGravityType(GravityTypeValue.Arm_Cosine))        
+                                .withSlot1(new Slot1Configs() //Accurate PID
+                                                .withKP(1.2)
+                                                .withKI(0.1)
+                                                .withKD(0)
+                                                .withKS(0.05)
+                                                .withKG(armMaxGravityConstant)
+                                                .withGravityType(GravityTypeValue.Arm_Cosine))       
                                 .withMotionMagic(new MotionMagicConfigs()
                                                 .withMotionMagicCruiseVelocity(maxArmVel)
                                                 .withMotionMagicAcceleration(maxArmAccel)
                                                 .withMotionMagicJerk(maxArmJerk))
                                 .withMotorOutput(new MotorOutputConfigs()
-                                                .withNeutralMode(NeutralModeValue.Brake)) // #6 CHANGE TO BREAK WHEN RUNNING STATE MACHINE
+                                                .withNeutralMode(NeutralModeValue.Brake)) 
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true));

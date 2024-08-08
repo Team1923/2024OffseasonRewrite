@@ -50,10 +50,10 @@ public class RobotContainer {
   private final CommandPS5Controller operatorPS5Controller = new CommandPS5Controller(1);
 
   /* Subsystem Instantiations */
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); // #1
-  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(); // #3
-  private final ArmSubsystem armSubsystem = new ArmSubsystem(); // #5
-  private final FeederSubsystem feederSubsystem = new FeederSubsystem(); // #2
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); 
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(); 
+  private final ArmSubsystem armSubsystem = new ArmSubsystem(); 
+  private final FeederSubsystem feederSubsystem = new FeederSubsystem(); 
   private final SwerveSubsystem swerveSubsystem = TunerConstants.DriveTrain;
 
   /* Helper class Instantiation */
@@ -68,10 +68,10 @@ public class RobotContainer {
 
   private void configureBindings() {
     /* Default commands */
-    shooterSubsystem.setDefaultCommand(new ShooterStateMachine(shooterSubsystem)); // #1
-    intakeSubsystem.setDefaultCommand(new IntakeStateMachine(intakeSubsystem)); //#4
-    armSubsystem.setDefaultCommand(new ArmStateMachine(armSubsystem)); //#6
-    feederSubsystem.setDefaultCommand(new FeederStateMachine(feederSubsystem)); // #2
+    shooterSubsystem.setDefaultCommand(new ShooterStateMachine(shooterSubsystem)); 
+    intakeSubsystem.setDefaultCommand(new IntakeStateMachine(intakeSubsystem)); 
+    armSubsystem.setDefaultCommand(new ArmStateMachine(armSubsystem)); 
+    feederSubsystem.setDefaultCommand(new FeederStateMachine(feederSubsystem)); 
     swerveSubsystem.setDefaultCommand(new SwerveStateMachine(swerveSubsystem, 
                                       () -> -driverXboxController.getLeftY(),
                                       () -> -driverXboxController.getLeftX(), 

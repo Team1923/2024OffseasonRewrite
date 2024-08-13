@@ -3,23 +3,27 @@ package frc.robot.subsystems;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.XboxController;
+
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.InterpolationConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
+import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class InfoSubsystem extends SubsystemBase {
   /** Creates a new ShuffleboardSubsystem. */
@@ -36,14 +40,15 @@ public class InfoSubsystem extends SubsystemBase {
     this.xboxController = x;
     this.ps4Controller = p;
 
-    // if (stateHandler.isPosRPMTuning()){
-    //   GenericEntry POSRPMTUNING = driverDashboard.add("IN POSRPM MODE", false)
-    //   .withSize(3, 3)
-    //   .withPosition(0, 0)
-    //   .withProperties(Map.of("Color when false", "#000000", "Color when true", "#57F542"))
-    //   .getEntry();
+    if (stateHandler.isAngleRPMTuning){
 
-    // }
+      GenericEntry POSRPMTUNING = driverDashboard.add("IN POSRPM MODE", false)
+      .withSize(3, 3)
+      .withPosition(0, 0)
+      .withProperties(Map.of("Color when false", "#000000", "Color when true", "#57F542"))
+      .getEntry();
+
+    }
   }
 
 	private GenericEntry ampPos = driverDashboard.add("AMP", false)
@@ -158,15 +163,11 @@ public class InfoSubsystem extends SubsystemBase {
     // SmartDashboard.putString("CURRENT FEEDER DIRECTION", stateHandler.getCurrentFeederSpeed().toString());
 
 
-    /*POSRPM OFFSET */
-    // if (stateHandler.isPosRPMTuning()){
-    //     SmartDashboard.putNumber("RPM OFFSET", stateHandler.getRPMOffset());
-    //     SmartDashboard.putNumber("POSITION OFFSET", stateHandler.getPositionOffset());
-    // }
 
     // SmartDashboard.putBoolean("AUTO OVERRIDE", stateHandler.getAutoOverride());
 
-    
+    SmartDashboard.putNumber("Tuning Angle", ((MotionMagicVoltage)(ArmStates.ANGLE_TUNING.REQUEST)).Position * ArmConstants.armRotsToDegrees);
+    SmartDashboard.putNumber("Tuning RPM", ((MotionMagicVelocityVoltage)(ShooterStates.RPM_TUNING.REQUEST_TOP)).Velocity * ShooterConstants.RPSToRPM);
     
 // 
 

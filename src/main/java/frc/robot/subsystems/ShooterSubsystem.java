@@ -31,7 +31,8 @@ public class ShooterSubsystem extends SubsystemBase {
     SUBWOOFER_VELO(MMVelocityWithRPM(2000)),
     REVERSE_SUBWOOFER_VELO(MMVelocityWithRPM(2000)),
     RANGED_VELO(MMVelocityWithRPM(0)),
-    FULL_EJECT_DUTY(new DutyCycleOut(1));
+    FULL_EJECT_DUTY(new DutyCycleOut(1)),
+    RPM_TUNING(MMVelocityWithRPM(0));
 
     public ControlRequest REQUEST_TOP;
     public ControlRequest REQUEST_BOTTOM;

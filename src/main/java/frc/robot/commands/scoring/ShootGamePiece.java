@@ -80,6 +80,10 @@ public class ShootGamePiece extends Command {
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         stateHandler.blowerState = BlowerStates.ON;
         break;
+      case TUNING:
+        stateHandler.desiredArmState = ArmStates.ANGLE_TUNING;
+        stateHandler.desiredShooterState = ShooterStates.RPM_TUNING;
+        stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
       default:
         break;
 

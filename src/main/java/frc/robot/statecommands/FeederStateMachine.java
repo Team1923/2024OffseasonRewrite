@@ -104,8 +104,8 @@ public class FeederStateMachine extends Command {
             && stateHandler.currentShooterState == ShooterStates.REVERSE_SUBWOOFER_VELO){
               break;
           }
-
-        case RANGED: //TODO: implement this when limelight is implemented
+        case TUNING: //fall through to ranged condition
+        case RANGED: 
           if (stateHandler.currentArmState == ArmStates.RANGED
             && stateHandler.currentShooterState == ShooterStates.RANGED_VELO
             && ( (stateHandler.isCenteredToSpeakerTag() && stateHandler.isInSpeakerRange()) )){

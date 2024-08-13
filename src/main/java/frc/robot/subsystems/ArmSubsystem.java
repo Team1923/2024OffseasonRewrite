@@ -32,7 +32,8 @@ public class ArmSubsystem extends SubsystemBase {
     FRONT_AMP(MMVoltageWithDegrees(-44.1)),
     DEFENSE(MMVoltageWithDegrees(-77.3)),
     CLIMB(MMVoltageWithDegrees(-77.3)),
-    ZEROING(new DutyCycleOut(0.1));
+    ZEROING(new DutyCycleOut(0.1)),
+    ANGLE_TUNING(MMVoltageWithDegrees(0));
 
     public ControlRequest REQUEST;
     public double settleTime;

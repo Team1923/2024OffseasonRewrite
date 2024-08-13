@@ -94,7 +94,7 @@ public class ArmStateMachine extends Command {
 
 
     armSubsystem.setArmTo(desiredArmState.REQUEST);
-    SmartDashboard.putString("request name", desiredArmState.name());
+    // SmartDashboard.putString("request name", desiredArmState.name());
     
 
 

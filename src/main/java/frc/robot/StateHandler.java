@@ -4,10 +4,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.Constants.InterpolationConstants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.lib.vision.LimelightHelpers;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.FeederSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.FeederSubsystem.FeederStates;
@@ -41,6 +37,7 @@ public class StateHandler {
         LOW_PUNT,
         UNGUARDABLE,
         CLIMB,
+        TUNING
     }
 
     public ScoringType scoringType = ScoringType.RANGED;
@@ -117,14 +114,7 @@ public class StateHandler {
 
     
 
-    
-
-    // public boolean isCenteredToSpeakerTag(){
-    //     return tX that will be stored here < range setup in Limelight constants (maybe this method should be in VisionSubsystem to reduce passing of tX to StateHandler? but it probably should be here to be central? Unless VisionSubsystem was a Singleton?)
-    // }
-
-    // public boolean isInSpeakerRange(){
-    //     return distance between max and min for hashmap (should this also go in vision subsystem?)
-    // }
+    /* MISC */
+    public final boolean isAngleRPMTuning = true;
 
 }

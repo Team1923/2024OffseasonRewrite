@@ -14,12 +14,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.InterpolationConstants;
 import frc.robot.StateHandler.ScoringType;
-import frc.robot.commands.climb.ArmUpToClimb;
 import frc.robot.commands.climb.ClimbingCommandGroup;
-import frc.robot.commands.climb.ManualClimbCommand;
 import frc.robot.commands.defense.ArmToDefense;
 import frc.robot.commands.intake.BabyBirdCommand;
 import frc.robot.commands.intake.DeployIntakeCommand;
@@ -110,6 +107,10 @@ public class RobotContainer {
     /* Misc */
     operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
     operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
+
+    if (stateHandler.isAngleRPMTuning){
+      operatorPS5Controller.touchpad().onTrue(scoringMode(ScoringType.TUNING));
+    }
 
 
 

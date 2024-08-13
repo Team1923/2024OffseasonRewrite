@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.StateHandler;
+import frc.robot.Constants.InterpolationConstants;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
 
@@ -80,13 +81,8 @@ public class InfoSubsystem extends SubsystemBase {
 			.withProperties(Map.of("Color when false", "#000000", "Color when true", "#57F542"))
 			.getEntry();
 
-  private GenericEntry seeTrapTag = driverDashboard.add("TRAP APRIL TAG", false)
-  .withSize(3, 1)
-  .withPosition(0, 4)
-  .withProperties(Map.of("Color when false", "#000000", "Color when true", "#57F542"))
-  .getEntry();
 
-  // private SuppliedValueWidget<Double> distToSpeaker = driverDashboard.addNumber("DIST TO SPEAKER TAG", () -> stateHandler.getDistanceToSpeakerTag()).withPosition(4, 3);
+  private SuppliedValueWidget<Double> distToSpeaker = driverDashboard.addNumber("DIST TO SPEAKER TAG", () -> stateHandler.speakerDistance()).withPosition(4, 3);
 
 
   private SuppliedValueWidget<String> currentArmPosition = stateDashboard.addString("Current Arm Position", () -> stateHandler.currentArmState.toString()).withPosition(0, 0);
@@ -107,10 +103,10 @@ public class InfoSubsystem extends SubsystemBase {
   private SuppliedValueWidget<Boolean> bb4 = stateDashboard.addBoolean("BB FOUR COVERED", () -> stateHandler.bb4Covered).withPosition(3, 2);;
   // private SuppliedValueWidget<Boolean> bb1Dead = stateDashboard.addBoolean("BB ONE DEAD", () -> stateHandler.getBB1Dead()).withPosition(0, 3);;
 
-  // private SuppliedValueWidget<Boolean> centeredToTag = stateDashboard.addBoolean("Centered To Tag", () -> stateHandler.getIsCenteredToTag()).withPosition(4, 3);
+  private SuppliedValueWidget<Boolean> centeredToTag = stateDashboard.addBoolean("Centered To Speaker Tag", () -> stateHandler.isCenteredToSpeakerTag()).withPosition(4, 3);
 
-  // private SuppliedValueWidget<Double> positionData = stateDashboard.addDouble("Arm Data (Speaker)", () -> PositionRPMData.getInstance().getSpeakerDesiredArmPosition(stateHandler.getDistanceToSpeakerTag())).withPosition(6, 3);
-  //   private SuppliedValueWidget<Double> rpmData = stateDashboard.addDouble("RPM Data (Speaker)", () -> PositionRPMData.getInstance().getSpeakerDesiredShooterRPM(stateHandler.getDistanceToSpeakerTag())).withPosition(7, 3);
+  private SuppliedValueWidget<Double> positionData = stateDashboard.addDouble("Arm Data (Speaker)", () -> InterpolationConstants.distanceToAngle.get(stateHandler.speakerDistance())).withPosition(6, 3);
+    private SuppliedValueWidget<Double> rpmData = stateDashboard.addDouble("RPM Data (Speaker)", () -> InterpolationConstants.distanceToRPM.get(stateHandler.speakerDistance())).withPosition(7, 3);
 
 
 
@@ -124,8 +120,7 @@ public class InfoSubsystem extends SubsystemBase {
     subwooferPos.setBoolean(stateHandler.scoringType == ScoringType.SUBWOOFER);
     ampPos.setBoolean(stateHandler.scoringType == ScoringType.AMP);
     reverseSubwooferPos.setBoolean(stateHandler.scoringType == ScoringType.REVERSE_SUBWOOFER);
-    // seeSpeakerTag.setBoolean(stateHandler.getHasValidSpeakerTag());
-    // seeTrapTag.setBoolean(stateHandler.getHasValidTrapTag());
+    seeSpeakerTag.setBoolean(stateHandler.hasSpeakerTag());
     climbing.setBoolean(stateHandler.scoringType == ScoringType.CLIMB);
     unGuardablePos.setBoolean(stateHandler.scoringType == ScoringType.UNGUARDABLE);
 

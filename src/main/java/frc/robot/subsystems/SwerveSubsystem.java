@@ -39,7 +39,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
     public static enum SwerveStates{ 
         FIELD_CENTRIC(Default(new SwerveRequest.FieldCentric())),
         ROBOT_CENTRIC(Default(new SwerveRequest.RobotCentric())),
-        GOAL_CENTRIC(withPID(Default(new SwerveRequest.FieldCentricFacingAngle()), new PhoenixPIDController(0.003, 0, 0.0025))),
+        GOAL_CENTRIC(withPID(Default(new SwerveRequest.FieldCentricFacingAngle()), new PhoenixPIDController(3, 0, 0.0025))),
         FACING_AMP(withPID(Default(new SwerveRequest.FieldCentricFacingAngle()), new PhoenixPIDController(0.003, 0, 0.0025))),
         FACING_TRAP(withPID(Default(new SwerveRequest.FieldCentricFacingAngle()), new PhoenixPIDController(0.003, 0, 0.0025))),
         FACING_CLIMB(withPID(Default(new SwerveRequest.FieldCentricFacingAngle()), new PhoenixPIDController(0.003, 0, 0.0025)));      
@@ -233,13 +233,14 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
     }
 
     public double getGyroYaw(){
-        return this.m_yawGetter.getValueAsDouble();
+        // return this.m_yawGetter.getValueAsDouble();
         // return Rotation2d.fromDegrees(Math.IEEEremainder(this.getPigeon2().getYaw().getValueAsDouble(),360));
         // return Rotation2d.fromDegrees(Math.IEEEremainder(((DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) ? 180 : 0) +this.m_yawGetter.getValueAsDouble(),360));
         // return Rotation2d.fromDegrees( (DriverStation.getAlliance().isPresent() == true && DriverStation.getAlliance().get() == Alliance.Blue) 
                             // ? Math.IEEEremainder(this.m_yawGetter.getValueAsDouble() + stateHandler.getAutoHeadingOffset(),360) 
                             // : Math.IEEEremainder(this.m_yawGetter.getValueAsDouble() - stateHandler.getAutoHeadingOffset(),360)
                             // );
+        return this.m_odometry.getEstimatedPosition().getRotation().getDegrees();
 
     }
 

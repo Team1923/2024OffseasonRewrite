@@ -12,6 +12,10 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
+
 public class Constants {
 
         public static class ControllerConstants {
@@ -139,9 +143,16 @@ public class Constants {
                 // public static final double armkP = 1.2;
                 // public static final double armkI = 0.005;
                 // public static final double armkD = 0;
-                public static final double maxArmVel = 300;
-                public static final double maxArmAccel = 175;
-                public static final double maxArmJerk = 1000;
+
+                //Faster motion magic 
+                // public static final double maxArmVel = 300;
+                // public static final double maxArmAccel = 175;
+                // public static final double maxArmJerk = 1000;
+
+                //Slower motion magic
+                public static final double maxArmVel = 190;
+                public static final double maxArmAccel = 60;
+                public static final double maxArmJerk = 500;
 
                 /* Gearbox Ratios & Unit Conversions */
                 public static final double armGearRatio = 129.6;
@@ -202,6 +213,41 @@ public class Constants {
                 public static final int CANdleID = 23;
         
         
-            }
+        }
+
+        public static final class LimelightConstants{
+                public static final String limelightName = "limelight-shooter";
+
+                public static final double centeredTolerance = 2;
+        }
+
+        public static final class InterpolationConstants {
+
+
+                public static InterpolatingDoubleTreeMap tyToDistanceMap = new InterpolatingDoubleTreeMap();
+
+                public static InterpolatingDoubleTreeMap distanceToRPM = new InterpolatingDoubleTreeMap();
+                public static InterpolatingDoubleTreeMap distanceToAngle = new InterpolatingDoubleTreeMap();
+                
+                public InterpolationConstants(){
+                        fillTyDistMap();
+                        fillDistPosRPMMap();
+                }
+                
+                public static void fillTyDistMap(){
+                        tyToDistanceMap.put(15.0, 50.0);
+                        tyToDistanceMap.put(20.0, 100.0);
+
+                }
+
+                public static void fillDistPosRPMMap(){
+                        distanceToAngle.put(40.0, 30.0); distanceToRPM.put(40.0, 2000.0);
+                        distanceToAngle.put(70.0, 20.0); distanceToRPM.put(70.0, 3000.0);
+                        distanceToAngle.put(110.0, 10.0); distanceToRPM.put(110.0, 4000.0);
+
+                        
+                }
+
+        }
 
 }

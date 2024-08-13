@@ -5,10 +5,15 @@
 package frc.robot.statecommands;
 
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.InterpolationConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.StateHandler;
+import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
@@ -50,8 +55,11 @@ public class ShooterStateMachine extends Command {
         break;
 
       case RANGED_VELO: //If in ranged mode, set update current velocity
-        //((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated value;
+        if (stateHandler.speakerDistance() != -1){ //if we can update the angle, do it, otherwise stay at the last ranged angle
+            ((MotionMagicVelocityVoltage)(ShooterStates.RANGED_VELO.REQUEST_TOP)).Velocity = InterpolationConstants.distanceToRPM.get(stateHandler.speakerDistance()) * ShooterConstants.RPMToRPS;
+            ((MotionMagicVelocityVoltage)(ShooterStates.RANGED_VELO.REQUEST_BOTTOM)).Velocity = InterpolationConstants.distanceToRPM.get(stateHandler.speakerDistance()) * ShooterConstants.RPMToRPS;
 
+        }
       default: //fall through to this in most cases
         puntTimer.stop(); //resetting punt timer once we are no longer doing a punt shot
         puntTimer.reset();

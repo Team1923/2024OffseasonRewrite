@@ -24,7 +24,7 @@ public class ArmSubsystem extends SubsystemBase {
     UNGUARDABLE(MMVoltageWithDegrees(-108.5)),
     // AMP(MMVoltageWithDegrees(-108.5)),
     SUBWOOFER(MMVoltageWithDegrees(-44.1)), 
-    RANGED(MMVoltageWithDegrees(0)),
+    RANGED(MMVoltageWithDegrees(0).withSlot(1)),
     TRAP(MMVoltageWithDegrees(-51.6), 0.5),
     BABY_BIRD(MMVoltageWithDegrees(-40.1)), 
     PUNT_HIGH(MMVoltageWithDegrees(-38.4)),

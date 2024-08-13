@@ -182,7 +182,7 @@ public class LEDSubsystem extends SubsystemBase {
         case LOW_PUNT:
           break;
         case RANGED:
-          if (false /*in range of tag*/){
+          if (stateHandler.isInSpeakerRange()){
             desiredColor = Colors.RAINBOW;
             desiredAnimation = Animations.RAINBOW;
           }

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.InterpolationConstants;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.climb.ArmUpToClimb;
 import frc.robot.commands.climb.ClimbingCommandGroup;
@@ -60,6 +61,7 @@ public class RobotContainer {
   private final InfoSubsystem infoSubsystem = new InfoSubsystem(driverXboxController, operatorPS5Controller);
   private final Telemetry swerveLogger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
   private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+  private static InterpolationConstants interpConsts = new InterpolationConstants(); //just needs to be constructed for the sake of constructor
 
 
   public RobotContainer() {

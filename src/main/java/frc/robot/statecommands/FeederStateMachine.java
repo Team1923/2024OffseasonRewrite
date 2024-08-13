@@ -106,13 +106,11 @@ public class FeederStateMachine extends Command {
           }
 
         case RANGED: //TODO: implement this when limelight is implemented
-          // if (stateHandler.currentArmState == ArmStates.RANGED
-          //   && stateHandler.currentShooterState == ShooterStates.RANGED_VELO
-          //   && ( (stateHandler.isCenteredToSpeakerTag() && stateHandler.isInSpeakerRange()) || stateHandler.autoOverride())){
-            if(false){
+          if (stateHandler.currentArmState == ArmStates.RANGED
+            && stateHandler.currentShooterState == ShooterStates.RANGED_VELO
+            && ( (stateHandler.isCenteredToSpeakerTag() && stateHandler.isInSpeakerRange()) )){
               break;
-            }  
-            // } 
+            } 
 
         case TRAP:
           if (stateHandler.currentArmState == ArmStates.TRAP

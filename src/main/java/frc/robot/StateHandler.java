@@ -1,6 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import frc.robot.Constants.InterpolationConstants;
+import frc.robot.Constants.LimelightConstants;
+import frc.robot.lib.vision.LimelightHelpers;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -41,7 +44,7 @@ public class StateHandler {
     }
 
     public ScoringType scoringType = ScoringType.RANGED;
-
+    
     /* DESIRED STATES: These tell mechanisms to "go" to the state specified. */
     public ShooterStates desiredShooterState = ShooterStates.IDLE_VELO;
     public IntakeArmStates desiredIntakeArmState = IntakeArmStates.STOWED;
@@ -69,12 +72,52 @@ public class StateHandler {
     public boolean bb4Covered = false;
 
     public boolean latchingBB = false;
-   
 
-    /* HELPER METHODS */
     public boolean hasGamePiece(){
         return bb3Covered;
     }
+
+
+    /* Vision Values */
+    public LimelightHelpers.LimelightTarget_Fiducial currentTag = null;
+
+    public boolean hasSpeakerTag(){
+        return (currentTag != null) && (currentTag.fiducialID == 7 || currentTag.fiducialID == 4);
+    }
+
+    /**
+     * Gets the horizontal angle offset from the tag
+     * @return limelight tx or -1 if no tag
+     */
+    public double llTx(){
+        return (currentTag == null) ? 0 : currentTag.tx;
+    }
+
+    /**
+     * Gets the vertical angle offset from the tag
+     * @return limelight ty or -1 if no tag
+     */
+    public double llTy(){
+        return (currentTag == null) ? 0 : currentTag.ty;
+    }
+
+    public boolean isCenteredToSpeakerTag(){
+        return hasSpeakerTag() && Math.abs(llTx()) < LimelightConstants.centeredTolerance;
+    }
+
+    public boolean isInSpeakerRange(){
+        return InterpolationConstants.tyToDistanceMap.get(Double.MIN_VALUE) <= speakerDistance() && speakerDistance() <= InterpolationConstants.tyToDistanceMap.get(Double.MAX_VALUE);
+    }
+
+    public double speakerDistance(){
+        return hasSpeakerTag() ? InterpolationConstants.tyToDistanceMap.get(llTy()) : -1;
+    }
+
+
+
+    
+
+    
 
     // public boolean isCenteredToSpeakerTag(){
     //     return tX that will be stored here < range setup in Limelight constants (maybe this method should be in VisionSubsystem to reduce passing of tX to StateHandler? but it probably should be here to be central? Unless VisionSubsystem was a Singleton?)

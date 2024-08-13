@@ -10,11 +10,17 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.InterpolationConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.lib.simulation.SimulationSubsystem;
 import frc.robot.lib.tuningwidgets.SwerveRequestPIDWidget;
+import frc.robot.lib.vision.LimelightHelpers;
 import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 
 public class Robot extends TimedRobot {
+
+  private StateHandler stateHandler = StateHandler.getInstance();
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -28,16 +34,30 @@ public class Robot extends TimedRobot {
     }
 
     SwerveRequestPIDWidget ampPID = new SwerveRequestPIDWidget(SwerveStates.FACING_AMP);
+
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
+    LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(LimelightConstants.limelightName);
+
+    if (results.targets_Fiducials.length > 0){
+      stateHandler.currentTag = results.targets_Fiducials[0];
+    }
+    else{
+      stateHandler.currentTag = null;
+    }
+
+   
+
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    
+  }
 
   @Override
   public void disabledPeriodic() {}

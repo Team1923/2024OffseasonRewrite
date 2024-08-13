@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.InterpolationConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
 
@@ -53,7 +54,9 @@ public class ArmStateMachine extends Command {
     
 
       case RANGED: //Update the ranged shot's motion magic value if we want ot shoot ranged
-        // ((MotionMagicVoltage)(ArmStates.RANGED.REQUEST)).Position = updated value;
+        if (stateHandler.speakerDistance() != -1){ //if we can update the angle, do it, otherwise stay at the last ranged angle
+            ((MotionMagicVoltage)(ArmStates.RANGED.REQUEST)).Position = InterpolationConstants.distanceToAngle.get(stateHandler.speakerDistance()) * ArmConstants.armDegreesToRots;
+        }
     }
 
 

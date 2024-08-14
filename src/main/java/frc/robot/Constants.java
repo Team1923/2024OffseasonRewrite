@@ -158,9 +158,9 @@ public class Constants {
                 public static final double armDegreesToRots = 1 / armRotsToDegrees;
 
                 /* kG - gravity constant for motion of arm */
-                public static final double armMaxGravityConstant = 0.03 * 12; // 2 volts max ff
+                public static final double armMaxGravityConstant = 0.05 * 12; // 2 volts max ff
 
-                public static final double armPositionAllowableOffset = 1.7;
+                public static final double armPositionAllowableOffset = 1;
 
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
                                 .withSlot0(new Slot0Configs() // Fast PID
@@ -168,13 +168,13 @@ public class Constants {
                                                 .withKI(0)
                                                 .withKD(0.01)
                                                 .withKS(0.05)
-                                                .withKG(armMaxGravityConstant)
+                                                .withKG(0.04*12)
                                                 .withGravityType(GravityTypeValue.Arm_Cosine))        
                                 .withSlot1(new Slot1Configs() //Accurate PID
-                                                .withKP(1.2)
+                                                .withKP(2)
                                                 .withKI(0.1)
                                                 .withKD(0)
-                                                .withKS(0.05)
+                                                .withKS(0.09)
                                                 .withKG(armMaxGravityConstant)
                                                 .withGravityType(GravityTypeValue.Arm_Cosine))       
                                 .withMotionMagic(new MotionMagicConfigs()
@@ -187,7 +187,7 @@ public class Constants {
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true));
                 
-                public static final double armSupplyToZero = 10; //Amps
+                public static final double armSupplyToZero = 0.5; //Amps
 
         }
 
@@ -233,16 +233,40 @@ public class Constants {
                 }
                 
                 public static void fillTyDistMap(){
-                        tyToDistanceMap.put(15.0, 50.0);
-                        tyToDistanceMap.put(20.0, 100.0);
+                        tyToDistanceMap.put(-14.97, 12.0);
+                        tyToDistanceMap.put(-11.99, 18.0);
+                        tyToDistanceMap.put(-9.36, 24.0);
+                        tyToDistanceMap.put(-7.03, 30.0);
+                        tyToDistanceMap.put(-4.64, 36.0);
+                        tyToDistanceMap.put(-2.72, 42.0);
+                        tyToDistanceMap.put(-0.80, 48.0);
+                        tyToDistanceMap.put(0.59, 54.0);
+                        tyToDistanceMap.put(2.24, 60.0);
+                        tyToDistanceMap.put(3.74, 66.0);
+                        tyToDistanceMap.put(5.40, 72.0);
+                        tyToDistanceMap.put(6.53, 78.0);
+                        tyToDistanceMap.put(7.26, 84.0);
+                        tyToDistanceMap.put(7.93, 90.0);
 
                 }
 
                 public static void fillDistPosRPMMap(){
-                        distanceToAngle.put(40.0, 30.0); distanceToRPM.put(40.0, 2000.0);
-                        distanceToAngle.put(70.0, 20.0); distanceToRPM.put(70.0, 3000.0);
-                        distanceToAngle.put(110.0, 10.0); distanceToRPM.put(110.0, 4000.0);
-
+                        distanceToAngle.put(12.0, -44.0); distanceToRPM.put(12.0, 2000.0);
+                        distanceToAngle.put(18.0, -41.0); distanceToRPM.put(18.0, 2100.0);
+                        distanceToAngle.put(24.0, -40.0); distanceToRPM.put(24.0, 2200.0);
+                        distanceToAngle.put(30.0, -39.0); distanceToRPM.put(30.0, 2200.0);
+                        distanceToAngle.put(36.0, -38.0); distanceToRPM.put(36.0, 2300.0);
+                        distanceToAngle.put(42.0, -37.0); distanceToRPM.put(42.0, 2300.0);
+                        distanceToAngle.put(48.0, -35.0); distanceToRPM.put(48.0, 2400.0);
+                        distanceToAngle.put(54.0, -32.0); distanceToRPM.put(54.0, 2500.0);
+                        distanceToAngle.put(60.0, -31.0); distanceToRPM.put(60.0, 2600.0);
+                        distanceToAngle.put(66.0, -29.0); distanceToRPM.put(66.0, 2700.0);
+                        distanceToAngle.put(72.0, -27.0); distanceToRPM.put(72.0, 2800.0);
+                        distanceToAngle.put(78.0, -25.0); distanceToRPM.put(78.0, 2900.0);
+                        distanceToAngle.put(84.0, -24.0); distanceToRPM.put(84.0, 3000.0);
+                        distanceToAngle.put(90.0, -23.0); distanceToRPM.put(90.0, 3200.0);
+                        distanceToAngle.put(96.0, -19.0); distanceToRPM.put(96.0, 3300.0);
+                        
                         
                 }
 

@@ -76,10 +76,9 @@ public class StateHandler {
 
 
     /* Vision Values */
-    public LimelightHelpers.LimelightTarget_Fiducial currentTag = null;
 
     public boolean hasSpeakerTag(){
-        return (currentTag != null) && (currentTag.fiducialID == 7 || currentTag.fiducialID == 4);
+        return (LimelightHelpers.getFiducialID(LimelightConstants.limelightName) == 7 || LimelightHelpers.getFiducialID(LimelightConstants.limelightName) == 4);
     }
 
     /**
@@ -87,7 +86,7 @@ public class StateHandler {
      * @return limelight tx or -1 if no tag
      */
     public double llTx(){
-        return (currentTag == null) ? 0 : currentTag.tx;
+        return (LimelightHelpers.getFiducialID(LimelightConstants.limelightName) == -1) ? 0 : LimelightHelpers.getTX(LimelightConstants.limelightName);
     }
 
     /**
@@ -95,7 +94,7 @@ public class StateHandler {
      * @return limelight ty or -1 if no tag
      */
     public double llTy(){
-        return (currentTag == null) ? 0 : currentTag.ty;
+        return (LimelightHelpers.getFiducialID(LimelightConstants.limelightName) == -1) ? 0 : LimelightHelpers.getTY(LimelightConstants.limelightName);
     }
 
     public boolean isCenteredToSpeakerTag(){

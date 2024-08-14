@@ -57,7 +57,7 @@ public class MotorPIDFVAJWidget {
      * @param motors
      * @param defaultConfig ASSUMES ALL MOTORS HAVE SAME DEFAULT CONFIG
      */
-    public MotorPIDFVAJWidget(String name, TalonFXConfiguration defaultConfig, double angleConversion, double velocityConversion, TalonFX... motors){
+    public MotorPIDFVAJWidget(String name, TalonFXConfiguration defaultConfig, int slot, double angleConversion, double velocityConversion, TalonFX... motors){
         tab = Shuffleboard.getTab(name);
 
         this.motors = motors;

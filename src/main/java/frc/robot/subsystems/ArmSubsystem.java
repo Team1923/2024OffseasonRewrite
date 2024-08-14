@@ -33,7 +33,7 @@ public class ArmSubsystem extends SubsystemBase {
     DEFENSE(MMVoltageWithDegrees(-77.3)),
     CLIMB(MMVoltageWithDegrees(-77.3)),
     ZEROING(new DutyCycleOut(0.1)),
-    ANGLE_TUNING(MMVoltageWithDegrees(0));
+    ANGLE_TUNING(MMVoltageWithDegrees(0).withSlot(1));
 
     public ControlRequest REQUEST;
     public double settleTime;
@@ -65,7 +65,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     armFollower.setControl(new Follower(ArmConstants.armMotorPrimaryID, true));
 
-    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, ArmConstants.armRotsToDegrees, 0, armPrimary, armFollower);
+    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, ArmConstants.armRotsToDegrees, 0, armPrimary, armFollower);
     zeroArm();
   }
 

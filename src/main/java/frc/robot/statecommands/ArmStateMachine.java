@@ -25,6 +25,7 @@ public class ArmStateMachine extends Command {
   /** Creates a new ArmStateMachine. */
 
   private boolean armZeroed = false;
+  private int zeroingCounter = 0;
 
   public ArmStateMachine(ArmSubsystem armSubsystem) {
 
@@ -60,18 +61,19 @@ public class ArmStateMachine extends Command {
     }
 
 
-    // if (desiredArmState == ArmStates.STOWED && stateHandler.currentArmState == ArmStates.ZEROING && armSubsystem.getArmSupplyCurrent() >= ArmConstants.armSupplyToZero){
+    // if (desiredArmState == ArmStates.STOWED && armSubsystem.getArmPositionDegrees() >= -0.1/*Math.abs(armSubsystem.getArmSupplyCurrent()) >= ArmConstants.armSupplyToZero*/){
     //   armSubsystem.zeroArm();
+    //   // zeroingCounter = 0;
     //   armZeroed = true;
     // }
     // else if (desiredArmState == ArmStates.STOWED && (stateHandler.currentArmState == ArmStates.STOWED ||  stateHandler.currentArmState == ArmStates.ZEROING) && !armZeroed){
     //     desiredArmState = ArmStates.ZEROING;
+    //     // zeroingCounter++;
     // }
     // else if (desiredArmState != ArmStates.STOWED || stateHandler.currentArmState != ArmStates.STOWED){
     //   armZeroed = false;
     // }
    
-
     
 
     if (desiredArmState != stateHandler.currentArmState && armSubsystem.isAtState(desiredArmState) && timer.get() == 0){ //Start the timer for the arm to settle when the arm motors are at the desired state (settle timer starts AFTER the motors are in the right place)
@@ -94,10 +96,10 @@ public class ArmStateMachine extends Command {
 
 
     armSubsystem.setArmTo(desiredArmState.REQUEST);
-    // SmartDashboard.putString("request name", desiredArmState.name());
+    SmartDashboard.putString("request name", desiredArmState.name());
     
 
-
+    SmartDashboard.putBoolean("ISZEROED", armZeroed);
   }
 
   // Called once the command ends or is interrupted.

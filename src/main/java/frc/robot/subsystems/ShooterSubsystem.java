@@ -82,7 +82,7 @@ public class ShooterSubsystem extends SubsystemBase {
     /* Apply a Default Configuration to the Blower Motor */
     blower.configFactoryDefault();
 
-    MotorPIDFVAJWidget shooterTuner = new MotorPIDFVAJWidget("SHOOTER", ShooterConstants.CONFIGS, 0, ShooterConstants.RPSToRPM, shooterTop, shooterBottom);
+    MotorPIDFVAJWidget shooterTuner = new MotorPIDFVAJWidget("SHOOTER", ShooterConstants.CONFIGS, 1, 0, ShooterConstants.RPSToRPM, shooterTop, shooterBottom);
   }
 
   /**

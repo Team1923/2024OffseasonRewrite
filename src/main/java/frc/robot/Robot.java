@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.Arrays;
+
 import com.ctre.phoenix6.Utils;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -33,22 +35,20 @@ public class Robot extends TimedRobot {
     }
 
     SwerveRequestPIDWidget ampPID = new SwerveRequestPIDWidget(SwerveStates.FACING_AMP);
+      SwerveRequestPIDWidget GCPID = new SwerveRequestPIDWidget(SwerveStates.GOAL_CENTRIC);
+
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(LimelightConstants.limelightName);
-
-    if (results.targets_Fiducials.length > 0){
-      stateHandler.currentTag = results.targets_Fiducials[0];
-    }
-    else{
-      stateHandler.currentTag = null;
-    }
-
     
+
+
+    SmartDashboard.putNumber("TX", stateHandler.llTx());
+
+    SmartDashboard.putNumber("TY", stateHandler.llTy());
 
    
 

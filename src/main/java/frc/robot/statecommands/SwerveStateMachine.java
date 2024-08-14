@@ -109,13 +109,13 @@ public class SwerveStateMachine extends Command {
         .withTargetDirection(Rotation2d.fromDegrees(roundToClosestClimbHeading(swerve.getGyroYaw())));
         break;
       case GOAL_CENTRIC:
-        // if (hasTag && Math.abs(rotation) < 0.5){
-        //   request = ((SwerveRequest.FieldCentricFacingAngle)SwerveSubsystem.States.GOAL_CENTRIC.request)
-        //   .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
-        //   .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
-        //   .withTargetDirection(Rotation2d.fromDegrees(swerve.getGyroYaw().getDegrees()-stateHandler.getxAngleOffset()));
-        //   break;
-        // }
+        if (stateHandler.hasSpeakerTag() && Math.abs(rotation) < 0.5){
+          request = ((SwerveRequest.FieldCentricFacingAngle)SwerveSubsystem.SwerveStates.GOAL_CENTRIC.REQUEST)
+          .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
+          .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
+          .withTargetDirection(Rotation2d.fromDegrees(swerve.getGyroYaw()+stateHandler.llTx()));
+          break;
+        }
       default://Equivilent to field centric
         request = ((SwerveRequest.FieldCentric)SwerveStates.FIELD_CENTRIC.REQUEST)
                   .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)

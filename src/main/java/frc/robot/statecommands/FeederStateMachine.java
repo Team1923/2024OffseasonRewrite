@@ -105,6 +105,11 @@ public class FeederStateMachine extends Command {
               break;
           }
         case TUNING: //fall through to ranged condition
+          if (stateHandler.currentArmState == ArmStates.ANGLE_TUNING
+            && stateHandler.currentShooterState == ShooterStates.RPM_TUNING
+            && ( (stateHandler.isCenteredToSpeakerTag() && stateHandler.isInSpeakerRange()) )){
+              break;
+            } 
         case RANGED: 
           if (stateHandler.currentArmState == ArmStates.RANGED
             && stateHandler.currentShooterState == ShooterStates.RANGED_VELO

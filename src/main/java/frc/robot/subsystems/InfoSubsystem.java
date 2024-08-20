@@ -42,12 +42,10 @@ public class InfoSubsystem extends SubsystemBase {
 
     if (stateHandler.isAngleRPMTuning){
 
-      GenericEntry POSRPMTUNING = driverDashboard.add("IN POSRPM MODE", false)
+      driverDashboard.addBoolean("IN POSRPM MODE", () -> false)
       .withSize(3, 3)
       .withPosition(0, 0)
-      .withProperties(Map.of("Color when false", "#000000", "Color when true", "#57F542"))
-      .getEntry();
-
+      .withProperties(Map.of("Color when false", "#000000", "Color when true", "#57F542"));
     }
   }
 

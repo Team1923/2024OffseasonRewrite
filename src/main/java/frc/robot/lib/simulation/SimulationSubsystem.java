@@ -159,18 +159,18 @@ public class SimulationSubsystem extends SubsystemBase {
   /*
    * CALCULATING
    */
-  public double simLLAngleToSpeaker(Pose2d aPose){
+  public static double simLLAngleToSpeaker(Pose2d aPose){
 
-    Point allianceSpeaker = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue ? Constants.FieldConstants.blueSpeakerPos : Constants.FieldConstants.redSpeakerPos;
+    Pose2d allianceSpeaker = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue ? Constants.FieldConstants.blueSpeakerPos : Constants.FieldConstants.redSpeakerPos;
 
 
-    return aPose.getRotation().getDegrees() - Math.toDegrees((Math.atan((aPose.getY() - allianceSpeaker.y)/(aPose.getX() - allianceSpeaker.x))));
+    return aPose.getRotation().getDegrees() - Math.toDegrees((Math.atan((aPose.getY() - allianceSpeaker.getY())/(aPose.getX() - allianceSpeaker.getX()))));
   }
 
-  public double getDistFromRobotToPose(Pose3d pose){
-    Pose2d currPose = stateHandler.swervePose;
+  public static double getDistFromRobotToPose(Pose2d robot, Pose2d pose){
 
-    double dist = pose.getTranslation().getDistance(new Translation3d(currPose.getX(), currPose.getY(), pose.getZ()));
+    double dist = pose.getTranslation().getDistance(robot.getTranslation());
+
 
 
     return Units.metersToInches(dist);

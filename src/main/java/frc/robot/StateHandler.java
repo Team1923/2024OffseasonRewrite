@@ -1,8 +1,15 @@
 package frc.robot;
 
+import com.ctre.phoenix6.Utils;
+
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.InterpolationConstants;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.Constants.ControllerConstants.Driver;
+import frc.robot.lib.simulation.SimulationSubsystem;
 import frc.robot.lib.vision.LimelightHelpers;
 import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
@@ -78,6 +85,8 @@ public class StateHandler {
     /* Vision Values */
 
     public boolean hasSpeakerTag(){
+        if (Utils.isSimulation()) return true;
+
         return (LimelightHelpers.getFiducialID(LimelightConstants.limelightName) == 7 || LimelightHelpers.getFiducialID(LimelightConstants.limelightName) == 4);
     }
 
@@ -86,6 +95,8 @@ public class StateHandler {
      * @return limelight tx or -1 if no tag
      */
     public double llTx(){
+        if (Utils.isSimulation()) return SimulationSubsystem.simLLAngleToSpeaker(swervePose);
+
         return (LimelightHelpers.getFiducialID(LimelightConstants.limelightName) == -1) ? 0 : LimelightHelpers.getTX(LimelightConstants.limelightName);
     }
 
@@ -102,10 +113,13 @@ public class StateHandler {
     }
 
     public boolean isInSpeakerRange(){
-        return InterpolationConstants.tyToDistanceMap.get(Double.MIN_VALUE) <= speakerDistance() && speakerDistance() <= InterpolationConstants.tyToDistanceMap.get(Double.MAX_VALUE);
+        if (Utils.isSimulation()) return true;
+
+        return InterpolationConstants.tyToDistanceMap.get(Integer.MIN_VALUE * 1.0) <= speakerDistance() && speakerDistance() <= InterpolationConstants.tyToDistanceMap.get(Integer.MAX_VALUE * 1.0);
     }
 
     public double speakerDistance(){
+        if (Utils.isSimulation()) return SimulationSubsystem.getDistFromRobotToPose(swervePose, (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? Constants.FieldConstants.blueSpeakerPos : FieldConstants.redSpeakerPos);
         return hasSpeakerTag() ? InterpolationConstants.tyToDistanceMap.get(llTy()) : -1;
     }
 

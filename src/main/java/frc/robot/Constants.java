@@ -3,6 +3,7 @@ package frc.robot;
 import org.opencv.core.Point;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -11,6 +12,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
@@ -110,7 +112,9 @@ public class Constants {
                                                 .withInverted(InvertedValue.Clockwise_Positive))
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
-                                                .withStatorCurrentLimitEnable(true));
+                                                .withStatorCurrentLimitEnable(true))
+                                .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(1/intakeGearRatio));
+
 
                 public static final TalonFXConfiguration WHEEL_CONFIGS = new TalonFXConfiguration();
         }
@@ -163,6 +167,7 @@ public class Constants {
                 public static final double armPositionAllowableOffset = 1;
 
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
+
                                 .withSlot0(new Slot0Configs() // Fast PID
                                                 .withKP(2)
                                                 .withKI(0)
@@ -175,6 +180,7 @@ public class Constants {
                                                 .withKI(0.1)
                                                 .withKD(0)
                                                 .withKS(0.09)
+                                                .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign)
                                                 .withKG(armMaxGravityConstant)
                                                 .withGravityType(GravityTypeValue.Arm_Cosine))       
                                 .withMotionMagic(new MotionMagicConfigs()
@@ -185,7 +191,8 @@ public class Constants {
                                                 .withNeutralMode(NeutralModeValue.Brake)) 
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
-                                                .withStatorCurrentLimitEnable(true));
+                                                .withStatorCurrentLimitEnable(true))
+                                .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(1/armGearRatio));
                 
                 public static final double armSupplyToZero = 0.5; //Amps
 

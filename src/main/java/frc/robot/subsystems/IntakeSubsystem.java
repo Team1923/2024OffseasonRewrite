@@ -12,6 +12,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,7 +34,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private static MotionMagicVoltage MMVoltageWithDegrees(double degrees) {
 
-      return new MotionMagicVoltage(degrees * IntakeConstants.intakeDegreesToRotations);
+      // return new MotionMagicVoltage(degrees * IntakeConstants.intakeDegreesToRotations);
+      return new MotionMagicVoltage(Units.degreesToRotations(degrees));
+
     }
   }
 
@@ -77,7 +80,9 @@ public class IntakeSubsystem extends SubsystemBase {
    * @return a double value representing the intake's position in degrees
    */
   public double getIntakeArmPositionDegrees() {
-    return intakeArmPrimary.getPosition().getValueAsDouble() * IntakeConstants.intakeRotsToDegrees;
+    // return intakeArmPrimary.getPosition().getValueAsDouble() * IntakeConstants.intakeRotsToDegrees;
+    return Units.rotationsToDegrees(intakeArmPrimary.getPosition().getValueAsDouble());
+
   }
 
   /**
@@ -91,10 +96,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
     if (state.REQUEST instanceof MotionMagicVoltage){
-      double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position
-          * IntakeConstants.intakeRotsToDegrees;
+      // double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position
+      //     * IntakeConstants.intakeRotsToDegrees;
+       double desiredPositionDegrees = Units.rotationsToDegrees(((MotionMagicVoltage) state.REQUEST).Position);
+          
 
-      return Math.abs(getIntakeArmPositionDegrees() - desiredPosition) < IntakeConstants.intakePositionAllowableOffset;
+      return Math.abs(getIntakeArmPositionDegrees() - desiredPositionDegrees) < IntakeConstants.intakePositionAllowableOffset;
     }
 
     return true;
@@ -156,7 +163,7 @@ public class IntakeSubsystem extends SubsystemBase {
       StateHandler.getInstance().bb1Covered = !beamBreakOne.get();
     }
     SmartDashboard.putNumber("Intake Primary Position", getIntakeArmPositionDegrees());
-    SmartDashboard.putNumber("Intake Follower Position", intakeArmFollower.getPosition().getValueAsDouble() * IntakeConstants.intakeRotsToDegrees);
+    // SmartDashboard.putNumber("Intake Follower Position", intakeArmFollower.getPosition().getValueAsDouble() * IntakeConstants.intakeRotsToDegrees);
 
   }
 }

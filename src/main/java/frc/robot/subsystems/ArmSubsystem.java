@@ -11,6 +11,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -49,7 +50,9 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     private static MotionMagicVoltage MMVoltageWithDegrees(double degrees) {
-      return new MotionMagicVoltage(degrees * ArmConstants.armDegreesToRots);
+      // return new MotionMagicVoltage(degrees * ArmConstants.armDegreesToRots);
+      return new MotionMagicVoltage(Units.degreesToRotations(degrees));
+
     }
 
   }
@@ -65,7 +68,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     armFollower.setControl(new Follower(ArmConstants.armMotorPrimaryID, true));
 
-    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, ArmConstants.armRotsToDegrees, 0, armPrimary, armFollower);
+    // MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, ArmConstants.armRotsToDegrees, 0, armPrimary, armFollower);
+    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, 360, 0, armPrimary, armFollower);
+
     zeroArm();
   }
 
@@ -94,7 +99,9 @@ public class ArmSubsystem extends SubsystemBase {
    * @return The arm position in degrees.
    */
   public double getArmPositionDegrees() {
-    return armPrimary.getPosition().getValueAsDouble() * ArmConstants.armRotsToDegrees;
+    // return armPrimary.getPosition().getValueAsDouble() * ArmConstants.armRotsToDegrees;
+    return Units.rotationsToDegrees(armPrimary.getPosition().getValueAsDouble());
+
   }
 
   /**
@@ -126,9 +133,11 @@ public class ArmSubsystem extends SubsystemBase {
     if (Utils.isSimulation()) return true;
 
     if (state.REQUEST instanceof MotionMagicVoltage){
-      double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position * ArmConstants.armRotsToDegrees;
+      // double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position * ArmConstants.armRotsToDegrees;
+      double desiredPositionDegrees = Units.rotationsToDegrees(((MotionMagicVoltage) state.REQUEST).Position);
 
-      return Math.abs(getArmPositionDegrees() - desiredPosition) < ArmConstants.armPositionAllowableOffset;
+
+      return Math.abs(getArmPositionDegrees() - desiredPositionDegrees) < ArmConstants.armPositionAllowableOffset;
     }
     else{
       return true;
@@ -158,7 +167,8 @@ public class ArmSubsystem extends SubsystemBase {
     // SmartDashboard.putString("PRIMARY MODE", armPrimary.getAppliedControl().getName());
     //     SmartDashboard.putString("FOLLOWER MODE", armFollower.getAppliedControl().getName());
 
-    // SmartDashboard.putNumber("Primary arm", getArmPositionDegrees());
+    SmartDashboard.putNumber("Primary arm degrees", getArmPositionDegrees());
+    SmartDashboard.putNumber("Primary arm rots", getArmPositionRots());
     // SmartDashboard.putNumber("Follower arm", armFollower.getPosition().getValueAsDouble() * ArmConstants.armRotsToDegrees);
 
     SmartDashboard.putNumber("Arm Supply", getArmSupplyCurrent());

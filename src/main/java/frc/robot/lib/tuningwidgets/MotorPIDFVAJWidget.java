@@ -30,6 +30,7 @@ public class MotorPIDFVAJWidget {
 
     private double angleConversion;
     private double velocityConversion;
+    private double tolerance;
 
     private GenericEntry PValue;
     private GenericEntry IValue;
@@ -66,16 +67,18 @@ public class MotorPIDFVAJWidget {
      * @param motors
      * @param defaultConfig ASSUMES ALL MOTORS HAVE SAME DEFAULT CONFIG
      */
-    public MotorPIDFVAJWidget(String name, TalonFXConfiguration defaultConfig, int defaultSlot, double angleConversion, double velocityConversion, TalonFX... motors){
+    public MotorPIDFVAJWidget(String name, TalonFXConfiguration defaultConfig, int defaultSlot, double angleConversion, double velocityConversion, double tolerance, TalonFX... motors){
         tab = Shuffleboard.getTab(name);
 
         this.motors = motors;
 
         this.config = defaultConfig;
 
+
         this.angleConversion = angleConversion;
         this.velocityConversion = velocityConversion;
         
+        this.tolerance = tolerance;
 
         slotChooser = new SendableChooser<>();
 
@@ -134,6 +137,7 @@ public class MotorPIDFVAJWidget {
 
         tab.add("SLOT", slotChooser).withPosition(4, 3);
         tab.add("UPDATE", new InstantCommand(() -> updateMotor()).ignoringDisable(true)).withPosition(4, 2).withSize(2, 1);
+        tab.addBoolean("AT POSITION", () -> atPosition()).withPosition(6, 2);
     }
 
     public void updateMotor(){
@@ -199,6 +203,20 @@ public class MotorPIDFVAJWidget {
         }
 
 
+    }
+
+    public boolean atPosition(){
+        if (velocityConversion != 0){
+            return (Math.abs(motors[0].getVelocity().getValueAsDouble() * velocityConversion - ((desiredVelocity.get() != null) ? desiredVelocity.get().getDouble() : 0)) < tolerance);
+
+        }
+        else if (angleConversion != 0){
+            return (Math.abs(motors[0].getPosition().getValueAsDouble() * angleConversion -((desiredAngle.get() != null) ? desiredAngle.get().getDouble() : 0)) < tolerance);
+
+        }
+        else{
+            return false;
+        }
     }
 
 }

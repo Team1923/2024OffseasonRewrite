@@ -71,7 +71,7 @@ public class ArmSubsystem extends SubsystemBase {
     armFollower.setControl(new Follower(ArmConstants.armMotorPrimaryID, true));
 
     // MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, ArmConstants.armRotsToDegrees, 0, armPrimary, armFollower);
-    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, 360, 0, armPrimary, armFollower);
+    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, 360, 0, ArmConstants.armPositionAllowableOffset, armPrimary, armFollower);
 
     zeroArm();
   }

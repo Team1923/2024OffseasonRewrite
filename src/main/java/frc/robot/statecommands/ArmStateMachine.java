@@ -76,30 +76,30 @@ public class ArmStateMachine extends Command {
 
 
     
-    // if (desiredArmState != ArmStates.STOWED){
-    //   zeroTimer.stop();
-    //   zeroTimer.reset();
-    //   armZeroed = false;
-    // }
-    // else if (!armZeroed && stateHandler.currentArmState == ArmStates.STOWED && desiredArmState == ArmStates.STOWED){
-    //   zeroTimer.start();
-    // }
-    // else if (armZeroed == true){
-    //   zeroTimer.stop();
-    // }
+    if (desiredArmState != ArmStates.STOWED){
+      zeroTimer.stop();
+      zeroTimer.reset();
+      armZeroed = false;
+    }
+    else if (!armZeroed && stateHandler.currentArmState == ArmStates.STOWED && desiredArmState == ArmStates.STOWED){
+      zeroTimer.start();
+    }
+    else if (armZeroed == true){
+      zeroTimer.stop();
+    }
 
-    // if (!armZeroed){
-    //   if (zeroTimer.hasElapsed(relaxedTime)){
-    //   armSubsystem.zeroArm();
-    //   armZeroed = true;
-    //   }
-    //   else if (zeroTimer.hasElapsed(againstHardstopTime)){
-    //     desiredArmState = ArmStates.OFF;
-    //   }
-    //   else if (zeroTimer.hasElapsed(startZeroingTime)){
-    //     desiredArmState = ArmStates.ZEROING;
-    //   }
-    // }
+    if (!armZeroed){
+      if (zeroTimer.hasElapsed(relaxedTime)){
+      armSubsystem.zeroArm();
+      armZeroed = true;
+      }
+      else if (zeroTimer.hasElapsed(againstHardstopTime)){
+        desiredArmState = ArmStates.OFF;
+      }
+      else if (zeroTimer.hasElapsed(startZeroingTime)){
+        desiredArmState = ArmStates.ZEROING;
+      }
+    }
     
   
 
@@ -121,8 +121,10 @@ public class ArmStateMachine extends Command {
 
 
     armSubsystem.setArmTo(desiredArmState.REQUEST);
-    // SmartDashboard.putString("request name", desiredArmState.name());
-    
+    SmartDashboard.putString("request name", desiredArmState.name());
+    if (desiredArmState.REQUEST instanceof MotionMagicVoltage){
+      SmartDashboard.putNumber("Request value", ((MotionMagicVoltage)(desiredArmState.REQUEST)).Position);
+    }
 
     SmartDashboard.putBoolean("ISZEROED", armZeroed);
 

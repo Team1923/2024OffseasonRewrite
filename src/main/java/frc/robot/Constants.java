@@ -54,8 +54,8 @@ public class Constants {
                                 .withSlot0(new Slot0Configs() // PID
                                                 .withKP(0.2)
                                                 .withKI(0)
-                                                .withKD(0)
-                                                .withKS(0.25)
+                                                .withKD(0.01)
+                                                .withKS(0.13)
                                                 .withKA(0)
                                                 .withKV(0.115))
                                 .withMotionMagic(new MotionMagicConfigs()
@@ -68,7 +68,7 @@ public class Constants {
                                                 .withStatorCurrentLimitEnable(true));
 
                 /* RPM Threshold for Current State Evaluation */
-                public static final double shooterRPMThreshhold = 25;
+                public static final double shooterRPMThreshhold = 50;
 
         }
 
@@ -111,12 +111,12 @@ public class Constants {
                                                 .withMotionMagicAcceleration(maxIntakeAccel)
                                                 .withMotionMagicJerk(maxIntakeJerk))
                                 .withMotorOutput(new MotorOutputConfigs()
-                                                .withNeutralMode(NeutralModeValue.Coast) 
+                                                .withNeutralMode(NeutralModeValue.Brake) 
                                                 .withInverted(InvertedValue.Clockwise_Positive))
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true))
-                                .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(1/intakeGearRatio));
+                                .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(intakeGearRatio));
 
 
                 public static final TalonFXConfiguration WHEEL_CONFIGS = new TalonFXConfiguration();
@@ -167,7 +167,7 @@ public class Constants {
                 /* kG - gravity constant for motion of arm */
                 public static final double armMaxGravityConstant = 0.05 * 12; // 2 volts max ff
 
-                public static final double armPositionAllowableOffset = 1;
+                public static final double armPositionAllowableOffset = 0.25;
 
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
 
@@ -183,7 +183,7 @@ public class Constants {
                                                 .withKI(0.1)
                                                 .withKD(0)
                                                 .withKS(0.09)
-                                                .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseVelocitySign)
+                                                // .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseVelocitySign)
                                                 .withKG(armMaxGravityConstant)
                                                 .withGravityType(GravityTypeValue.Arm_Cosine))       
                                 .withMotionMagic(new MotionMagicConfigs()
@@ -195,7 +195,7 @@ public class Constants {
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true))
-                                .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(1/armGearRatio));
+                                .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(armGearRatio));
                 
                 // public static final double armSupplyToZero = 0.5; //Amps
 

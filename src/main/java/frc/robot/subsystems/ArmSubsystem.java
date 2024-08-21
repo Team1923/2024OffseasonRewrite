@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -114,6 +115,10 @@ public class ArmSubsystem extends SubsystemBase {
     return armPrimary.getPosition().getValueAsDouble();
   }
 
+  public StatusSignal<Double> getArmVoltage(){
+    return armPrimary.getMotorVoltage();
+  }
+
   /**
    * Gets the supply current of the arm primary motor
    * @return arm supply current in Amps
@@ -174,6 +179,8 @@ public class ArmSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("Follower arm", armFollower.getPosition().getValueAsDouble() * ArmConstants.armRotsToDegrees);
 
     SmartDashboard.putNumber("Arm Supply", getArmSupplyCurrent());
+
+    
 
   }
 }

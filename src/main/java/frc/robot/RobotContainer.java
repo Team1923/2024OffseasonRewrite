@@ -22,6 +22,7 @@ import frc.robot.commands.intake.BabyBirdCommand;
 import frc.robot.commands.intake.DeployIntakeCommand;
 import frc.robot.commands.intake.FullEjectCommand;
 import frc.robot.commands.intake.IntakeEjectCommand;
+import frc.robot.commands.misc.ManualArmControl;
 import frc.robot.commands.scoring.ShootGamePiece;
 import frc.robot.commands.swerve.AlignHeadingCommand;
 import frc.robot.lib.swerve.Telemetry;
@@ -105,8 +106,11 @@ public class RobotContainer {
 
 
     /* Misc */
-    operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
+    // operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
+    operatorPS5Controller.options().toggleOnTrue(new ManualArmControl(armSubsystem, () -> 0.5 * operatorPS5Controller.getRightY())); //#7
+
     operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
+
 
     if (stateHandler.isAngleRPMTuning){
       operatorPS5Controller.touchpad().onTrue(scoringMode(ScoringType.TUNING));

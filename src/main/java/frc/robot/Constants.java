@@ -86,8 +86,8 @@ public class Constants {
 
                 /* Parameters for the intake's motion */
                 public static final double maxIntakeVel = 100;
-                public static final double maxIntakeAccel = 500;
-                public static final double maxIntakeJerk = 2200;
+                public static final double maxIntakeAccel = 50;
+                public static final double maxIntakeJerk = 180;
 
                 /* Gearbox ratios and unit conversions */
                 public static final double intakeGearRatio = 60;
@@ -100,12 +100,12 @@ public class Constants {
                 /* Arm Configuration - NOTE: clockwise positive is correct */
                 public static final TalonFXConfiguration ARM_CONFIGS = new TalonFXConfiguration()
                                 .withSlot0(new Slot0Configs() // PID
-                                                .withKP(0.9)
-                                                .withKI(0.005)
+                                                .withKP(75)
+                                                .withKI(0)
                                                 .withKD(0)
                                                 .withKS(0)
                                                 .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseVelocitySign)
-                                                .withKV(0.1))
+                                                .withKV(0))
                                 .withMotionMagic(new MotionMagicConfigs()
                                                 .withMotionMagicCruiseVelocity(maxIntakeVel)
                                                 .withMotionMagicAcceleration(maxIntakeAccel)
@@ -155,9 +155,9 @@ public class Constants {
                 // public static final double maxArmJerk = 1000;
 
                 //Slower motion magic
-                public static final double maxArmVel = 190;
-                public static final double maxArmAccel = 60;
-                public static final double maxArmJerk = 500;
+                public static final double maxArmVel = 120;
+                public static final double maxArmAccel = 45;
+                public static final double maxArmJerk = 60;
 
                 /* Gearbox Ratios & Unit Conversions */
                 public static final double armGearRatio = 129.6;
@@ -165,27 +165,27 @@ public class Constants {
                 public static final double armDegreesToRots = 1 / armRotsToDegrees;
 
                 /* kG - gravity constant for motion of arm */
-                public static final double armMaxGravityConstant = 0.05 * 12; // 2 volts max ff
+                //public static final double armMaxGravityConstant = 0.05 * 12; // 2 volts max ff
 
                 public static final double armPositionAllowableOffset = 0.25;
 
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
 
                                 .withSlot0(new Slot0Configs() // Fast PID
-                                                .withKP(2)
+                                                .withKP(375)
                                                 .withKI(0)
-                                                .withKD(0.01)
-                                                .withKS(0.05)
-                                                .withKG(0.04*12)
+                                                .withKD(0)
+                                                .withKS(0.1)
+                                                .withKG(-0.3)
                                                 .withGravityType(GravityTypeValue.Arm_Cosine))        
-                                .withSlot1(new Slot1Configs() //Accurate PID
+                                /* .withSlot1(new Slot1Configs() //Accurate PID
                                                 .withKP(2)
                                                 .withKI(0.1)
                                                 .withKD(0)
                                                 .withKS(0.09)
                                                 // .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseVelocitySign)
                                                 .withKG(armMaxGravityConstant)
-                                                .withGravityType(GravityTypeValue.Arm_Cosine))       
+                                                .withGravityType(GravityTypeValue.Arm_Cosine))   */    
                                 .withMotionMagic(new MotionMagicConfigs()
                                                 .withMotionMagicCruiseVelocity(maxArmVel)
                                                 .withMotionMagicAcceleration(maxArmAccel)

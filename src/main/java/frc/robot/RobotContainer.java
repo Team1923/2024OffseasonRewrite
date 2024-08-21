@@ -25,6 +25,7 @@ import frc.robot.commands.intake.IntakeEjectCommand;
 import frc.robot.commands.misc.ManualArmControl;
 import frc.robot.commands.scoring.ShootGamePiece;
 import frc.robot.commands.swerve.AlignHeadingCommand;
+import frc.robot.commands.swerve.SetGoalCentric;
 import frc.robot.lib.swerve.Telemetry;
 import frc.robot.lib.swerve.TunerConstants;
 import frc.robot.statecommands.ArmStateMachine;
@@ -39,6 +40,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 
 public class RobotContainer {
 
@@ -84,37 +86,40 @@ public class RobotContainer {
 
     /* Driver Button Bindings */
     driverXboxController.rightTrigger().whileTrue(new ShootGamePiece());
+    // driverXboxController.rightTrigger().whileTrue(new SetGoalCentric());
     driverXboxController.rightStick().whileTrue(new AlignHeadingCommand());
     driverXboxController.y().onTrue(swerveSubsystem.runOnce(() -> swerveSubsystem.zeroGyro()));
 
     /* Operator Button Bindings */
 
     /* Scoring selection */
-    operatorPS5Controller.triangle().onTrue(scoringMode(ScoringType.RANGED));
-    operatorPS5Controller.square().onTrue(scoringMode(ScoringType.AMP));
-    operatorPS5Controller.cross().onTrue(scoringMode(ScoringType.SUBWOOFER));
-    operatorPS5Controller.circle().onTrue(scoringMode(ScoringType.REVERSE_SUBWOOFER) );
-    operatorPS5Controller.povUp().onTrue(scoringMode(ScoringType.TRAP));
-    operatorPS5Controller.L2().onTrue(scoringMode(ScoringType.LOW_PUNT));
-    operatorPS5Controller.R2().onTrue(scoringMode(ScoringType.HIGH_PUNT));
+    // operatorPS5Controller.triangle().onTrue(scoringMode(ScoringType.RANGED));
+    // operatorPS5Controller.square().onTrue(scoringMode(ScoringType.AMP));
+    // operatorPS5Controller.cross().onTrue(scoringMode(ScoringType.SUBWOOFER));
+    // operatorPS5Controller.circle().onTrue(scoringMode(ScoringType.REVERSE_SUBWOOFER) );
+    // operatorPS5Controller.povUp().onTrue(scoringMode(ScoringType.TRAP));
+    // operatorPS5Controller.L2().onTrue(scoringMode(ScoringType.LOW_PUNT));
+    // operatorPS5Controller.R2().onTrue(scoringMode(ScoringType.HIGH_PUNT));
 
     /* Intaking/Ejecting */
     operatorPS5Controller.povLeft().whileTrue(new BabyBirdCommand());
-    operatorPS5Controller.create().whileTrue(new FullEjectCommand());
-    operatorPS5Controller.R1().whileTrue(new DeployIntakeCommand());
-    operatorPS5Controller.L1().whileTrue(new IntakeEjectCommand());
+    // operatorPS5Controller.create().whileTrue(new FullEjectCommand());
+    // operatorPS5Controller.R1().whileTrue(new DeployIntakeCommand());
+    // operatorPS5Controller.L1().whileTrue(new IntakeEjectCommand());
 
 
     /* Misc */
     // operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
-    operatorPS5Controller.options().toggleOnTrue(new ManualArmControl(armSubsystem, () -> 0.5 * operatorPS5Controller.getRightY())); //#7
+    //operatorPS5Controller.options().toggleOnTrue(new ManualArmControl(armSubsystem, () -> 0.25 * operatorPS5Controller.getRightY())); //#7
 
-    operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
+    // operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
 
 
     if (stateHandler.isAngleRPMTuning){
       operatorPS5Controller.touchpad().onTrue(scoringMode(ScoringType.TUNING));
     }
+
+    // driverXboxController.x().toggleOnTrue(new InstantCommand(() -> armSubsystem.setCoast()).ignoringDisable(true).finallyDo( ()->armSubsystem.setBrake()));
 
 
 

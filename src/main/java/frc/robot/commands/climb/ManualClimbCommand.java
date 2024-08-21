@@ -67,10 +67,13 @@ public class ManualClimbCommand extends Command {
     if (Math.abs(input.getAsDouble()) > ControllerConstants.Operator.deadband){
       armSubsystem.setPercentOut(input.getAsDouble() * 0.5);
       holdingRequest.Position = armSubsystem.getArmPositionRots();
+      
     }
     else{
       armSubsystem.setArmTo(holdingRequest);
     }
+
+    
 
   }
 

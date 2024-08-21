@@ -129,6 +129,8 @@ public class ShootGamePiece extends Command {
         break;
       case RANGED:
         return false;
+      case TUNING:
+        return false;
     }
 
     return !stateHandler.bb2Covered && !stateHandler.bb3Covered && !stateHandler.bb4Covered;

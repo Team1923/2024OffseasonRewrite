@@ -18,12 +18,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
 import frc.robot.StateHandler;
 
 public class IntakeSubsystem extends SubsystemBase {
   /* Arm States Enum */
   public static enum IntakeArmStates {
-    DEPLOYED(MMVoltageWithDegrees(114.592)), // original: 2.00 radians
+    DEPLOYED(MMVoltageWithDegrees(120)), // original: 2.00 radians
     STOWED(MMVoltageWithDegrees(0));
 
     public ControlRequest REQUEST;
@@ -71,6 +72,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     intakeArmFollower.setControl(new Follower(IntakeConstants.intakeArmPrimaryID, false));
     intakeWheelBottom.setControl(new Follower(IntakeConstants.intakeWheelTopID, false));
+
+    //MotorPIDFVAJWidget intakeTuning = new MotorPIDFVAJWidget("INTAKE", IntakeConstants.ARM_CONFIGS, 0, 1/360, 0, IntakeConstants.intakePositionAllowableOffset, intakeArmPrimary, intakeArmFollower);
 
     zeroIntakeArm();
   }

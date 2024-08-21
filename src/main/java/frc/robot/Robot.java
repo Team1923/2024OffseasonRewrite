@@ -7,6 +7,7 @@ package frc.robot;
 import java.util.Arrays;
 
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,6 +17,7 @@ import frc.robot.Constants.LimelightConstants;
 import frc.robot.lib.simulation.SimulationSubsystem;
 import frc.robot.lib.tuningwidgets.SwerveRequestPIDWidget;
 import frc.robot.lib.vision.LimelightHelpers;
+import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 
 public class Robot extends TimedRobot {
@@ -49,6 +51,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("TX", stateHandler.llTx());
 
     SmartDashboard.putNumber("TY", stateHandler.llTy());
+
+    // System.out.println(((MotionMagicVoltage)(ArmStates.BABY_BIRD.REQUEST)).Position);
 
    
   }

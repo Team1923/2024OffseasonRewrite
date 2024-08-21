@@ -40,6 +40,7 @@ public class ManualArmControl extends Command {
   public void execute() {
     arm.setPercentOut(control.getAsDouble());
     SmartDashboard.putNumber("VOLTAGE", voltage.getValueAsDouble());
+    SmartDashboard.putNumber("PERCENT", arm.getPercentOutput());
   }
 
   // Called once the command ends or is interrupted.

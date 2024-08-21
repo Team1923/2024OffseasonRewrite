@@ -6,11 +6,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.controls.CoastOut;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,7 +38,7 @@ public class ArmSubsystem extends SubsystemBase {
     DEFENSE(MMVoltageWithDegrees(-77.3)),
     CLIMB(MMVoltageWithDegrees(-77.3)),
     ZEROING(new DutyCycleOut(0.05)),
-    ANGLE_TUNING(MMVoltageWithDegrees(0).withSlot(1)),
+    ANGLE_TUNING(MMVoltageWithDegrees(0).withSlot(0), 0.5), 
     OFF(new DutyCycleOut(0));
 
     public ControlRequest REQUEST;
@@ -71,9 +74,10 @@ public class ArmSubsystem extends SubsystemBase {
     armFollower.setControl(new Follower(ArmConstants.armMotorPrimaryID, true));
 
     // MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, ArmConstants.armRotsToDegrees, 0, armPrimary, armFollower);
-    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, 360, 0, ArmConstants.armPositionAllowableOffset, armPrimary, armFollower);
+    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 0, 360, 0, ArmConstants.armPositionAllowableOffset, armPrimary, armFollower);
 
     zeroArm();
+
   }
 
   /**
@@ -106,6 +110,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   }
 
+
   /**
    * Gets the position of the arm directly from the encoder reading.
    * 
@@ -115,6 +120,10 @@ public class ArmSubsystem extends SubsystemBase {
     return armPrimary.getPosition().getValueAsDouble();
   }
 
+
+  public double getPercentOutput() {
+    return armPrimary.get();
+  }
   public StatusSignal<Double> getArmVoltage(){
     return armPrimary.getMotorVoltage();
   }
@@ -142,6 +151,9 @@ public class ArmSubsystem extends SubsystemBase {
       // double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position * ArmConstants.armRotsToDegrees;
       double desiredPositionDegrees = Units.rotationsToDegrees(((MotionMagicVoltage) state.REQUEST).Position);
 
+      if (state == ArmStates.STOWED){
+        return Math.abs(getArmPositionDegrees() - desiredPositionDegrees) < 1;
+      }
 
       return Math.abs(getArmPositionDegrees() - desiredPositionDegrees) < ArmConstants.armPositionAllowableOffset;
     }
@@ -166,6 +178,15 @@ public class ArmSubsystem extends SubsystemBase {
     armPrimary.setPosition(0);
     armFollower.setPosition(0);
   }
+
+//  public void setCoast() {
+//   armPrimary.getConfigurator().apply(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast));
+//  }
+
+//  public void setBrake() {
+//   armPrimary.getConfigurator().apply(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake));
+//  }
+
 
 
   @Override

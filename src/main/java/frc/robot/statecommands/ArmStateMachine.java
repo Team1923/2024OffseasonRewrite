@@ -81,7 +81,7 @@ public class ArmStateMachine extends Command {
       zeroTimer.reset();
       armZeroed = false;
     }
-    else if (!armZeroed && stateHandler.currentArmState == ArmStates.STOWED && desiredArmState == ArmStates.STOWED){
+    else if (!armZeroed && armSubsystem.isAtState(ArmStates.STOWED) && desiredArmState == ArmStates.STOWED){
       zeroTimer.start();
     }
     else if (armZeroed == true){

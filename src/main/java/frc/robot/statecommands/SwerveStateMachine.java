@@ -113,7 +113,7 @@ public class SwerveStateMachine extends Command {
           request = ((SwerveRequest.FieldCentricFacingAngle)SwerveSubsystem.SwerveStates.GOAL_CENTRIC.REQUEST)
           .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
           .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
-          .withTargetDirection(Rotation2d.fromDegrees(swerve.getGyroYaw()-stateHandler.llTx()));
+          .withTargetDirection(Rotation2d.fromDegrees(swerve.getGyroYaw()+stateHandler.llTx()));
           break;
         }
       default://Equivilent to field centric

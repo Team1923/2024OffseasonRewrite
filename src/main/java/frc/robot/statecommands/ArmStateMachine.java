@@ -4,6 +4,8 @@
 
 package frc.robot.statecommands;
 
+import javax.xml.namespace.QName;
+
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.math.util.Units;
@@ -20,18 +22,23 @@ import frc.robot.subsystems.ArmSubsystem.ArmStates;
 public class ArmStateMachine extends Command {
 
   private ArmSubsystem armSubsystem;
-  private Timer timer;
+  private Timer settleTimer;
+  private Timer zeroTimer;
   private StateHandler stateHandler = StateHandler.getInstance();
 
   /** Creates a new ArmStateMachine. */
 
-  private boolean armZeroed = false;
-  private int zeroingCounter = 0;
+  private double startZeroingTime = 0.75;
+  private double againstHardstopTime = 1.5;
+  private double relaxedTime = 2;
+  private boolean armZeroed;
 
   public ArmStateMachine(ArmSubsystem armSubsystem) {
 
     this.armSubsystem = armSubsystem;
-    timer = new Timer();
+    settleTimer = new Timer();
+    zeroTimer = new Timer();
+    armZeroed = false;
     addRequirements(armSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -39,10 +46,14 @@ public class ArmStateMachine extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.stop();
-    timer.reset();
+    settleTimer.stop();
+    settleTimer.reset();
+
+    zeroTimer.stop();
+    zeroTimer.reset();
 
     armZeroed = false;
+
   }
 
   @Override
@@ -64,45 +75,58 @@ public class ArmStateMachine extends Command {
     }
 
 
-    // if (desiredArmState == ArmStates.STOWED && armSubsystem.getArmPositionDegrees() >= -0.1/*Math.abs(armSubsystem.getArmSupplyCurrent()) >= ArmConstants.armSupplyToZero*/){
-    //   armSubsystem.zeroArm();
-    //   // zeroingCounter = 0;
-    //   armZeroed = true;
-    // }
-    // else if (desiredArmState == ArmStates.STOWED && (stateHandler.currentArmState == ArmStates.STOWED ||  stateHandler.currentArmState == ArmStates.ZEROING) && !armZeroed){
-    //     desiredArmState = ArmStates.ZEROING;
-    //     // zeroingCounter++;
-    // }
-    // else if (desiredArmState != ArmStates.STOWED || stateHandler.currentArmState != ArmStates.STOWED){
-    //   armZeroed = false;
-    // }
+    
+    if (desiredArmState != ArmStates.STOWED){
+      zeroTimer.stop();
+      zeroTimer.reset();
+      armZeroed = false;
+    }
+    else if (!armZeroed && stateHandler.currentArmState == ArmStates.STOWED && desiredArmState == ArmStates.STOWED){
+      zeroTimer.start();
+    }
+    else if (armZeroed == true){
+      zeroTimer.stop();
+    }
+
+    if (!armZeroed){
+      if (zeroTimer.hasElapsed(relaxedTime)){
+      armSubsystem.zeroArm();
+      armZeroed = true;
+      }
+      else if (zeroTimer.hasElapsed(againstHardstopTime)){
+        desiredArmState = ArmStates.OFF;
+      }
+      else if (zeroTimer.hasElapsed(startZeroingTime)){
+        desiredArmState = ArmStates.ZEROING;
+      }
+    }
+    
+  
+
+
    
     
 
-    if (desiredArmState != stateHandler.currentArmState && armSubsystem.isAtState(desiredArmState) && timer.get() == 0){ //Start the timer for the arm to settle when the arm motors are at the desired state (settle timer starts AFTER the motors are in the right place)
-      timer.restart();
+    if (desiredArmState != stateHandler.currentArmState && armSubsystem.isAtState(desiredArmState) && settleTimer.get() == 0){ //Start the timer for the arm to settle when the arm motors are at the desired state (settle timer starts AFTER the motors are in the right place)
+      settleTimer.restart();
     }
 
 
-    // if (!armSubsystem.isAtState(desiredArmState)) { //OLD WAY
-    //   System.out.println("HERE");
-    //   timer.restart();
-    // }
-    // SmartDashboard.putNumber("TIMER", timer.get());
-
     //Check for current position; arm motors must read that they are at position AND settle timer must have elapsed
-    if (timer.hasElapsed(desiredArmState.settleTime) && armSubsystem.isAtState(desiredArmState)) {
+    if (settleTimer.hasElapsed(desiredArmState.settleTime) && armSubsystem.isAtState(desiredArmState)) {
       stateHandler.currentArmState = desiredArmState;
-      timer.stop();
-      timer.reset();
+      settleTimer.stop();
+      settleTimer.reset();
     }
 
 
     armSubsystem.setArmTo(desiredArmState.REQUEST);
-    SmartDashboard.putString("request name", desiredArmState.name());
+    // SmartDashboard.putString("request name", desiredArmState.name());
     
 
     SmartDashboard.putBoolean("ISZEROED", armZeroed);
+
+    SmartDashboard.putNumber("ZERO TIMER", zeroTimer.get());
   }
 
   // Called once the command ends or is interrupted.
@@ -114,5 +138,6 @@ public class ArmStateMachine extends Command {
   public boolean isFinished() {
     return false;
   }
+
 
 }

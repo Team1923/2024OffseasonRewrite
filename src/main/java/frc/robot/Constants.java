@@ -197,7 +197,9 @@ public class Constants {
                                                 .withStatorCurrentLimitEnable(true))
                                 .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(1/armGearRatio));
                 
-                public static final double armSupplyToZero = 0.5; //Amps
+                // public static final double armSupplyToZero = 0.5; //Amps
+
+                // public static final double armOffsetAtHardstop = 0; //the amount of degrees the arm is at the hardstop BELOW our normal zero
 
         }
 

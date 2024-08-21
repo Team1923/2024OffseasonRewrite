@@ -33,8 +33,9 @@ public class ArmSubsystem extends SubsystemBase {
     FRONT_AMP(MMVoltageWithDegrees(-44.1)),
     DEFENSE(MMVoltageWithDegrees(-77.3)),
     CLIMB(MMVoltageWithDegrees(-77.3)),
-    ZEROING(new DutyCycleOut(0.1)),
-    ANGLE_TUNING(MMVoltageWithDegrees(0).withSlot(1));
+    ZEROING(new DutyCycleOut(0.05)),
+    ANGLE_TUNING(MMVoltageWithDegrees(0).withSlot(1)),
+    OFF(new DutyCycleOut(0));
 
     public ControlRequest REQUEST;
     public double settleTime;
@@ -160,6 +161,7 @@ public class ArmSubsystem extends SubsystemBase {
     armPrimary.setPosition(0);
     armFollower.setPosition(0);
   }
+
 
   @Override
   public void periodic() {

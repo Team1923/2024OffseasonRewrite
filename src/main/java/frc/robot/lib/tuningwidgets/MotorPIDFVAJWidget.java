@@ -17,6 +17,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.StateHandler;
+import frc.robot.StateHandler.ScoringType;
+import frc.robot.commands.scoring.ShootGamePiece;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
@@ -137,6 +142,7 @@ public class MotorPIDFVAJWidget {
 
         tab.add("SLOT", slotChooser).withPosition(4, 3);
         tab.add("UPDATE", new InstantCommand(() -> updateMotor()).ignoringDisable(true)).withPosition(4, 2).withSize(2, 1);
+        tab.add("GOTO", new SequentialCommandGroup(new InstantCommand(()->StateHandler.getInstance().scoringType = ScoringType.TUNING), new ShootGamePiece())).withPosition(7, 2).withSize(2, 1);
         tab.addBoolean("AT POSITION", () -> atPosition()).withPosition(6, 2);
     }
 

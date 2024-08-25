@@ -14,8 +14,10 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -74,7 +76,7 @@ public class ArmSubsystem extends SubsystemBase {
     armFollower.setControl(new Follower(ArmConstants.armMotorPrimaryID, true));
 
     // MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, ArmConstants.armRotsToDegrees, 0, armPrimary, armFollower);
-    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 0, 360, 0, ArmConstants.armPositionAllowableOffset, armPrimary, armFollower);
+    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 0, 360, 1, ArmConstants.armPositionAllowableOffset, armPrimary, armFollower);
 
     zeroArm();
 
@@ -145,7 +147,7 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public boolean isAtState(ArmStates state) {
 
-    if (Utils.isSimulation()) return true;
+    //if (Utils.isSimulation()) return true;
 
     if (state.REQUEST instanceof MotionMagicVoltage){
       // double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position * ArmConstants.armRotsToDegrees;
@@ -197,11 +199,36 @@ public class ArmSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Primary arm degrees", getArmPositionDegrees());
     SmartDashboard.putNumber("Primary arm rots", getArmPositionRots());
-    // SmartDashboard.putNumber("Follower arm", armFollower.getPosition().getValueAsDouble() * ArmConstants.armRotsToDegrees);
+    SmartDashboard.putNumber("Follower arm", Units.rotationsToDegrees(armFollower.getPosition().getValueAsDouble()));
 
     SmartDashboard.putNumber("Arm Supply", getArmSupplyCurrent());
 
     
+
+  }
+
+
+  @Override
+  public void simulationPeriodic(){
+    TalonFXSimState armPrimarySimState = armPrimary.getSimState();
+    // TalonFXSimState armFollowerSimState = armFollower.getSimState();
+
+
+    armPrimarySimState.setSupplyVoltage(RobotController.getBatteryVoltage());
+    // armFollowerSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
+
+    ArmConstants.armSimModel.setInputVoltage(armPrimarySimState.getMotorVoltage());
+    ArmConstants.armSimModel.update(0.020);
+
+    armPrimarySimState.setRawRotorPosition(ArmConstants.armGearRatio * ArmConstants.armSimModel.getAngularPositionRotations());
+    armPrimarySimState.setRotorVelocity(ArmConstants.armGearRatio * Units.radiansToRotations(ArmConstants.armSimModel.getAngularVelocityRadPerSec()));
+
+    // ArmConstants.armSimModel.setInputVoltage(armFollowerSimState.getMotorVoltage());
+    // ArmConstants.armSimModel.update(0.020);
+
+    // armFollowerSimState.setRawRotorPosition(ArmConstants.armGearRatio * ArmConstants.armSimModel.getAngularPositionRotations());
+    // armFollowerSimState.setRotorVelocity(ArmConstants.armGearRatio * Units.radiansToRotations(ArmConstants.armSimModel.getAngularVelocityRadPerSec()));
+
 
   }
 }

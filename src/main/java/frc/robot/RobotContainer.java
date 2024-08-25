@@ -93,26 +93,26 @@ public class RobotContainer {
     /* Operator Button Bindings */
 
     /* Scoring selection */
-    // operatorPS5Controller.triangle().onTrue(scoringMode(ScoringType.RANGED));
-    // operatorPS5Controller.square().onTrue(scoringMode(ScoringType.AMP));
-    // operatorPS5Controller.cross().onTrue(scoringMode(ScoringType.SUBWOOFER));
-    // operatorPS5Controller.circle().onTrue(scoringMode(ScoringType.REVERSE_SUBWOOFER) );
-    // operatorPS5Controller.povUp().onTrue(scoringMode(ScoringType.TRAP));
-    // operatorPS5Controller.L2().onTrue(scoringMode(ScoringType.LOW_PUNT));
-    // operatorPS5Controller.R2().onTrue(scoringMode(ScoringType.HIGH_PUNT));
+    operatorPS5Controller.triangle().onTrue(scoringMode(ScoringType.RANGED));
+    operatorPS5Controller.square().onTrue(scoringMode(ScoringType.AMP));
+    operatorPS5Controller.cross().onTrue(scoringMode(ScoringType.SUBWOOFER));
+    operatorPS5Controller.circle().onTrue(scoringMode(ScoringType.REVERSE_SUBWOOFER) );
+    operatorPS5Controller.povUp().onTrue(scoringMode(ScoringType.TRAP));
+    operatorPS5Controller.L2().onTrue(scoringMode(ScoringType.LOW_PUNT));
+    operatorPS5Controller.R2().onTrue(scoringMode(ScoringType.HIGH_PUNT));
 
     /* Intaking/Ejecting */
     operatorPS5Controller.povLeft().whileTrue(new BabyBirdCommand());
-    // operatorPS5Controller.create().whileTrue(new FullEjectCommand());
-    // operatorPS5Controller.R1().whileTrue(new DeployIntakeCommand());
-    // operatorPS5Controller.L1().whileTrue(new IntakeEjectCommand());
+    operatorPS5Controller.create().whileTrue(new FullEjectCommand());
+    operatorPS5Controller.R1().whileTrue(new DeployIntakeCommand());
+    operatorPS5Controller.L1().whileTrue(new IntakeEjectCommand());
 
 
     /* Misc */
-    // operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
+    operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
     //operatorPS5Controller.options().toggleOnTrue(new ManualArmControl(armSubsystem, () -> 0.25 * operatorPS5Controller.getRightY())); //#7
 
-    // operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
+    operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
 
 
     if (stateHandler.isAngleRPMTuning){

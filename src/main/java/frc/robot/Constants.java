@@ -17,6 +17,9 @@ import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 public class Constants {
 
@@ -191,7 +194,7 @@ public class Constants {
                                                 .withMotionMagicAcceleration(maxArmAccel)
                                                 .withMotionMagicJerk(maxArmJerk))
                                 .withMotorOutput(new MotorOutputConfigs()
-                                                .withNeutralMode(NeutralModeValue.Brake)) 
+                                                .withNeutralMode(NeutralModeValue.Brake))
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true))
@@ -200,6 +203,8 @@ public class Constants {
                 // public static final double armSupplyToZero = 0.5; //Amps
 
                 // public static final double armOffsetAtHardstop = 0; //the amount of degrees the arm is at the hardstop BELOW our normal zero
+
+                public static final DCMotorSim armSimModel = new DCMotorSim(DCMotor.getKrakenX60(2), armGearRatio, 0.5447340821);
 
         }
 

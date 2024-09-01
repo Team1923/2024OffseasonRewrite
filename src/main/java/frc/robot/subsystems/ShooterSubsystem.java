@@ -9,30 +9,38 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.sim.TalonFXSimState;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.StateHandler;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.FeederConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
 
 public class ShooterSubsystem extends SubsystemBase {
 
   public static enum ShooterStates {
-    IDLE_VELO(MMVelocityWithRPM(0)),
-    BABY_BIRD_VELO(MMVelocityWithRPM(-1000)),
-    FRONT_AMP_VELO(MMVelocityWithRPM(415)),
-    UNGUARDABLE_VELO(MMVelocityWithRPM(1190), MMVelocityWithRPM(1905)),
-    TRAP_VELO(MMVelocityWithRPM(650), MMVelocityWithRPM(1000)),
-    PUNT_HIGH_VELO(MMVelocityWithRPM(2100)),
-    PUNT_LOW_DUTY(new DutyCycleOut(1)),
-    SUBWOOFER_VELO(MMVelocityWithRPM(2000)),
-    REVERSE_SUBWOOFER_VELO(MMVelocityWithRPM(2000)),
-    RANGED_VELO(MMVelocityWithRPM(0)),
-    FULL_EJECT_DUTY(new DutyCycleOut(1)),
-    RPM_TUNING(MMVelocityWithRPM(0));
+    IDLE_VELO(MMVelocityTCWithRPM(0)),
+    BABY_BIRD_VELO(MMVelocityTCWithRPM(-1000)),
+    FRONT_AMP_VELO(MMVelocityTCWithRPM(415)),
+    UNGUARDABLE_VELO(MMVelocityTCWithRPM(1190), MMVelocityTCWithRPM(1905)),
+    TRAP_VELO(MMVelocityTCWithRPM(650), MMVelocityTCWithRPM(1000)),
+    PUNT_HIGH_VELO(MMVelocityTCWithRPM(2100)),
+    PUNT_LOW_DUTY(new DutyCycleOut(1).withEnableFOC(true)),
+    SUBWOOFER_VELO(MMVelocityTCWithRPM(2000)),
+    REVERSE_SUBWOOFER_VELO(MMVelocityTCWithRPM(2000)),
+    RANGED_VELO(MMVelocityTCWithRPM(0)),
+    FULL_EJECT_DUTY(new DutyCycleOut(1).withEnableFOC(true)),
+    RPM_TUNING(MMVelocityTCWithRPM(0));
 
     public ControlRequest REQUEST_TOP;
     public ControlRequest REQUEST_BOTTOM;
@@ -47,8 +55,8 @@ public class ShooterSubsystem extends SubsystemBase {
       this.REQUEST_BOTTOM = REQUEST_BOTTOM;
     }
 
-    private static MotionMagicVelocityVoltage MMVelocityWithRPM(double RPM) {
-      return new MotionMagicVelocityVoltage(RPM * ShooterConstants.RPMToRPS);
+    private static MotionMagicVelocityTorqueCurrentFOC MMVelocityTCWithRPM(double RPM) {
+      return new MotionMagicVelocityTorqueCurrentFOC(RPM * ShooterConstants.RPMToRPS);
     }
   }
 
@@ -66,6 +74,10 @@ public class ShooterSubsystem extends SubsystemBase {
   /* Initialize Shooter Motors */
   private TalonFX shooterTop = new TalonFX(ShooterConstants.shooterTopID, "rio");
   private TalonFX shooterBottom = new TalonFX(ShooterConstants.shooterBottomID, "rio");
+
+  private final FlywheelSim shooterTopSimModel = new FlywheelSim(DCMotor.getKrakenX60Foc(1), 1, ShooterConstants.shooterMomentOfIntertia);
+  private final FlywheelSim shooterBottomSimModel = new FlywheelSim(DCMotor.getKrakenX60Foc(1), 1, ShooterConstants.shooterMomentOfIntertia);
+
 
   /* Initialize TalonSRX used for blower motor */
   private TalonSRX blower = new TalonSRX(ShooterConstants.blowerID);
@@ -140,10 +152,10 @@ public class ShooterSubsystem extends SubsystemBase {
     if (Utils.isSimulation()) return true;
 
 
-    if (state.REQUEST_TOP instanceof MotionMagicVelocityVoltage) {
+    if (state.REQUEST_TOP instanceof MotionMagicVelocityTorqueCurrentFOC) {
       /* Get the shooter's velocities (in RPM) */
-      double desiredVelocityTop = ((MotionMagicVelocityVoltage) state.REQUEST_TOP).Velocity * ShooterConstants.RPSToRPM;
-      double desiredVelocityBottom = ((MotionMagicVelocityVoltage) state.REQUEST_BOTTOM).Velocity * ShooterConstants.RPSToRPM;
+      double desiredVelocityTop = ((MotionMagicVelocityTorqueCurrentFOC) state.REQUEST_TOP).Velocity * ShooterConstants.RPSToRPM;
+      double desiredVelocityBottom = ((MotionMagicVelocityTorqueCurrentFOC) state.REQUEST_BOTTOM).Velocity * ShooterConstants.RPSToRPM;
 
       /* Check if the shooter's RPM is within the RPM tolerance (25 RPM). */
       return Math.abs(getTopRPM() - desiredVelocityTop) < ShooterConstants.shooterRPMThreshhold
@@ -167,5 +179,24 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // TODO: ((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated
     // value;
+  }
+
+  @Override
+  public void simulationPeriodic(){
+    TalonFXSimState shooterTopSimState = shooterTop.getSimState();
+    TalonFXSimState shooterBottomSimState = shooterBottom.getSimState();
+
+    shooterTopSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
+    shooterBottomSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
+
+    shooterTopSimModel.setInputVoltage(shooterTopSimState.getMotorVoltage());
+    shooterBottomSimModel.setInputVoltage(shooterBottomSimState.getMotorVoltage());
+    
+    shooterTopSimModel.update(0.020);
+    shooterBottomSimModel.update(0.020);
+
+    shooterTopSimState.setRotorVelocity(Units.radiansToRotations(shooterTopSimModel.getAngularVelocityRadPerSec()));
+    shooterBottomSimState.setRotorVelocity(Units.radiansToRotations(shooterBottomSimModel.getAngularVelocityRadPerSec()));
+
   }
 }

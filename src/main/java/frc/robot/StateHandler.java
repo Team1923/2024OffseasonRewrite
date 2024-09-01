@@ -9,7 +9,7 @@ import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.InterpolationConstants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.ControllerConstants.Driver;
-import frc.robot.lib.simulation.SimulationSubsystem;
+import frc.robot.lib.simulation.SimulationUtils;
 import frc.robot.lib.vision.LimelightHelpers;
 import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
@@ -95,7 +95,7 @@ public class StateHandler {
      * @return limelight tx or -1 if no tag
      */
     public double llTx(){
-        if (Utils.isSimulation()) return SimulationSubsystem.simLLAngleToSpeaker(swervePose);
+        if (Utils.isSimulation()) return SimulationUtils.simLLAngleToSpeaker(swervePose);
 
         return (LimelightHelpers.getFiducialID(LimelightConstants.limelightName) == -1) ? 0 : LimelightHelpers.getTX(LimelightConstants.limelightName);
     }
@@ -119,7 +119,7 @@ public class StateHandler {
     }
 
     public double speakerDistance(){
-        if (Utils.isSimulation()) return SimulationSubsystem.getDistFromRobotToPose(swervePose, (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? Constants.FieldConstants.blueSpeakerPos : FieldConstants.redSpeakerPos);
+        if (Utils.isSimulation()) return SimulationUtils.getDistFromRobotToPose(swervePose, (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? Constants.FieldConstants.blueSpeakerPos : FieldConstants.redSpeakerPos);
         return hasSpeakerTag() ? InterpolationConstants.tyToDistanceMap.get(llTy()) : -1;
     }
 

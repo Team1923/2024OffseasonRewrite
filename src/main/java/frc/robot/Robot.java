@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.LimelightConstants;
-import frc.robot.lib.simulation.SimulationSubsystem;
+import frc.robot.lib.simulation.SimulationUtils;
 import frc.robot.lib.tuningwidgets.SwerveRequestPIDWidget;
 import frc.robot.lib.vision.LimelightHelpers;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
@@ -32,12 +32,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
-    if (Utils.isSimulation()){
-      SimulationSubsystem.getInstance();
-    }
+    
 
     SwerveRequestPIDWidget ampPID = new SwerveRequestPIDWidget(SwerveStates.FACING_AMP);
-      SwerveRequestPIDWidget GCPID = new SwerveRequestPIDWidget(SwerveStates.GOAL_CENTRIC);
+    SwerveRequestPIDWidget GCPID = new SwerveRequestPIDWidget(SwerveStates.GOAL_CENTRIC);
 
   }
 
@@ -53,6 +51,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("TY", stateHandler.llTy());
 
     // System.out.println(((MotionMagicVoltage)(ArmStates.BABY_BIRD.REQUEST)).Position);
+
+    if (Utils.isSimulation()){
+      SimulationUtils.getInstance().update();
+    }
 
    
   }

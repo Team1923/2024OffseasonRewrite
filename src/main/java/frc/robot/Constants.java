@@ -2,6 +2,7 @@ package frc.robot;
 
 import org.opencv.core.Point;
 
+import com.ctre.phoenix6.configs.ClosedLoopGeneralConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
@@ -9,6 +10,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TorqueCurrentConfigs;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -48,6 +50,8 @@ public class Constants {
                 public static final double RPSToRPM = 60;
                 public static final double RPMToRPS = 1 / RPSToRPM;
 
+                public static final double shooterMomentOfIntertia = 0.03437345364;
+
                 /* Parameters for the Shooter's Acceleration and Jerk */
                 public static final double maxShooterAccel = 400; // Rotations/sec^2
                 public static final double maxShooterJerk = 5000; // Rotations/sec^3
@@ -68,7 +72,10 @@ public class Constants {
                                                 .withNeutralMode(NeutralModeValue.Brake))
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
-                                                .withStatorCurrentLimitEnable(true));
+                                                .withStatorCurrentLimitEnable(true))
+                                .withTorqueCurrent(new TorqueCurrentConfigs()
+                                                .withPeakForwardTorqueCurrent(80)
+                                                .withPeakReverseTorqueCurrent(-80));
 
                 /* RPM Threshold for Current State Evaluation */
                 public static final double shooterRPMThreshhold = 50;
@@ -97,6 +104,8 @@ public class Constants {
                 public static final double intakeRotsToDegrees = 360 / intakeGearRatio;
                 public static final double intakeDegreesToRotations = 1 / intakeRotsToDegrees;
 
+                public static final double intakeMomentOfInertia = 0.0724166053;
+
                 /* Define allowable offset for the intake arm's position */
                 public static final double intakePositionAllowableOffset = 2.9;
 
@@ -119,6 +128,9 @@ public class Constants {
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true))
+                                .withTorqueCurrent(new TorqueCurrentConfigs()
+                                                .withPeakForwardTorqueCurrent(80)
+                                                .withPeakReverseTorqueCurrent(-80))
                                 .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(intakeGearRatio));
 
 
@@ -131,12 +143,17 @@ public class Constants {
                 public static final int beamBreak2ID = 2;
                 public static final int beamBreak3ID = 3;
 
+                public static final double feederMomentOfInertia = 0.001255424111;
+
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
                                 .withMotorOutput(new MotorOutputConfigs()
                                                 .withNeutralMode(NeutralModeValue.Brake))
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
-                                                .withStatorCurrentLimitEnable(true));
+                                                .withStatorCurrentLimitEnable(true))
+                                .withTorqueCurrent(new TorqueCurrentConfigs()
+                                                .withPeakForwardTorqueCurrent(80)
+                                                .withPeakReverseTorqueCurrent(-80));
                 
                 public static final double timeout = 2; //seconds
         }
@@ -166,6 +183,8 @@ public class Constants {
                 public static final double armGearRatio = 129.6;
                 public static final double armRotsToDegrees = 360 / armGearRatio;
                 public static final double armDegreesToRots = 1 / armRotsToDegrees;
+
+                public static final double armMomentOfInertia = 0.5447340821;
 
                 /* kG - gravity constant for motion of arm */
                 //public static final double armMaxGravityConstant = 0.05 * 12; // 2 volts max ff
@@ -198,13 +217,12 @@ public class Constants {
                                 .withCurrentLimits(new CurrentLimitsConfigs()
                                                 .withStatorCurrentLimit(80)
                                                 .withStatorCurrentLimitEnable(true))
-                                .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(armGearRatio));
-                
-                // public static final double armSupplyToZero = 0.5; //Amps
+                                .withTorqueCurrent(new TorqueCurrentConfigs()
+                                                .withPeakForwardTorqueCurrent(80)
+                                                .withPeakReverseTorqueCurrent(-80))
+                                .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(armGearRatio));                
 
-                // public static final double armOffsetAtHardstop = 0; //the amount of degrees the arm is at the hardstop BELOW our normal zero
 
-                public static final DCMotorSim armSimModel = new DCMotorSim(DCMotor.getKrakenX60(2), armGearRatio, 0.5447340821);
 
         }
 

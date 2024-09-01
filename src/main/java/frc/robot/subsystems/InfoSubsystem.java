@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
@@ -164,8 +166,8 @@ public class InfoSubsystem extends SubsystemBase {
 
     // SmartDashboard.putBoolean("AUTO OVERRIDE", stateHandler.getAutoOverride());
 
-    SmartDashboard.putNumber("Tuning Angle", ((MotionMagicVoltage)(ArmStates.ANGLE_TUNING.REQUEST)).Position * ArmConstants.armRotsToDegrees);
-    SmartDashboard.putNumber("Tuning RPM", ((MotionMagicVelocityVoltage)(ShooterStates.RPM_TUNING.REQUEST_TOP)).Velocity * ShooterConstants.RPSToRPM);
+    SmartDashboard.putNumber("Tuning Angle", ((MotionMagicTorqueCurrentFOC)(ArmStates.ANGLE_TUNING.REQUEST)).Position * ArmConstants.armRotsToDegrees);
+    SmartDashboard.putNumber("Tuning RPM", ((MotionMagicVelocityTorqueCurrentFOC)(ShooterStates.RPM_TUNING.REQUEST_TOP)).Velocity * ShooterConstants.RPSToRPM);
     
 // 
 

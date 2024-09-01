@@ -7,6 +7,8 @@ package frc.robot.lib.tuningwidgets;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -127,13 +129,13 @@ public class MotorPIDFVAJWidget {
 
         if (angleConversion != 0){
             currentAngle = tab.addDouble("CURRENT ANGLE", () -> motors[0].getPosition().getValueAsDouble() * angleConversion).withPosition(0,2).withSize(2, 1);
-            desiredAngle = tab.add("DESIRED TUNING ANGLE", ((MotionMagicVoltage)ArmStates.ANGLE_TUNING.REQUEST).Position * angleConversion).withPosition(0, 3).withSize(2, 1).getEntry();
+            desiredAngle = tab.add("DESIRED TUNING ANGLE", ((MotionMagicTorqueCurrentFOC)ArmStates.ANGLE_TUNING.REQUEST).Position * angleConversion).withPosition(0, 3).withSize(2, 1).getEntry();
 
         }
 
         if (velocityConversion != 0){
             currentVelocity= tab.addDouble("CURRENT VELOCITY", () -> motors[0].getVelocity().getValueAsDouble() * velocityConversion).withPosition(2,2).withSize(2, 1);
-            desiredVelocity = tab.add("DESIRED TUNING VELOCITY", ((MotionMagicVelocityVoltage)ShooterStates.RPM_TUNING.REQUEST_TOP).Velocity * velocityConversion).withPosition(2, 3).withSize(2, 1).getEntry();
+            desiredVelocity = tab.add("DESIRED TUNING VELOCITY", ((MotionMagicVelocityTorqueCurrentFOC)ShooterStates.RPM_TUNING.REQUEST_TOP).Velocity * velocityConversion).withPosition(2, 3).withSize(2, 1).getEntry();
       
         }
 
@@ -194,12 +196,12 @@ public class MotorPIDFVAJWidget {
 
         if (desiredAngle != null) {
             System.out.println(desiredAngle.get().getDouble() * 1/angleConversion);
-            ((MotionMagicVoltage)ArmStates.ANGLE_TUNING.REQUEST).Position = desiredAngle.get().getDouble() * 1/angleConversion;
+            ((MotionMagicTorqueCurrentFOC)ArmStates.ANGLE_TUNING.REQUEST).Position = desiredAngle.get().getDouble() * 1/angleConversion;
         }
         if (desiredVelocity != null){
             System.out.println(desiredVelocity.get().getDouble() * 1/velocityConversion);
-            ((MotionMagicVelocityVoltage)ShooterStates.RPM_TUNING.REQUEST_TOP).Velocity = desiredVelocity.get().getDouble() * 1/velocityConversion;
-            ((MotionMagicVelocityVoltage)ShooterStates.RPM_TUNING.REQUEST_BOTTOM).Velocity = desiredVelocity.get().getDouble() * 1/velocityConversion;
+            ((MotionMagicVelocityTorqueCurrentFOC)ShooterStates.RPM_TUNING.REQUEST_TOP).Velocity = desiredVelocity.get().getDouble() * 1/velocityConversion;
+            ((MotionMagicVelocityTorqueCurrentFOC)ShooterStates.RPM_TUNING.REQUEST_BOTTOM).Velocity = desiredVelocity.get().getDouble() * 1/velocityConversion;
 
         } 
 

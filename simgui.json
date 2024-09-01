@@ -17,13 +17,21 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Pose": "Field2d",
+      "/Shuffleboard/ARM/GOTO": "Command",
       "/Shuffleboard/ARM/SLOT": "String Chooser",
       "/Shuffleboard/ARM/UPDATE": "Command",
+      "/Shuffleboard/INTAKE/GOTO": "Command",
+      "/Shuffleboard/INTAKE/SLOT": "String Chooser",
+      "/Shuffleboard/INTAKE/UPDATE": "Command",
       "/Shuffleboard/PID Swerve/FACING_AMP Heading Controller": "PIDController",
       "/Shuffleboard/PID Swerve/GOAL_CENTRIC Heading Controller": "PIDController",
+      "/Shuffleboard/SHOOTER/GOTO": "Command",
       "/Shuffleboard/SHOOTER/SLOT": "String Chooser",
       "/Shuffleboard/SHOOTER/UPDATE": "Command"
     }
+  },
+  "NetworkTables Info": {
+    "visible": true
   },
   "NetworkTables View": {
     "visible": false

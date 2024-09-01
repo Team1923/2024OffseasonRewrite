@@ -41,9 +41,9 @@ import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeRollerStates;
 import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
-public class SimulationSubsystem extends SubsystemBase {
+public class SimulationUtils {
 
-  private static SimulationSubsystem simSub = new SimulationSubsystem();
+  private static SimulationUtils simSub = new SimulationUtils();
 
 
   private static final double collectionDist = 0.75; //meters
@@ -51,9 +51,9 @@ public class SimulationSubsystem extends SubsystemBase {
 
   private StateHandler stateHandler = StateHandler.getInstance();
 
-  public static synchronized SimulationSubsystem getInstance(){
+  public static synchronized SimulationUtils getInstance(){
       if (simSub == null){
-        simSub = new SimulationSubsystem();
+        simSub = new SimulationUtils();
       }
       return simSub;
   }
@@ -84,18 +84,22 @@ public class SimulationSubsystem extends SubsystemBase {
   private boolean isCollecting = false;
   private Timer collectionTimer;
 
+  private boolean hasNote = false;
+
+  private Timer bbTimer;
+  private final double bbTransitionTime = 0.05;
+
   private Timer shootTimer;
 
   private Timer babyBirdTimer;
 
-  Integer[] list = {4 ,7, 11, 12, 13, 14, 15, 16};
+  private Integer[] list = {4 ,7, 11, 12, 13, 14, 15, 16};
 
   private List<Integer> filteredIDs = Arrays.asList(list);
 
   private ShuffleboardTab driverDashboard = Shuffleboard.getTab("Driver Dashboard");
 
   private double notesScored = 0;
-
 
   private Pose2d currentPose;
 
@@ -104,7 +108,7 @@ public class SimulationSubsystem extends SubsystemBase {
   ;
 
   /** Creates a new SimulationSubsystem. */
-  private SimulationSubsystem() {
+  private SimulationUtils() {
 
     populateNotes();
 
@@ -118,6 +122,10 @@ public class SimulationSubsystem extends SubsystemBase {
    shootTimer = new Timer();
 
    babyBirdTimer = new Timer();
+
+   bbTimer = new Timer();
+   bbTimer.stop();
+   bbTimer.reset();
 
    stateHandler.bb2Covered = true;
 
@@ -152,6 +160,69 @@ public class SimulationSubsystem extends SubsystemBase {
 
   public void setCollecting(boolean collecting){
     isCollecting = collecting;
+  }
+
+  public void bbMoveForward(){
+    if (bbTimer.hasElapsed(bbTransitionTime)){
+
+      if (stateHandler.bb1Covered){
+        stateHandler.bb1Covered = false;
+        stateHandler.bb2Covered = true;
+      }
+      else if (stateHandler.bb2Covered){
+        stateHandler.bb3Covered = true;
+      }
+      else if (stateHandler.bb3Covered){
+        stateHandler.bb2Covered = false;
+        stateHandler.bb4Covered = true;
+      }
+      else if (stateHandler.bb4Covered){
+        if (!stateHandler.bb3Covered){
+          stateHandler.bb4Covered = false;
+          hasNote = false;
+        }
+        else{
+          stateHandler.bb3Covered = false;
+        }
+      }
+      
+
+
+      bbTimer.restart();
+    }
+  }
+
+  public void bbMoveBackward(){
+    if (bbTimer.hasElapsed(bbTransitionTime)){
+
+      if (stateHandler.bb4Covered){
+        if (stateHandler.bb3Covered){
+          stateHandler.bb4Covered = false;
+        }
+        else{
+          stateHandler.bb3Covered = true;
+        }
+      }
+      else if (stateHandler.bb3Covered){
+          stateHandler.bb2Covered = true;
+      }
+      else if (stateHandler.bb2Covered){
+        if (stateHandler.bb3Covered){
+          stateHandler.bb3Covered = false;
+        }
+        else{
+          stateHandler.bb2Covered = false;
+          stateHandler.bb1Covered = true;
+        }
+      }
+      else if (stateHandler.bb1Covered){
+        stateHandler.bb1Covered = false;
+        hasNote = false;
+      }
+
+
+      bbTimer.restart();
+    }
   }
 
 
@@ -208,8 +279,7 @@ public class SimulationSubsystem extends SubsystemBase {
 
 
 
-  @Override
-  public void periodic() {
+  public void update() {
     // This method will be called once per scheduler run
 
     if (Utils.isSimulation()){
@@ -217,97 +287,140 @@ public class SimulationSubsystem extends SubsystemBase {
       updatePose(stateHandler.swervePose);
 
 
-      //Intaking
-      if (isCollecting){
-          if (collectionTimer.get()==0){
-          collectionTimer.start();
-          stateHandler.bb1Covered = (true);
-          }
+      if (stateHandler.currentIntakeArmState == IntakeArmStates.DEPLOYED && stateHandler.currentIntakeRollerState == IntakeRollerStates.INTAKE){
 
-          if (collectionTimer.get()>=IntakeTimes.bb1OffTime){
-            stateHandler.bb1Covered = (false);
-          }
+        for (int i = notePoses.size()-1; i >=0; i--){
+          Translation2d notePos = notePoses.get(i);
+          if (true /*notePos.getDistance(currentPose.getTranslation())< collectionDist*/){
 
-          if (collectionTimer.get()>=IntakeTimes.bb2OnTime){
-            stateHandler.bb2Covered = (true);
-          }
+            stateHandler.bb1Covered = true;
+            hasNote = true;
 
-          if (collectionTimer.get()>IntakeTimes.bb3OnTime){
-            stateHandler.bb3Covered = (true);
-            collectionTimer.stop();
-            collectionTimer.reset();
-            isCollecting = false;
-        
+            notePoses.remove(i);
           }
-          
+        }
+    }
+    else if (stateHandler.currentArmState == ArmStates.BABY_BIRD){
+      if (true /*isInSource()*/){
+        stateHandler.bb4Covered = true;
+        hasNote = true;
       }
+    }
+
+    if (hasNote){
+
+    
+      if (stateHandler.currentIntakeRollerState == IntakeRollerStates.INTAKE && (stateHandler.bb1Covered || stateHandler.bb2Covered)){
+          bbMoveForward();
+      }
+      else if (stateHandler.currentIntakeRollerState == IntakeRollerStates.EJECT && (stateHandler.bb1Covered || stateHandler.bb2Covered)){
+        bbMoveBackward();
+      }
+
+      else if (stateHandler.currentFeederState == FeederStates.FEED_TO_SHOOTER && (stateHandler.bb2Covered || stateHandler.bb3Covered || stateHandler.bb4Covered)){
+        bbMoveForward();
+      }
+      else if (stateHandler.currentFeederState == FeederStates.FEED_TO_INTAKE && (stateHandler.bb2Covered || stateHandler.bb3Covered || stateHandler.bb4Covered)){
+        bbMoveBackward();
+      }
+      else if (stateHandler.currentFeederState == FeederStates.BACKING && (stateHandler.bb2Covered || stateHandler.bb3Covered || stateHandler.bb4Covered)){
+        bbMoveBackward();
+      }
+      else if (stateHandler.currentFeederState == FeederStates.FRONTING && (stateHandler.bb2Covered || stateHandler.bb3Covered || stateHandler.bb4Covered)){
+        bbMoveForward();
+      }
+      else if (stateHandler.currentFeederState == FeederStates.FULL_EJECT && stateHandler.bb1Covered){
+        bbMoveBackward();
+      }
+      else if (stateHandler.currentFeederState == FeederStates.FULL_EJECT){
+        bbMoveForward();
+      }
+    }
+
+
+
+
+
+
+      //Intaking
+      // if (isCollecting){
+      //     if (collectionTimer.get()==0){
+      //     collectionTimer.start();
+      //     stateHandler.bb1Covered = (true);
+      //     }
+
+      //     if (collectionTimer.get()>=IntakeTimes.bb1OffTime){
+      //       stateHandler.bb1Covered = (false);
+      //     }
+
+      //     if (collectionTimer.get()>=IntakeTimes.bb2OnTime){
+      //       stateHandler.bb2Covered = (true);
+      //     }
+
+      //     if (collectionTimer.get()>IntakeTimes.bb3OnTime){
+      //       stateHandler.bb3Covered = (true);
+      //       collectionTimer.stop();
+      //       collectionTimer.reset();
+      //       isCollecting = false;
+        
+      //     }
+          
+      // }
 
 
     
-      else if (stateHandler.currentIntakeArmState == IntakeArmStates.DEPLOYED && stateHandler.currentIntakeRollerState == IntakeRollerStates.INTAKE){
-
-          for (int i = notePoses.size()-1; i >=0; i--){
-            Translation2d notePos = notePoses.get(i);
-            if (true /*notePos.getDistance(currentPose.getTranslation())< collectionDist*/){
-
-
-              isCollecting = true;
-
-              notePoses.remove(i);
-            }
-          }
-      }
+      
       
       //Source Intaking
-      if (stateHandler.currentArmState== ArmStates.BABY_BIRD 
-      && stateHandler.currentShooterState == ShooterStates.BABY_BIRD_VELO
-      && true/*isInSource()*/){
-        if (babyBirdTimer.get() ==0){
-          babyBirdTimer.start();
-          stateHandler.bb4Covered = (true);
-        }
+      // if (stateHandler.currentArmState== ArmStates.BABY_BIRD 
+      // && stateHandler.currentShooterState == ShooterStates.BABY_BIRD_VELO
+      // && true/*isInSource()*/){
+      //   if (babyBirdTimer.get() ==0){
+      //     babyBirdTimer.start();
+      //     stateHandler.bb4Covered = (true);
+      //   }
 
-        if (babyBirdTimer.hasElapsed(SourceIntakeTimes.bb3OnTime)){
-          stateHandler.bb3Covered = (true);
-        }
+      //   if (babyBirdTimer.hasElapsed(SourceIntakeTimes.bb3OnTime)){
+      //     stateHandler.bb3Covered = (true);
+      //   }
 
-        if (babyBirdTimer.hasElapsed(SourceIntakeTimes.bb2OnTime)){
-          stateHandler.bb2Covered = (true);
-        }
+      //   if (babyBirdTimer.hasElapsed(SourceIntakeTimes.bb2OnTime)){
+      //     stateHandler.bb2Covered = (true);
+      //   }
 
-        if (babyBirdTimer.hasElapsed(SourceIntakeTimes.bb4OffTime)){
-          stateHandler.bb4Covered = (false);
-        }
-      }
-      else{
-        babyBirdTimer.stop();
-        babyBirdTimer.reset();
-      }
-      //Shooting
-      if (stateHandler.currentFeederState == FeederStates.FEED_TO_SHOOTER && stateHandler.currentArmState != ArmStates.STOWED){
+      //   if (babyBirdTimer.hasElapsed(SourceIntakeTimes.bb4OffTime)){
+      //     stateHandler.bb4Covered = (false);
+      //   }
+      // }
+      // else{
+      //   babyBirdTimer.stop();
+      //   babyBirdTimer.reset();
+      // }
+      // //Shooting
+      // if (stateHandler.currentFeederState == FeederStates.FEED_TO_SHOOTER && stateHandler.currentArmState != ArmStates.STOWED){
 
-        if (shootTimer.get() == 0){
-          shootTimer.start();
-          stateHandler.bb4Covered = (true);
-        }
+      //   if (shootTimer.get() == 0){
+      //     shootTimer.start();
+      //     stateHandler.bb4Covered = (true);
+      //   }
 
-        if (shootTimer.get() > ShootTimes.bb2OffTime){
-          stateHandler.bb2Covered = (false);
-        }
+      //   if (shootTimer.get() > ShootTimes.bb2OffTime){
+      //     stateHandler.bb2Covered = (false);
+      //   }
 
-        if (shootTimer.get() > ShootTimes.bb3OffTime){
-          stateHandler.bb3Covered = (false);
-        }
+      //   if (shootTimer.get() > ShootTimes.bb3OffTime){
+      //     stateHandler.bb3Covered = (false);
+      //   }
 
-        if (shootTimer.get() > ShootTimes.bb4OffTime){
-          stateHandler.bb4Covered = (false);
-          // notesScored++;
-        }
-      }
-      else{
-        shootTimer.stop();
-        shootTimer.reset();
-      }
+      //   if (shootTimer.get() > ShootTimes.bb4OffTime){
+      //     stateHandler.bb4Covered = (false);
+      //     // notesScored++;
+      //   }
+      // }
+      // else{
+      //   shootTimer.stop();
+      //   shootTimer.reset();
+      // }
 
       
     }

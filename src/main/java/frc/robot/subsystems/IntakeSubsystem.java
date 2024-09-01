@@ -9,14 +9,26 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.mechanisms.MechanismState;
+import com.ctre.phoenix6.sim.TalonFXSimState;
 
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
 import frc.robot.StateHandler;
@@ -24,8 +36,8 @@ import frc.robot.StateHandler;
 public class IntakeSubsystem extends SubsystemBase {
   /* Arm States Enum */
   public static enum IntakeArmStates {
-    DEPLOYED(MMVoltageWithDegrees(120)), // original: 2.00 radians
-    STOWED(MMVoltageWithDegrees(0));
+    DEPLOYED(MMTorqueCurrent(120)), // original: 2.00 radians
+    STOWED(MMTorqueCurrent(0));
 
     public ControlRequest REQUEST;
 
@@ -33,10 +45,10 @@ public class IntakeSubsystem extends SubsystemBase {
       this.REQUEST = request;
     }
 
-    private static MotionMagicVoltage MMVoltageWithDegrees(double degrees) {
+    private static MotionMagicTorqueCurrentFOC MMTorqueCurrent(double degrees) {
 
       // return new MotionMagicVoltage(degrees * IntakeConstants.intakeDegreesToRotations);
-      return new MotionMagicVoltage(Units.degreesToRotations(degrees));
+      return new MotionMagicTorqueCurrentFOC(Units.degreesToRotations(degrees));
 
     }
   }
@@ -59,6 +71,11 @@ public class IntakeSubsystem extends SubsystemBase {
   private TalonFX intakeArmPrimary = new TalonFX(Constants.IntakeConstants.intakeArmPrimaryID, "rio");
   private TalonFX intakeArmFollower = new TalonFX(Constants.IntakeConstants.intakeArmFollowerID, "rio");
 
+  private final DCMotorSim intakeArmSimModel = new DCMotorSim(DCMotor.getKrakenX60Foc(2), IntakeConstants.intakeGearRatio, IntakeConstants.intakeMomentOfInertia);
+  private final Mechanism2d intakeArmMechanism = new Mechanism2d(1, 1);
+  private final MechanismRoot2d intakeArmRoot = intakeArmMechanism.getRoot("Intake Arm Root", StateHandler.getInstance().swervePose.getX(), StateHandler.getInstance().swervePose.getY());
+  private final MechanismLigament2d intakeArmLigament = new MechanismLigament2d("Intake Arm Ligament", 1, 90);
+
   private TalonFX intakeWheelTop = new TalonFX(Constants.IntakeConstants.intakeWheelTopID, "rio");
   private TalonFX intakeWheelBottom = new TalonFX(Constants.IntakeConstants.intakeWheelBottomID, "rio");
 
@@ -73,7 +90,10 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeArmFollower.setControl(new Follower(IntakeConstants.intakeArmPrimaryID, false));
     intakeWheelBottom.setControl(new Follower(IntakeConstants.intakeWheelTopID, false));
 
-    //MotorPIDFVAJWidget intakeTuning = new MotorPIDFVAJWidget("INTAKE", IntakeConstants.ARM_CONFIGS, 0, 1/360, 0, IntakeConstants.intakePositionAllowableOffset, intakeArmPrimary, intakeArmFollower);
+    intakeArmRoot.append(intakeArmLigament);
+    
+
+    MotorPIDFVAJWidget intakeTuning = new MotorPIDFVAJWidget("INTAKE", IntakeConstants.ARM_CONFIGS, 0, 1/360, 0, IntakeConstants.intakePositionAllowableOffset, intakeArmPrimary, intakeArmFollower);
 
     zeroIntakeArm();
   }
@@ -98,10 +118,10 @@ public class IntakeSubsystem extends SubsystemBase {
     if (Utils.isSimulation()) return true;
 
 
-    if (state.REQUEST instanceof MotionMagicVoltage){
+    if (state.REQUEST instanceof MotionMagicTorqueCurrentFOC){
       // double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position
       //     * IntakeConstants.intakeRotsToDegrees;
-       double desiredPositionDegrees = Units.rotationsToDegrees(((MotionMagicVoltage) state.REQUEST).Position);
+       double desiredPositionDegrees = Units.rotationsToDegrees(((MotionMagicTorqueCurrentFOC) state.REQUEST).Position);
           
 
       return Math.abs(getIntakeArmPositionDegrees() - desiredPositionDegrees) < IntakeConstants.intakePositionAllowableOffset;
@@ -165,8 +185,30 @@ public class IntakeSubsystem extends SubsystemBase {
     if (!Utils.isSimulation()){
       StateHandler.getInstance().bb1Covered = !beamBreakOne.get();
     }
+
+   
+
     SmartDashboard.putNumber("Intake Primary Position", getIntakeArmPositionDegrees());
     // SmartDashboard.putNumber("Intake Follower Position", intakeArmFollower.getPosition().getValueAsDouble() * IntakeConstants.intakeRotsToDegrees);
+
+  }
+
+  @Override
+  public void simulationPeriodic(){
+    TalonFXSimState intakeArmPrimarySimState = intakeArmPrimary.getSimState();
+
+
+    intakeArmPrimarySimState.setSupplyVoltage(RobotController.getBatteryVoltage());
+
+    intakeArmSimModel.setInputVoltage(intakeArmPrimarySimState.getMotorVoltage());
+    intakeArmSimModel.update(0.020);
+
+    intakeArmPrimarySimState.setRawRotorPosition(ArmConstants.armGearRatio * intakeArmSimModel.getAngularPositionRotations());
+    intakeArmPrimarySimState.setRotorVelocity(ArmConstants.armGearRatio * Units.radiansToRotations(intakeArmSimModel.getAngularVelocityRadPerSec()));
+
+
+    intakeArmRoot.setPosition(StateHandler.getInstance().swervePose.getX(), StateHandler.getInstance().swervePose.getY());
+    intakeArmLigament.setAngle(90 - getIntakeArmPositionDegrees());
 
   }
 }

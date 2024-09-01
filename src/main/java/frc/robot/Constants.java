@@ -50,7 +50,7 @@ public class Constants {
                 public static final double RPSToRPM = 60;
                 public static final double RPMToRPS = 1 / RPSToRPM;
 
-                public static final double shooterMomentOfIntertia = 0.03437345364;
+                public static final double shooterMomentOfIntertia = 0.003437345364;
 
                 /* Parameters for the Shooter's Acceleration and Jerk */
                 public static final double maxShooterAccel = 400; // Rotations/sec^2

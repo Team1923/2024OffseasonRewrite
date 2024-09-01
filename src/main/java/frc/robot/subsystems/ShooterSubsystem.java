@@ -18,13 +18,17 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.StateHandler;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.misc.SimpleShooterStateSwapCommand;
 import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
+import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -94,7 +98,16 @@ public class ShooterSubsystem extends SubsystemBase {
     /* Apply a Default Configuration to the Blower Motor */
     blower.configFactoryDefault();
 
-    MotorPIDFVAJWidget shooterTuner = new MotorPIDFVAJWidget("SHOOTER", ShooterConstants.CONFIGS,0, 0, ShooterConstants.RPSToRPM, ShooterConstants.shooterRPMThreshhold, shooterTop, shooterBottom);
+    MotorPIDFVAJWidget shooterTuner = new MotorPIDFVAJWidget(
+                                                "SHOOTER", 
+                                                ShooterConstants.CONFIGS,
+                                                0, 
+                                                0, 
+                                                ShooterConstants.RPSToRPM, 
+                                                ShooterConstants.shooterRPMThreshhold, 
+                                                ShooterStates.RPM_TUNING.REQUEST_TOP, ShooterStates.RPM_TUNING.REQUEST_BOTTOM,
+                                                new SimpleShooterStateSwapCommand(ShooterStates.RPM_TUNING, ShooterStates.IDLE_VELO),
+                                                shooterTop, shooterBottom);
   }
 
   /**
@@ -149,7 +162,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public boolean isAtState(ShooterStates state) {
 
-    if (Utils.isSimulation()) return true;
+    // if (Utils.isSimulation()) return true;
 
 
     if (state.REQUEST_TOP instanceof MotionMagicVelocityTorqueCurrentFOC) {

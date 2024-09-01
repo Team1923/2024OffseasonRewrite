@@ -6,6 +6,7 @@ package frc.robot.commands.climb;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +22,7 @@ public class ManualClimbCommand extends Command {
   private ArmSubsystem armSubsystem;
   private DoubleSupplier input;
 
-  private MotionMagicVoltage holdingRequest;
+  private MotionMagicTorqueCurrentFOC holdingRequest;
 
   /** Creates a new ManualClimbCommand. */
   public ManualClimbCommand(ArmSubsystem armSubsystem, DoubleSupplier input) {
@@ -30,14 +31,14 @@ public class ManualClimbCommand extends Command {
     this.armSubsystem = armSubsystem;
     this.input = input;
 
-    if (ArmStates.CLIMB.REQUEST instanceof MotionMagicVoltage){
-        holdingRequest = (MotionMagicVoltage)ArmStates.CLIMB.REQUEST;
+    if (ArmStates.CLIMB.REQUEST instanceof MotionMagicTorqueCurrentFOC){
+        holdingRequest = (MotionMagicTorqueCurrentFOC)ArmStates.CLIMB.REQUEST;
     }
     else{
       for (int i = 0; i < 100; i++){
         System.out.println("FATAL ERROR ON CLIMB");
       }
-      holdingRequest = new MotionMagicVoltage(0);
+      holdingRequest = new MotionMagicTorqueCurrentFOC(0);
     }
 
     addRequirements(armSubsystem);
@@ -48,14 +49,14 @@ public class ManualClimbCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (ArmStates.CLIMB.REQUEST instanceof MotionMagicVoltage){
-        holdingRequest.Position = ((MotionMagicVoltage)ArmStates.CLIMB.REQUEST).Position;
+    if (ArmStates.CLIMB.REQUEST instanceof MotionMagicTorqueCurrentFOC){
+        holdingRequest.Position = ((MotionMagicTorqueCurrentFOC)ArmStates.CLIMB.REQUEST).Position;
     }
     else{
       for (int i = 0; i < 100; i++){
         System.out.println("FATAL ERROR ON CLIMB");
       }
-      holdingRequest = new MotionMagicVoltage(0);
+      holdingRequest = new MotionMagicTorqueCurrentFOC(0);
     }
 
 

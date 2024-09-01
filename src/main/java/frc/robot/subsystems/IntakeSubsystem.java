@@ -26,10 +26,12 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.misc.SimpleIntakeArmStateSwapCommand;
 import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
 import frc.robot.StateHandler;
 
@@ -37,7 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
   /* Arm States Enum */
   public static enum IntakeArmStates {
     DEPLOYED(MMTorqueCurrent(120)), // original: 2.00 radians
-    STOWED(MMTorqueCurrent(0));
+    STOWED(MMTorqueCurrent(0)),
+    TUNING(MMTorqueCurrent(0));
 
     public ControlRequest REQUEST;
 
@@ -72,9 +75,9 @@ public class IntakeSubsystem extends SubsystemBase {
   private TalonFX intakeArmFollower = new TalonFX(Constants.IntakeConstants.intakeArmFollowerID, "rio");
 
   private final DCMotorSim intakeArmSimModel = new DCMotorSim(DCMotor.getKrakenX60Foc(2), IntakeConstants.intakeGearRatio, IntakeConstants.intakeMomentOfInertia);
-  private final Mechanism2d intakeArmMechanism = new Mechanism2d(1, 1);
-  private final MechanismRoot2d intakeArmRoot = intakeArmMechanism.getRoot("Intake Arm Root", StateHandler.getInstance().swervePose.getX(), StateHandler.getInstance().swervePose.getY());
-  private final MechanismLigament2d intakeArmLigament = new MechanismLigament2d("Intake Arm Ligament", 1, 90);
+  // private final Mechanism2d intakeArmMechanism = new Mechanism2d(1, 1);
+  // private final MechanismRoot2d intakeArmRoot = intakeArmMechanism.getRoot("Intake Arm Root", StateHandler.getInstance().swervePose.getX(), StateHandler.getInstance().swervePose.getY());
+  // private final MechanismLigament2d intakeArmLigament = new MechanismLigament2d("Intake Arm Ligament", 1, 90);
 
   private TalonFX intakeWheelTop = new TalonFX(Constants.IntakeConstants.intakeWheelTopID, "rio");
   private TalonFX intakeWheelBottom = new TalonFX(Constants.IntakeConstants.intakeWheelBottomID, "rio");
@@ -90,10 +93,18 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeArmFollower.setControl(new Follower(IntakeConstants.intakeArmPrimaryID, false));
     intakeWheelBottom.setControl(new Follower(IntakeConstants.intakeWheelTopID, false));
 
-    intakeArmRoot.append(intakeArmLigament);
+    // intakeArmRoot.append(intakeArmLigament);
     
 
-    MotorPIDFVAJWidget intakeTuning = new MotorPIDFVAJWidget("INTAKE", IntakeConstants.ARM_CONFIGS, 0, 1/360, 0, IntakeConstants.intakePositionAllowableOffset, intakeArmPrimary, intakeArmFollower);
+    MotorPIDFVAJWidget intakeTuning = new MotorPIDFVAJWidget("INTAKE", 
+                                    IntakeConstants.ARM_CONFIGS, 
+                                    0, 
+                                    360.0, 
+                                    0, 
+                                    IntakeConstants.intakePositionAllowableOffset, 
+                                    IntakeArmStates.TUNING.REQUEST,
+                                    new SimpleIntakeArmStateSwapCommand(IntakeArmStates.TUNING, IntakeArmStates.STOWED),
+                                    intakeArmPrimary, intakeArmFollower);
 
     zeroIntakeArm();
   }
@@ -115,7 +126,7 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public boolean isAtIntakeArmState(IntakeArmStates state) {
 
-    if (Utils.isSimulation()) return true;
+    // if (Utils.isSimulation()) return true;
 
 
     if (state.REQUEST instanceof MotionMagicTorqueCurrentFOC){
@@ -207,8 +218,10 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeArmPrimarySimState.setRotorVelocity(ArmConstants.armGearRatio * Units.radiansToRotations(intakeArmSimModel.getAngularVelocityRadPerSec()));
 
 
-    intakeArmRoot.setPosition(StateHandler.getInstance().swervePose.getX(), StateHandler.getInstance().swervePose.getY());
-    intakeArmLigament.setAngle(90 - getIntakeArmPositionDegrees());
+    // intakeArmRoot.setPosition(StateHandler.getInstance().swervePose.getX(), StateHandler.getInstance().swervePose.getY());
+    // intakeArmLigament.setAngle(90 - getIntakeArmPositionDegrees());
+
+    // SmartDashboard.putData("INTAKE ARM", intakeArmMechanism);
 
   }
 }

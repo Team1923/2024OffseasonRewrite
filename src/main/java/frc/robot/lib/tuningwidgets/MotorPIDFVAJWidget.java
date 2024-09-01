@@ -7,6 +7,7 @@ package frc.robot.lib.tuningwidgets;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -18,9 +19,11 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.StateHandler;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.scoring.ShootGamePiece;
@@ -64,6 +67,12 @@ public class MotorPIDFVAJWidget {
     private SendableChooser<Integer> slotChooser;
 
 
+    private MotionMagicTorqueCurrentFOC angleRequest;
+    private MotionMagicVelocityTorqueCurrentFOC veloRequestTop;
+    private MotionMagicVelocityTorqueCurrentFOC veloRequestBottom;
+
+
+
 
 
 
@@ -74,7 +83,7 @@ public class MotorPIDFVAJWidget {
      * @param motors
      * @param defaultConfig ASSUMES ALL MOTORS HAVE SAME DEFAULT CONFIG
      */
-    public MotorPIDFVAJWidget(String name, TalonFXConfiguration defaultConfig, int defaultSlot, double angleConversion, double velocityConversion, double tolerance, TalonFX... motors){
+    public MotorPIDFVAJWidget(String name, TalonFXConfiguration defaultConfig, int defaultSlot, double angleConversion, double velocityConversion, double tolerance, ControlRequest request, Command toRun, TalonFX... motors){
         tab = Shuffleboard.getTab(name);
 
         this.motors = motors;
@@ -127,7 +136,20 @@ public class MotorPIDFVAJWidget {
         AccelValue = tab.add("Acceleration", defaultConfig.MotionMagic.MotionMagicAcceleration).withPosition(1, 1).getEntry();
         JerkValue = tab.add("Jerk", defaultConfig.MotionMagic.MotionMagicJerk).withPosition(2, 1).getEntry();
 
+
+        if (request instanceof MotionMagicTorqueCurrentFOC){
+            angleRequest = (MotionMagicTorqueCurrentFOC)request;
+        }
+        else if (request instanceof MotionMagicVelocityTorqueCurrentFOC){
+            veloRequestTop = (MotionMagicVelocityTorqueCurrentFOC)request;
+        }
+        else{
+            System.out.println("invalid request in " + name + "PIDVAJ");
+        }
+
+
         if (angleConversion != 0){
+            System.out.println(name + "HERE");
             currentAngle = tab.addDouble("CURRENT ANGLE", () -> motors[0].getPosition().getValueAsDouble() * angleConversion).withPosition(0,2).withSize(2, 1);
             desiredAngle = tab.add("DESIRED TUNING ANGLE", ((MotionMagicTorqueCurrentFOC)ArmStates.ANGLE_TUNING.REQUEST).Position * angleConversion).withPosition(0, 3).withSize(2, 1).getEntry();
 
@@ -144,8 +166,18 @@ public class MotorPIDFVAJWidget {
 
         tab.add("SLOT", slotChooser).withPosition(4, 3);
         tab.add("UPDATE", new InstantCommand(() -> updateMotor()).ignoringDisable(true)).withPosition(4, 2).withSize(2, 1);
-        tab.add("GOTO", new SequentialCommandGroup(new InstantCommand(()->StateHandler.getInstance().scoringType = ScoringType.TUNING), new ShootGamePiece())).withPosition(7, 2).withSize(2, 1);
+        tab.add("GOTO", toRun).withPosition(7, 2).withSize(2, 1);
         tab.addBoolean("AT POSITION", () -> atPosition()).withPosition(6, 2);
+    }
+
+    public MotorPIDFVAJWidget(String name, TalonFXConfiguration defaultConfig, int defaultSlot, double angleConversion, double velocityConversion, double tolerance, ControlRequest requestTop, ControlRequest requestBottom, Command toRun, TalonFX... motors){
+        this(name, defaultConfig, defaultSlot, angleConversion, velocityConversion, tolerance, requestTop, toRun, motors);
+        if (requestBottom instanceof MotionMagicVelocityTorqueCurrentFOC){
+            veloRequestBottom = (MotionMagicVelocityTorqueCurrentFOC)requestBottom;
+        }
+        else{
+            System.out.println("??? What are you doing in constructor 2 of PIDVAGWidget for " + name);
+        }
     }
 
     public void updateMotor(){
@@ -194,16 +226,20 @@ public class MotorPIDFVAJWidget {
         config.MotionMagic.MotionMagicAcceleration = AccelValue.get().getDouble();
         config.MotionMagic.MotionMagicJerk = JerkValue.get().getDouble();
 
-        if (desiredAngle != null) {
-            System.out.println(desiredAngle.get().getDouble() * 1/angleConversion);
-            ((MotionMagicTorqueCurrentFOC)ArmStates.ANGLE_TUNING.REQUEST).Position = desiredAngle.get().getDouble() * 1/angleConversion;
-        }
-        if (desiredVelocity != null){
-            System.out.println(desiredVelocity.get().getDouble() * 1/velocityConversion);
-            ((MotionMagicVelocityTorqueCurrentFOC)ShooterStates.RPM_TUNING.REQUEST_TOP).Velocity = desiredVelocity.get().getDouble() * 1/velocityConversion;
-            ((MotionMagicVelocityTorqueCurrentFOC)ShooterStates.RPM_TUNING.REQUEST_BOTTOM).Velocity = desiredVelocity.get().getDouble() * 1/velocityConversion;
 
-        } 
+        if (angleRequest != null){
+            if (desiredAngle != null) {
+                angleRequest.Position = desiredAngle.get().getDouble() * 1/angleConversion;
+            }
+        }
+        
+        else if (veloRequestTop != null){
+            if (desiredVelocity != null){
+                veloRequestTop.Velocity = desiredVelocity.get().getDouble() * 1/velocityConversion;
+                veloRequestBottom.Velocity = desiredVelocity.get().getDouble() * 1/velocityConversion;
+            } 
+        }
+        
 
 
         for (TalonFX motor : motors){
@@ -214,12 +250,13 @@ public class MotorPIDFVAJWidget {
     }
 
     public boolean atPosition(){
-        if (velocityConversion != 0){
-            return (Math.abs(motors[0].getVelocity().getValueAsDouble() * velocityConversion - ((desiredVelocity.get() != null) ? desiredVelocity.get().getDouble() : 0)) < tolerance);
+       
+        if (angleConversion != 0){
+            return (Math.abs(motors[0].getPosition().getValueAsDouble() * angleConversion -((desiredAngle.get() != null) ? desiredAngle.get().getDouble() : 0)) < tolerance);
 
         }
-        else if (angleConversion != 0){
-            return (Math.abs(motors[0].getPosition().getValueAsDouble() * angleConversion -((desiredAngle.get() != null) ? desiredAngle.get().getDouble() : 0)) < tolerance);
+        else if (velocityConversion != 0){
+            return (Math.abs(motors[0].getVelocity().getValueAsDouble() * velocityConversion - ((desiredVelocity.get() != null) ? desiredVelocity.get().getDouble() : 0)) < tolerance);
 
         }
         else{

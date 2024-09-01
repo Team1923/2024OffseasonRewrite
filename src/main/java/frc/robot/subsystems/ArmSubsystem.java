@@ -25,8 +25,12 @@ import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.StateHandler;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.misc.SimpleArmStateSwapCommand;
 import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -89,7 +93,15 @@ public class ArmSubsystem extends SubsystemBase {
     armFollower.setControl(new Follower(ArmConstants.armMotorPrimaryID, true));
 
     // MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 1, ArmConstants.armRotsToDegrees, 0, armPrimary, armFollower);
-    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", ArmConstants.CONFIGS, 0, 360, 1, ArmConstants.armPositionAllowableOffset, armPrimary, armFollower);
+    MotorPIDFVAJWidget armTuning = new MotorPIDFVAJWidget("ARM", 
+                                          ArmConstants.CONFIGS, 
+                                          0, 
+                                          360, 
+                                          1, 
+                                          ArmConstants.armPositionAllowableOffset, 
+                                          ArmStates.ANGLE_TUNING.REQUEST,
+                                          new SimpleArmStateSwapCommand(ArmStates.ANGLE_TUNING, ArmStates.STOWED),
+                                          armPrimary, armFollower);
 
     zeroArm();
 

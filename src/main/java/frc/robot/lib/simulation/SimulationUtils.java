@@ -127,9 +127,9 @@ public class SimulationUtils {
    bbTimer.stop();
    bbTimer.reset();
 
-   stateHandler.bb2Covered = true;
+  //  stateHandler.bb2Covered = true;
 
-   stateHandler.bb3Covered = true;
+  //  stateHandler.bb3Covered = true;
 
 
 
@@ -170,11 +170,22 @@ public class SimulationUtils {
         stateHandler.bb2Covered = true;
       }
       else if (stateHandler.bb2Covered){
-        stateHandler.bb3Covered = true;
+        if (stateHandler.bb3Covered){
+          stateHandler.bb2Covered = false;
+        }
+        else{
+          stateHandler.bb3Covered = true;
+
+        }
       }
       else if (stateHandler.bb3Covered){
-        stateHandler.bb2Covered = false;
-        stateHandler.bb4Covered = true;
+        if (stateHandler.bb3Covered){
+          stateHandler.bb3Covered = false;
+        }
+        else{
+          stateHandler.bb2Covered = false;
+          stateHandler.bb4Covered = true;
+        }
       }
       else if (stateHandler.bb4Covered){
         if (!stateHandler.bb3Covered){
@@ -194,6 +205,7 @@ public class SimulationUtils {
 
   public void bbMoveBackward(){
     if (bbTimer.hasElapsed(bbTransitionTime)){
+
 
       if (stateHandler.bb4Covered){
         if (stateHandler.bb3Covered){
@@ -282,6 +294,8 @@ public class SimulationUtils {
   public void update() {
     // This method will be called once per scheduler run
 
+    SmartDashboard.putNumber("BBTIMER", bbTimer.get());
+
     if (Utils.isSimulation()){
 
       updatePose(stateHandler.swervePose);
@@ -294,6 +308,7 @@ public class SimulationUtils {
           if (true /*notePos.getDistance(currentPose.getTranslation())< collectionDist*/){
 
             stateHandler.bb1Covered = true;
+            bbTimer.start();
             hasNote = true;
 
             notePoses.remove(i);
@@ -303,6 +318,7 @@ public class SimulationUtils {
     else if (stateHandler.currentArmState == ArmStates.BABY_BIRD){
       if (true /*isInSource()*/){
         stateHandler.bb4Covered = true;
+        bbTimer.start();
         hasNote = true;
       }
     }

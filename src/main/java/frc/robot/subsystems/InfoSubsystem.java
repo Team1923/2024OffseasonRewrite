@@ -166,8 +166,8 @@ public class InfoSubsystem extends SubsystemBase {
 
     // SmartDashboard.putBoolean("AUTO OVERRIDE", stateHandler.getAutoOverride());
 
-    SmartDashboard.putNumber("Tuning Angle", ((MotionMagicTorqueCurrentFOC)(ArmStates.ANGLE_TUNING.REQUEST)).Position * ArmConstants.armRotsToDegrees);
-    SmartDashboard.putNumber("Tuning RPM", ((MotionMagicVelocityTorqueCurrentFOC)(ShooterStates.RPM_TUNING.REQUEST_TOP)).Velocity * ShooterConstants.RPSToRPM);
+    // SmartDashboard.putNumber("Tuning Angle", ((MotionMagicTorqueCurrentFOC)(ArmStates.ANGLE_TUNING.REQUEST)).Position * ArmConstants.armRotsToDegrees);
+    // SmartDashboard.putNumber("Tuning RPM", ((MotionMagicVelocityTorqueCurrentFOC)(ShooterStates.RPM_TUNING.REQUEST_TOP)).Velocity * ShooterConstants.RPSToRPM);
     
 // 
 

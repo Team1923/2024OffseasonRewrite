@@ -44,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
     REVERSE_SUBWOOFER_VELO(MMVelocityTCWithRPM(2000)),
     RANGED_VELO(MMVelocityTCWithRPM(0)),
     FULL_EJECT_DUTY(new DutyCycleOut(1).withEnableFOC(true)),
-    RPM_TUNING(MMVelocityTCWithRPM(0));
+    RPM_TUNING(new MotionMagicVelocityVoltage(0).withEnableFOC(true));
 
     public ControlRequest REQUEST_TOP;
     public ControlRequest REQUEST_BOTTOM;
@@ -165,10 +165,10 @@ public class ShooterSubsystem extends SubsystemBase {
     // if (Utils.isSimulation()) return true;
 
 
-    if (state.REQUEST_TOP instanceof MotionMagicVelocityTorqueCurrentFOC) {
+    if (state.REQUEST_TOP instanceof MotionMagicVelocityVoltage) {
       /* Get the shooter's velocities (in RPM) */
-      double desiredVelocityTop = ((MotionMagicVelocityTorqueCurrentFOC) state.REQUEST_TOP).Velocity * ShooterConstants.RPSToRPM;
-      double desiredVelocityBottom = ((MotionMagicVelocityTorqueCurrentFOC) state.REQUEST_BOTTOM).Velocity * ShooterConstants.RPSToRPM;
+      double desiredVelocityTop = ((MotionMagicVelocityVoltage) state.REQUEST_TOP).Velocity * ShooterConstants.RPSToRPM;
+      double desiredVelocityBottom = ((MotionMagicVelocityVoltage) state.REQUEST_BOTTOM).Velocity * ShooterConstants.RPSToRPM;
 
       /* Check if the shooter's RPM is within the RPM tolerance (25 RPM). */
       return Math.abs(getTopRPM() - desiredVelocityTop) < ShooterConstants.shooterRPMThreshhold

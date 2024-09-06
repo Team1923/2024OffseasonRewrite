@@ -59,12 +59,12 @@ public class Constants {
                 /* TalonFX Motor Configuration for the Shooter */
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
                                 .withSlot0(new Slot0Configs() // PID
-                                                .withKP(0.2)
+                                                .withKP(0.4)
                                                 .withKI(0)
-                                                .withKD(0.01)
+                                                .withKD(0.007)
                                                 .withKS(0.13)
                                                 .withKA(0)
-                                                .withKV(0.115))
+                                                .withKV(0.122))
                                 .withMotionMagic(new MotionMagicConfigs()
                                                 .withMotionMagicAcceleration(maxShooterAccel)
                                                 .withMotionMagicJerk(maxShooterJerk))
@@ -75,10 +75,13 @@ public class Constants {
                                                 .withStatorCurrentLimitEnable(true))
                                 .withTorqueCurrent(new TorqueCurrentConfigs()
                                                 .withPeakForwardTorqueCurrent(80)
-                                                .withPeakReverseTorqueCurrent(-80));
+                                                .withPeakReverseTorqueCurrent(-80)
+                                                .withTorqueNeutralDeadband(0.01));
 
                 /* RPM Threshold for Current State Evaluation */
-                public static final double shooterRPMThreshhold = 50;
+                public static final double shooterRPMThreshhold = 60
+                ;
+
 
         }
 
@@ -175,9 +178,9 @@ public class Constants {
                 // public static final double maxArmJerk = 1000;
 
                 //Slower motion magic
-                public static final double maxArmVel = 120;
-                public static final double maxArmAccel = 45;
-                public static final double maxArmJerk = 60;
+                public static final double maxArmVel = 0.5;
+                public static final double maxArmAccel = 0.34;
+                public static final double maxArmJerk = 0;
 
                 /* Gearbox Ratios & Unit Conversions */
                 public static final double armGearRatio = 129.6;
@@ -194,11 +197,11 @@ public class Constants {
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
 
                                 .withSlot0(new Slot0Configs() // Fast PID
-                                                .withKP(375)
+                                                .withKP(400)
                                                 .withKI(0)
                                                 .withKD(0)
-                                                .withKS(0.1)
-                                                .withKG(-0.3)
+                                                .withKS(0.4)
+                                                .withKG(-0.4)
                                                 .withGravityType(GravityTypeValue.Arm_Cosine))        
                                 /* .withSlot1(new Slot1Configs() //Accurate PID
                                                 .withKP(2)

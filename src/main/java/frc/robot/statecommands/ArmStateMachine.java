@@ -6,6 +6,7 @@ package frc.robot.statecommands;
 
 import javax.xml.namespace.QName;
 
+import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.math.util.Units;

@@ -38,21 +38,21 @@ public class ArmSubsystem extends SubsystemBase {
   public static enum ArmStates {
 
 
-    STOWED(MMTorqueCurrent(0)),
-    REVERSE_SUBWOOFER(MMTorqueCurrent(-108.5)),
-    UNGUARDABLE(MMTorqueCurrent(-108.5)),
+    STOWED(MMVoltage(0)),
+    REVERSE_SUBWOOFER(MMVoltage(-108.5)),
+    UNGUARDABLE(MMVoltage(-108.5)),
     // AMP(MMVoltageWithDegrees(-108.5)),
-    SUBWOOFER(MMTorqueCurrent(-44.1)), 
-    RANGED(MMTorqueCurrent(0)),
-    TRAP(MMTorqueCurrent(-51.6), 0.5),
-    BABY_BIRD(MMTorqueCurrent(-40.1)), 
-    PUNT_HIGH(MMTorqueCurrent(-38.4)),
-    PUNT_LOW(MMTorqueCurrent(0)),
-    FRONT_AMP(MMTorqueCurrent(-44.1)),
-    DEFENSE(MMTorqueCurrent(-77.3)),
-    CLIMB(MMTorqueCurrent(-77.3)),
+    SUBWOOFER(MMVoltage(-44.1)), 
+    RANGED(MMVoltage(0)),
+    TRAP(MMVoltage(-51.6), 0.5),
+    BABY_BIRD(MMVoltage(-40.1)), 
+    PUNT_HIGH(MMVoltage(-38.4)),
+    PUNT_LOW(MMVoltage(0)),
+    FRONT_AMP(MMVoltage(-44.1)),
+    DEFENSE(MMVoltage(-77.3)),
+    CLIMB(MMVoltage(-77.3)),
     ZEROING(new DutyCycleOut(0.05).withEnableFOC(true)),
-    ANGLE_TUNING(MMTorqueCurrent(0), 0.5), 
+    ANGLE_TUNING(new MotionMagicVoltage(0).withEnableFOC(true), 0.5), 
     OFF(new DutyCycleOut(0).withEnableFOC(true));
 
 
@@ -69,9 +69,9 @@ public class ArmSubsystem extends SubsystemBase {
       this.settleTime = settleTime;
     }
 
-    private static MotionMagicTorqueCurrentFOC MMTorqueCurrent(double degrees) {
+    private static MotionMagicVoltage MMVoltage(double degrees) {
       // return new MotionMagicVoltage(degrees * ArmConstants.armDegreesToRots);
-      return new MotionMagicTorqueCurrentFOC(Units.degreesToRotations(degrees));
+      return new MotionMagicVoltage(Units.degreesToRotations(degrees)).withEnableFOC(true);
     }
 
   }
@@ -166,7 +166,7 @@ public class ArmSubsystem extends SubsystemBase {
   /**
    * Method to determine if the intake has reached its desired position.
    * 
-   * @param state the state specifying the desired position
+   * @param state the state specifying the desired positionMotionMagicVoltage
    * @return a boolean representing if the intake arm has reached its desired
    *         position
    */
@@ -174,9 +174,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     //if (Utils.isSimulation()) return true;
 
-    if (state.REQUEST instanceof MotionMagicTorqueCurrentFOC){
+    if (state.REQUEST instanceof MotionMagicVoltage){
       // double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position * ArmConstants.armRotsToDegrees;
-      double desiredPositionDegrees = Units.rotationsToDegrees(((MotionMagicTorqueCurrentFOC) state.REQUEST).Position);
+      double desiredPositionDegrees = Units.rotationsToDegrees(((MotionMagicVoltage) state.REQUEST).Position);
 
       if (state == ArmStates.STOWED){
         return Math.abs(getArmPositionDegrees() - desiredPositionDegrees) < 1;

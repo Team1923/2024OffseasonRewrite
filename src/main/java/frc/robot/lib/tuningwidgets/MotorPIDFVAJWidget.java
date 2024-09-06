@@ -67,9 +67,9 @@ public class MotorPIDFVAJWidget {
     private SendableChooser<Integer> slotChooser;
 
 
-    private MotionMagicTorqueCurrentFOC angleRequest;
-    private MotionMagicVelocityTorqueCurrentFOC veloRequestTop;
-    private MotionMagicVelocityTorqueCurrentFOC veloRequestBottom;
+    private MotionMagicVoltage angleRequest;
+    private MotionMagicVelocityVoltage veloRequestTop;
+    private MotionMagicVelocityVoltage veloRequestBottom;
 
 
 
@@ -137,11 +137,11 @@ public class MotorPIDFVAJWidget {
         JerkValue = tab.add("Jerk", defaultConfig.MotionMagic.MotionMagicJerk).withPosition(2, 1).getEntry();
 
 
-        if (request instanceof MotionMagicTorqueCurrentFOC){
-            angleRequest = (MotionMagicTorqueCurrentFOC)request;
+        if (request instanceof MotionMagicVoltage){
+            angleRequest = (MotionMagicVoltage)request;
         }
-        else if (request instanceof MotionMagicVelocityTorqueCurrentFOC){
-            veloRequestTop = (MotionMagicVelocityTorqueCurrentFOC)request;
+        else if (request instanceof MotionMagicVelocityVoltage){
+            veloRequestTop = (MotionMagicVelocityVoltage)request;
         }
         else{
             System.out.println("invalid request in " + name + "PIDVAJ");
@@ -151,13 +151,13 @@ public class MotorPIDFVAJWidget {
         if (angleConversion != 0){
             System.out.println(name + "HERE");
             currentAngle = tab.addDouble("CURRENT ANGLE", () -> motors[0].getPosition().getValueAsDouble() * angleConversion).withPosition(0,2).withSize(2, 1);
-            desiredAngle = tab.add("DESIRED TUNING ANGLE", ((MotionMagicTorqueCurrentFOC)ArmStates.ANGLE_TUNING.REQUEST).Position * angleConversion).withPosition(0, 3).withSize(2, 1).getEntry();
+            desiredAngle = tab.add("DESIRED TUNING ANGLE", ((MotionMagicVoltage)ArmStates.ANGLE_TUNING.REQUEST).Position * angleConversion).withPosition(0, 3).withSize(2, 1).getEntry();
 
         }
 
         if (velocityConversion != 0){
             currentVelocity= tab.addDouble("CURRENT VELOCITY", () -> motors[0].getVelocity().getValueAsDouble() * velocityConversion).withPosition(2,2).withSize(2, 1);
-            desiredVelocity = tab.add("DESIRED TUNING VELOCITY", ((MotionMagicVelocityTorqueCurrentFOC)ShooterStates.RPM_TUNING.REQUEST_TOP).Velocity * velocityConversion).withPosition(2, 3).withSize(2, 1).getEntry();
+            desiredVelocity = tab.add("DESIRED TUNING VELOCITY", ((MotionMagicVelocityVoltage)ShooterStates.RPM_TUNING.REQUEST_TOP).Velocity * velocityConversion).withPosition(2, 3).withSize(2, 1).getEntry();
       
         }
 
@@ -172,8 +172,8 @@ public class MotorPIDFVAJWidget {
 
     public MotorPIDFVAJWidget(String name, TalonFXConfiguration defaultConfig, int defaultSlot, double angleConversion, double velocityConversion, double tolerance, ControlRequest requestTop, ControlRequest requestBottom, Command toRun, TalonFX... motors){
         this(name, defaultConfig, defaultSlot, angleConversion, velocityConversion, tolerance, requestTop, toRun, motors);
-        if (requestBottom instanceof MotionMagicVelocityTorqueCurrentFOC){
-            veloRequestBottom = (MotionMagicVelocityTorqueCurrentFOC)requestBottom;
+        if (requestBottom instanceof MotionMagicVelocityVoltage){
+            veloRequestBottom = (MotionMagicVelocityVoltage)requestBottom;
         }
         else{
             System.out.println("??? What are you doing in constructor 2 of PIDVAGWidget for " + name);

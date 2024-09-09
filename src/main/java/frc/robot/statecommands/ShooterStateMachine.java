@@ -5,15 +5,12 @@
 package frc.robot.statecommands;
 
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.InterpolationConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.StateHandler;
-import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 

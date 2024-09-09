@@ -38,9 +38,9 @@ import frc.robot.StateHandler;
 public class IntakeSubsystem extends SubsystemBase {
   /* Arm States Enum */
   public static enum IntakeArmStates {
-    DEPLOYED(MMTorqueCurrent(120)), // original: 2.00 radians
-    STOWED(MMTorqueCurrent(0)),
-    TUNING(MMTorqueCurrent(0));
+    DEPLOYED(MMVoltage(120)), // original: 2.00 radians
+    STOWED(MMVoltage(0)),
+    TUNING(MMVoltage(0));
 
     public ControlRequest REQUEST;
 
@@ -48,10 +48,10 @@ public class IntakeSubsystem extends SubsystemBase {
       this.REQUEST = request;
     }
 
-    private static MotionMagicTorqueCurrentFOC MMTorqueCurrent(double degrees) {
+    private static MotionMagicVoltage MMVoltage(double degrees) {
 
       // return new MotionMagicVoltage(degrees * IntakeConstants.intakeDegreesToRotations);
-      return new MotionMagicTorqueCurrentFOC(Units.degreesToRotations(degrees));
+      return new MotionMagicVoltage(Units.degreesToRotations(degrees)).withEnableFOC(true);
 
     }
   }
@@ -129,10 +129,10 @@ public class IntakeSubsystem extends SubsystemBase {
     // if (Utils.isSimulation()) return true;
 
 
-    if (state.REQUEST instanceof MotionMagicTorqueCurrentFOC){
+    if (state.REQUEST instanceof MotionMagicVoltage){
       // double desiredPosition = ((MotionMagicVoltage) state.REQUEST).Position
       //     * IntakeConstants.intakeRotsToDegrees;
-       double desiredPositionDegrees = Units.rotationsToDegrees(((MotionMagicTorqueCurrentFOC) state.REQUEST).Position);
+       double desiredPositionDegrees = Units.rotationsToDegrees(((MotionMagicVoltage) state.REQUEST).Position);
           
 
       return Math.abs(getIntakeArmPositionDegrees() - desiredPositionDegrees) < IntakeConstants.intakePositionAllowableOffset;

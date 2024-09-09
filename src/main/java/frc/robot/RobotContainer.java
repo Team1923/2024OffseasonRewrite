@@ -70,14 +70,14 @@ public class RobotContainer {
 
   private void configureBindings() {
     /* Default commands */
-    // shooterSubsystem.setDefaultCommand(new ShooterStateMachine(shooterSubsystem)); 
-    // intakeSubsystem.setDefaultCommand(new IntakeStateMachine(intakeSubsystem)); 
+    shooterSubsystem.setDefaultCommand(new ShooterStateMachine(shooterSubsystem)); 
+    intakeSubsystem.setDefaultCommand(new IntakeStateMachine(intakeSubsystem)); 
     armSubsystem.setDefaultCommand(new ArmStateMachine(armSubsystem)); 
-    // feederSubsystem.setDefaultCommand(new FeederStateMachine(feederSubsystem)); 
-    // swerveSubsystem.setDefaultCommand(new SwerveStateMachine(swerveSubsystem, 
-    //                                   () -> -driverXboxController.getLeftY(),
-    //                                   () -> -driverXboxController.getLeftX(), 
-    //                                   () -> -driverXboxController.getRightX()));
+    feederSubsystem.setDefaultCommand(new FeederStateMachine(feederSubsystem)); 
+    swerveSubsystem.setDefaultCommand(new SwerveStateMachine(swerveSubsystem, 
+                                      () -> -driverXboxController.getLeftY(),
+                                      () -> -driverXboxController.getLeftX(), 
+                                      () -> -driverXboxController.getRightX()));
 
     if (Utils.isSimulation()) {
       swerveSubsystem.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(0)));
@@ -119,7 +119,6 @@ public class RobotContainer {
       operatorPS5Controller.touchpad().onTrue(scoringMode(ScoringType.TUNING));
     }
 
-    // driverXboxController.x().toggleOnTrue(new InstantCommand(() -> armSubsystem.setCoast()).ignoringDisable(true).finallyDo( ()->armSubsystem.setBrake()));
 
 
 

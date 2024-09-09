@@ -4,18 +4,14 @@
 
 package frc.robot.statecommands;
 
-import javax.xml.namespace.QName;
 
-import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.InterpolationConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmStates;
@@ -122,10 +118,6 @@ public class ArmStateMachine extends Command {
 
 
     armSubsystem.setArmTo(desiredArmState.REQUEST);
-    SmartDashboard.putString("request name", desiredArmState.name());
-    if (desiredArmState.REQUEST instanceof MotionMagicVoltage){
-      SmartDashboard.putNumber("Request value", ((MotionMagicVoltage)(desiredArmState.REQUEST)).Position);
-    }
 
     SmartDashboard.putBoolean("ISZEROED", armZeroed);
 

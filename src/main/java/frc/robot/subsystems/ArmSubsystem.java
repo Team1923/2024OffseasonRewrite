@@ -5,30 +5,21 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.controls.CoastOut;
+
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.DynamicMotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.StateHandler;
+
 import frc.robot.Constants.ArmConstants;
 import frc.robot.commands.misc.SimpleArmStateSwapCommand;
 import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
@@ -222,11 +213,7 @@ public class ArmSubsystem extends SubsystemBase {
     // SmartDashboard.putString("PRIMARY MODE", armPrimary.getAppliedControl().getName());
     //     SmartDashboard.putString("FOLLOWER MODE", armFollower.getAppliedControl().getName());
 
-    SmartDashboard.putNumber("Primary arm degrees", getArmPositionDegrees());
-    SmartDashboard.putNumber("Primary arm rots", getArmPositionRots());
-    SmartDashboard.putNumber("Follower arm", Units.rotationsToDegrees(armFollower.getPosition().getValueAsDouble()));
-
-    SmartDashboard.putNumber("Arm Supply", getArmSupplyCurrent());
+    
 
     
 

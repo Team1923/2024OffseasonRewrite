@@ -9,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
@@ -20,29 +19,26 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.StateHandler;
-import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.FeederConstants;
+
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.misc.SimpleShooterStateSwapCommand;
 import frc.robot.lib.tuningwidgets.MotorPIDFVAJWidget;
-import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
 
 public class ShooterSubsystem extends SubsystemBase {
 
   public static enum ShooterStates {
-    IDLE_VELO(MMVelocityTCWithRPM(0)),
-    BABY_BIRD_VELO(MMVelocityTCWithRPM(-1000)),
-    FRONT_AMP_VELO(MMVelocityTCWithRPM(415)),
-    UNGUARDABLE_VELO(MMVelocityTCWithRPM(1190), MMVelocityTCWithRPM(1905)),
-    TRAP_VELO(MMVelocityTCWithRPM(650), MMVelocityTCWithRPM(1000)),
-    PUNT_HIGH_VELO(MMVelocityTCWithRPM(2100)),
+    IDLE_VELO(MMVeloVoltage(0)),
+    BABY_BIRD_VELO(MMVeloVoltage(-1000)),
+    FRONT_AMP_VELO(MMVeloVoltage(415)),
+    UNGUARDABLE_VELO(MMVeloVoltage(1190), MMVeloVoltage(1905)),
+    TRAP_VELO(MMVeloVoltage(650), MMVeloVoltage(1000)),
+    PUNT_HIGH_VELO(MMVeloVoltage(2100)),
     PUNT_LOW_DUTY(new DutyCycleOut(1).withEnableFOC(true)),
-    SUBWOOFER_VELO(MMVelocityTCWithRPM(2000)),
-    REVERSE_SUBWOOFER_VELO(MMVelocityTCWithRPM(2000)),
-    RANGED_VELO(MMVelocityTCWithRPM(0)),
+    SUBWOOFER_VELO(MMVeloVoltage(2000)),
+    REVERSE_SUBWOOFER_VELO(MMVeloVoltage(2000)),
+    RANGED_VELO(MMVeloVoltage(0)),
     FULL_EJECT_DUTY(new DutyCycleOut(1).withEnableFOC(true)),
     RPM_TUNING(new MotionMagicVelocityVoltage(0).withEnableFOC(true));
 
@@ -59,8 +55,8 @@ public class ShooterSubsystem extends SubsystemBase {
       this.REQUEST_BOTTOM = REQUEST_BOTTOM;
     }
 
-    private static MotionMagicVelocityTorqueCurrentFOC MMVelocityTCWithRPM(double RPM) {
-      return new MotionMagicVelocityTorqueCurrentFOC(RPM * ShooterConstants.RPMToRPS);
+    private static MotionMagicVelocityVoltage MMVeloVoltage(double RPM) {
+      return new MotionMagicVelocityVoltage(RPM * ShooterConstants.RPMToRPS).withEnableFOC(true);
     }
   }
 

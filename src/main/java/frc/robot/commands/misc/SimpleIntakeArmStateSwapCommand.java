@@ -6,7 +6,6 @@ package frc.robot.commands.misc;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
-import frc.robot.subsystems.ArmSubsystem.ArmStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeArmStates;
 
 public class SimpleIntakeArmStateSwapCommand extends Command {

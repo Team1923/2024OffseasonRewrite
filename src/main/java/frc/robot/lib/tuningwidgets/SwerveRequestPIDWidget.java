@@ -17,7 +17,7 @@ public class SwerveRequestPIDWidget {
 
     
 private PhoenixPIDController swerveHeadingPID;
-  private ComplexWidget headingPIDWidget;
+private ComplexWidget headingPIDWidget;
 
   public SwerveRequestPIDWidget(SwerveStates swerveState){
 

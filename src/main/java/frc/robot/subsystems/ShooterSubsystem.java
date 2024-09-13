@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.StateHandler;
 
@@ -185,6 +186,9 @@ public class ShooterSubsystem extends SubsystemBase {
       StateHandler.getInstance().bb4Covered = !beamBreak4.get();
 
     }
+
+    SmartDashboard.putNumber("Shooter Top", getTopRPM());
+    SmartDashboard.putNumber("Shooter Bottom", getBottomRPM());
 
     // TODO: ((MotionMagicVelocityVoltage)(States.RANGED.OUTPUT)).Velocity = updated
     // value;

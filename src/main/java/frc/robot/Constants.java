@@ -59,9 +59,9 @@ public class Constants {
                 /* TalonFX Motor Configuration for the Shooter */
                 public static final TalonFXConfiguration CONFIGS = new TalonFXConfiguration()
                                 .withSlot0(new Slot0Configs() // PID
-                                                .withKP(0.4)
+                                                .withKP(0.39)
                                                 .withKI(0)
-                                                .withKD(0.007)
+                                                .withKD(0.000)
                                                 .withKS(0.13)
                                                 .withKA(0)
                                                 .withKV(0.122))
@@ -278,34 +278,66 @@ public class Constants {
                         tyToDistanceMap.put(-4.64, 36.0);
                         tyToDistanceMap.put(-2.72, 42.0);
                         tyToDistanceMap.put(-0.80, 48.0);
-                        tyToDistanceMap.put(0.59, 54.0);
-                        tyToDistanceMap.put(2.24, 60.0);
-                        tyToDistanceMap.put(3.74, 66.0);
-                        tyToDistanceMap.put(5.40, 72.0);
+                
+                        // tyToDistanceMap.put(5.40, 72.0);
+                        // tyToDistanceMap.put(6.53, 78.0);
+                        // tyToDistanceMap.put(7.26, 84.0);
+                        // tyToDistanceMap.put(7.93, 90.0);
+
+                        tyToDistanceMap.put(-0.59, 48.0);
+                        tyToDistanceMap.put(1.16, 54.0);
+                        tyToDistanceMap.put(2.56, 60.0);
+                        tyToDistanceMap.put(4.04, 66.0);
+                        tyToDistanceMap.put(5.26, 72.0);
                         tyToDistanceMap.put(6.53, 78.0);
-                        tyToDistanceMap.put(7.26, 84.0);
-                        tyToDistanceMap.put(7.93, 90.0);
+                        tyToDistanceMap.put(7.55, 84.0);
+                        tyToDistanceMap.put(8.60, 90.0);
+                        tyToDistanceMap.put(9.56, 96.0);
+                        tyToDistanceMap.put(10.44, 102.0);
+                        tyToDistanceMap.put(11.05, 108.0);
+                        tyToDistanceMap.put(11.65, 114.0);
+
+
+                        //Inconsistent Zone:
+                        tyToDistanceMap.put(12.31, 120.0);
+                        tyToDistanceMap.put(13.01, 126.0);
+                        tyToDistanceMap.put(13.59, 132.0);
+                        tyToDistanceMap.put(15.03, 144.0);
+                        tyToDistanceMap.put(15.70 , 156.0); 
+                        tyToDistanceMap.put(16.41, 168.0);
+                        tyToDistanceMap.put(17.07, 180.0);
+                        
+                        
+
+
 
                 }
 
                 public static void fillDistPosRPMMap(){
-                        distanceToAngle.put(12.0, -44.0); distanceToRPM.put(12.0, 2000.0);
-                        distanceToAngle.put(18.0, -41.0); distanceToRPM.put(18.0, 2100.0);
-                        distanceToAngle.put(24.0, -40.0); distanceToRPM.put(24.0, 2200.0);
-                        distanceToAngle.put(30.0, -39.0); distanceToRPM.put(30.0, 2200.0);
-                        distanceToAngle.put(36.0, -38.0); distanceToRPM.put(36.0, 2300.0);
-                        distanceToAngle.put(42.0, -37.0); distanceToRPM.put(42.0, 2300.0);
-                        distanceToAngle.put(48.0, -35.0); distanceToRPM.put(48.0, 2400.0);
-                        distanceToAngle.put(54.0, -32.0); distanceToRPM.put(54.0, 2500.0);
-                        distanceToAngle.put(60.0, -31.0); distanceToRPM.put(60.0, 2600.0);
-                        distanceToAngle.put(66.0, -29.0); distanceToRPM.put(66.0, 2700.0);
-                        distanceToAngle.put(72.0, -27.0); distanceToRPM.put(72.0, 2800.0);
-                        distanceToAngle.put(78.0, -25.0); distanceToRPM.put(78.0, 2900.0);
-                        distanceToAngle.put(84.0, -24.0); distanceToRPM.put(84.0, 3000.0);
-                        distanceToAngle.put(90.0, -23.0); distanceToRPM.put(90.0, 3200.0);
-                        distanceToAngle.put(96.0, -19.0); distanceToRPM.put(96.0, 3300.0);
                         
-                        
+                        distanceToAngle.put(48.0,-26.3); distanceToRPM.put(48.0, 4000.0);
+                        distanceToAngle.put(54.0,-25.0); distanceToRPM.put(54.0, 4100.0);
+                        distanceToAngle.put(60.0,-24.0); distanceToRPM.put(60.0, 4200.0);
+                        distanceToAngle.put(66.0,-22.5); distanceToRPM.put(66.0, 4200.0);
+                        distanceToAngle.put(72.0,-21.8); distanceToRPM.put(72.0, 4200.0);
+                        distanceToAngle.put(78.0,-20.0); distanceToRPM.put(78.0, 4200.0);
+                        distanceToAngle.put(84.0,-18.85); distanceToRPM.put(84.0, 4200.0);
+                        distanceToAngle.put(90.0,-17.8); distanceToRPM.put(90.0, 4250.0);
+                        distanceToAngle.put(96.0,-17.3); distanceToRPM.put(96.0, 4250.0);
+                        distanceToAngle.put(102.0,-16.0); distanceToRPM.put(102.0, 4250.0);
+                        distanceToAngle.put(108.0,-15.5); distanceToRPM.put(108.0, 4250.0);
+                        distanceToAngle.put(114.0,-15.0); distanceToRPM.put(114.0, 4250.0);
+                        distanceToAngle.put(120.0,-14.05); distanceToRPM.put(120.0, 4200.0);
+
+                        // Inconsistent zone: 
+                        distanceToAngle.put(126.0,-14.05); distanceToRPM.put(126.0,4300.0); // Better than others
+                        distanceToAngle.put(132.0,-13.35); distanceToRPM.put(132.0,4200.0);
+                        distanceToAngle.put(144.0, -11.8); distanceToRPM.put(144.0, 4330.0);
+                        distanceToAngle.put(156.0, -10.5); distanceToRPM.put(156.0, 4300.0);
+                        distanceToAngle.put(168.0, -10.3); distanceToRPM.put(168.0, 4500.0);
+                        distanceToAngle.put(180.0, -10.5); distanceToRPM.put(180.0, 4500.0);
+                      
+
                 }
 
         }

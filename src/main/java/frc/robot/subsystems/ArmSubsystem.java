@@ -34,16 +34,16 @@ public class ArmSubsystem extends SubsystemBase {
     UNGUARDABLE(MMVoltage(-108.5)),
     // AMP(MMVoltageWithDegrees(-108.5)),
     SUBWOOFER(MMVoltage(-44.1)), 
-    RANGED(MMVoltage(0)),
+    RANGED(MMVoltage(0), 1),
     TRAP(MMVoltage(-51.6), 0.5),
-    BABY_BIRD(MMVoltage(-40.1)), 
+    BABY_BIRD(MMVoltage(-40.1)), //-40.1
     PUNT_HIGH(MMVoltage(-38.4)),
     PUNT_LOW(MMVoltage(0)),
     FRONT_AMP(MMVoltage(-44.1)),
     DEFENSE(MMVoltage(-77.3)),
     CLIMB(MMVoltage(-77.3)),
     ZEROING(new DutyCycleOut(0.05).withEnableFOC(true)),
-    ANGLE_TUNING(new MotionMagicVoltage(0).withEnableFOC(true), 0.5), 
+    ANGLE_TUNING(MMVoltage(0), 1), 
     OFF(new DutyCycleOut(0).withEnableFOC(true));
 
 

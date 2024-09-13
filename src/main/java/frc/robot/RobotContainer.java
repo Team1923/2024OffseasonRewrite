@@ -103,16 +103,16 @@ public class RobotContainer {
 
     /* Intaking/Ejecting */
     operatorPS5Controller.povLeft().whileTrue(new BabyBirdCommand());
-    operatorPS5Controller.create().whileTrue(new FullEjectCommand());
-    operatorPS5Controller.R1().whileTrue(new DeployIntakeCommand());
-    operatorPS5Controller.L1().whileTrue(new IntakeEjectCommand());
+    // operatorPS5Controller.create().whileTrue(new FullEjectCommand());
+    // operatorPS5Controller.R1().whileTrue(new DeployIntakeCommand());
+    // operatorPS5Controller.L1().whileTrue(new IntakeEjectCommand());
 
 
     /* Misc */
-    operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
+    // operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
     //operatorPS5Controller.options().toggleOnTrue(new ManualArmControl(armSubsystem, () -> 0.25 * operatorPS5Controller.getRightY())); //#7
 
-    operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
+    // operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
 
 
     if (stateHandler.isAngleRPMTuning){

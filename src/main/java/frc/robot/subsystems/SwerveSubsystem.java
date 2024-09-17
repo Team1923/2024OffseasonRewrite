@@ -59,7 +59,9 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
         }
 
         private static SwerveRequest.FieldCentricFacingAngle withPID(SwerveRequest.FieldCentricFacingAngle FCA, PhoenixPIDController PID){
+            PID.enableContinuousInput(-180, 180);
             FCA.HeadingController = PID;
+
             return FCA;
         }
     }

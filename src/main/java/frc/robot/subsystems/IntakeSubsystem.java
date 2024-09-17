@@ -126,7 +126,7 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public boolean isAtIntakeArmState(IntakeArmStates state) {
 
-    // if (Utils.isSimulation()) return true;
+    if (Utils.isSimulation()) return true;
 
 
     if (state.REQUEST instanceof MotionMagicVoltage){

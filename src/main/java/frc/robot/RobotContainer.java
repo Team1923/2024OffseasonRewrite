@@ -103,9 +103,9 @@ public class RobotContainer {
 
     /* Intaking/Ejecting */
     operatorPS5Controller.povLeft().whileTrue(new BabyBirdCommand());
-    // operatorPS5Controller.create().whileTrue(new FullEjectCommand());
-    // operatorPS5Controller.R1().whileTrue(new DeployIntakeCommand());
-    // operatorPS5Controller.L1().whileTrue(new IntakeEjectCommand());
+    operatorPS5Controller.create().whileTrue(new FullEjectCommand());
+    operatorPS5Controller.R1().whileTrue(new DeployIntakeCommand());
+    operatorPS5Controller.L1().whileTrue(new IntakeEjectCommand());
 
 
     /* Misc */

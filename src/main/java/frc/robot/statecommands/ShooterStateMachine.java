@@ -20,7 +20,12 @@ public class ShooterStateMachine extends Command {
 
   private StateHandler stateHandler = StateHandler.getInstance();
 
+  
+
   private Timer puntTimer = new Timer();
+
+  private boolean rangedSet;
+
 
   /** Creates a new ShooterStateMachine. */
   public ShooterStateMachine(ShooterSubsystem shooterSubsystem) {
@@ -32,7 +37,9 @@ public class ShooterStateMachine extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    rangedSet = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -52,12 +59,13 @@ public class ShooterStateMachine extends Command {
         break;
 
       case RANGED_VELO: //If in ranged mode, set update current velocity
-        if (stateHandler.speakerDistance() != -1){ //if we can update the angle, do it, otherwise stay at the last ranged angle
+        if (stateHandler.speakerDistance() != -1 && !rangedSet){ //if we can update the angle, do it, otherwise stay at the last ranged angle
             ((MotionMagicVelocityVoltage)(ShooterStates.RANGED_VELO.REQUEST_TOP)).Velocity = InterpolationConstants.distanceToRPM.get(stateHandler.speakerDistance()) * ShooterConstants.RPMToRPS;
             ((MotionMagicVelocityVoltage)(ShooterStates.RANGED_VELO.REQUEST_BOTTOM)).Velocity = InterpolationConstants.distanceToRPM.get(stateHandler.speakerDistance()) * ShooterConstants.RPMToRPS;
-
+          rangedSet = true;
         }
       default: //fall through to this in most cases
+        rangedSet = false;
         puntTimer.stop(); //resetting punt timer once we are no longer doing a punt shot
         puntTimer.reset();
         if (shooterSubsystem.isAtState(desiredState)){ // current state check

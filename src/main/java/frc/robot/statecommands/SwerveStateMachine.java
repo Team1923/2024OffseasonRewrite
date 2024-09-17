@@ -111,9 +111,12 @@ public class SwerveStateMachine extends Command {
       case GOAL_CENTRIC:
         if (stateHandler.hasSpeakerTag() && Math.abs(rotation) < 0.5){
           request = ((SwerveRequest.FieldCentricFacingAngle)SwerveSubsystem.SwerveStates.GOAL_CENTRIC.REQUEST)
-          .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)
-          .withVelocityY(strafe * TunerConstants.kSpeedAt12VoltsMps)
-          .withTargetDirection(Rotation2d.fromDegrees(swerve.getGyroYaw()+stateHandler.llTx()));
+          .withVelocityX(0.4 * translation * TunerConstants.kSpeedAt12VoltsMps)
+          .withVelocityY(0.4 * strafe * TunerConstants.kSpeedAt12VoltsMps)
+          .withTargetDirection(Rotation2d.fromDegrees((swerve.getGyroYaw()+stateHandler.llTx() == -180) ? -179 : swerve.getGyroYaw()+stateHandler.llTx()));
+
+          // System.out.println(Rotation2d.fromDegrees(swerve.getGyroYaw()+stateHandler.llTx()).rotateBy(parameters.operatorForwardDirection););
+
           break;
         }
       default://Equivilent to field centric

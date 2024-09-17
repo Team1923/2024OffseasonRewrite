@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
       SimulationUtils.getInstance().update();
     }
 
-   
+    // System.out.println("orig: " + Constants.InterpolationConstants.tyToDistanceMap.get(-5.23) +" after: " + Constants.InterpolationConstants.tyToDistanceMap.get(-4.80));
   }
 
   @Override

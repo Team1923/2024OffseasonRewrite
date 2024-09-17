@@ -27,7 +27,7 @@ public class Constants {
 
         public static class ControllerConstants {
                 public static class Driver {
-                        public static final double deadband = 0.07;
+                        public static final double deadband = 0.01;
                 }
 
                 public static class Operator {
@@ -271,19 +271,21 @@ public class Constants {
                 }
                 
                 public static void fillTyDistMap(){
-                        tyToDistanceMap.put(-14.97, 12.0);
-                        tyToDistanceMap.put(-11.99, 18.0);
-                        tyToDistanceMap.put(-9.36, 24.0);
-                        tyToDistanceMap.put(-7.03, 30.0);
-                        tyToDistanceMap.put(-4.64, 36.0);
-                        tyToDistanceMap.put(-2.72, 42.0);
-                        tyToDistanceMap.put(-0.80, 48.0);
+                        // tyToDistanceMap.put(-14.97, 12.0);
+                        // tyToDistanceMap.put(-11.99, 18.0);
+                        // tyToDistanceMap.put(-9.36, 24.0);
+                        // tyToDistanceMap.put(-7.03, 30.0);
+                        // tyToDistanceMap.put(-4.64, 36.0);
+                        // tyToDistanceMap.put(-2.72, 42.0);
+                        // tyToDistanceMap.put(-0.80, 48.0);
                 
                         // tyToDistanceMap.put(5.40, 72.0);
                         // tyToDistanceMap.put(6.53, 78.0);
                         // tyToDistanceMap.put(7.26, 84.0);
                         // tyToDistanceMap.put(7.93, 90.0);
 
+                        tyToDistanceMap.put(-8.34, 24.0);
+                        tyToDistanceMap.put(-4.10, 36.0);
                         tyToDistanceMap.put(-0.59, 48.0);
                         tyToDistanceMap.put(1.16, 54.0);
                         tyToDistanceMap.put(2.56, 60.0);
@@ -314,7 +316,8 @@ public class Constants {
                 }
 
                 public static void fillDistPosRPMMap(){
-                        
+                        distanceToAngle.put(24.0, -35.5); distanceToRPM.put(36.0,3800.0);                        
+                        distanceToAngle.put(36.0, -31.0); distanceToRPM.put(36.0,3900.0);                        
                         distanceToAngle.put(48.0,-26.3); distanceToRPM.put(48.0, 4000.0);
                         distanceToAngle.put(54.0,-25.0); distanceToRPM.put(54.0, 4100.0);
                         distanceToAngle.put(60.0,-24.0); distanceToRPM.put(60.0, 4200.0);

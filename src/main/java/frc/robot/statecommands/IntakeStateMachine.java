@@ -56,7 +56,7 @@ public class IntakeStateMachine extends Command {
         } 
 
         /* Makes sure if arm is not deployed yet but want to eject, rollers don't spin */
-        if (stateHandler.currentIntakeArmState != IntakeArmStates.DEPLOYED & desiredRollerState == IntakeRollerStates.EJECT) {
+        if (stateHandler.currentIntakeArmState != IntakeArmStates.DEPLOYED && desiredRollerState == IntakeRollerStates.EJECT) {
           desiredRollerState = IntakeRollerStates.OFF;
         }
   

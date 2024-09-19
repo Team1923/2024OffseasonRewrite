@@ -113,7 +113,7 @@ public class SwerveStateMachine extends Command {
           request = ((SwerveRequest.FieldCentricFacingAngle)SwerveSubsystem.SwerveStates.GOAL_CENTRIC.REQUEST)
           .withVelocityX(0.4 * translation * TunerConstants.kSpeedAt12VoltsMps)
           .withVelocityY(0.4 * strafe * TunerConstants.kSpeedAt12VoltsMps)
-          .withTargetDirection(Rotation2d.fromDegrees((swerve.getGyroYaw()+stateHandler.llTx() == -180) ? -179 : swerve.getGyroYaw()+stateHandler.llTx()));
+          .withTargetDirection(Rotation2d.fromDegrees(Math.IEEEremainder(swerve.getGyroYaw()+stateHandler.llTx(), 360)));
 
           // System.out.println(Rotation2d.fromDegrees(swerve.getGyroYaw()+stateHandler.llTx()).rotateBy(parameters.operatorForwardDirection););
 

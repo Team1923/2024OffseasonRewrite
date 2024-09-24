@@ -11,8 +11,13 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -72,7 +77,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
     private double m_lastSimTime;
     private boolean currentLimitsActivated = false;
 
-    // private final SwerveRequest.ApplyChassisSpeeds AutoRequest = new SwerveRequest.ApplyChassisSpeeds();
+    private final SwerveRequest.ApplyChassisSpeeds AutoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
     public SwerveSubsystem(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
             SwerveModuleConstants... modules) {
@@ -92,7 +97,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
         }
 
         
-        // configurePathPlanner();
+        configurePathPlanner();
        
     }
 
@@ -112,7 +117,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
             startSimThread();
         }
         
-        // configurePathPlanner();
+        configurePathPlanner();
       
     }
 
@@ -168,40 +173,40 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
     }
 
     
-    // private void configurePathPlanner() {
+    private void configurePathPlanner() {
 
-    //     /*Have to do this here, because this needs to happen AFTER swerve subsystem is instantiated but BEFORE the autobuilder */
-    //     NamedCommands.registerCommand("ScoreCommandGroup", new AutoScoreCommandGroup(this));
-    //     NamedCommands.registerCommand("AlignHeading", new AlignHeading(this, () -> 0, () -> 0));
-    //     NamedCommands.registerCommand("NonAutoScoreCommandGroup", new GCScoreCommandGroup(this, () -> 0, () -> 0, () -> 0));
+        /*Have to do this here, because this needs to happen AFTER swerve subsystem is instantiated but BEFORE the autobuilder */
+        // NamedCommands.registerCommand("ScoreCommandGroup", new AutoScoreCommandGroup(this));
+        // NamedCommands.registerCommand("AlignHeading", new AlignHeading(this, () -> 0, () -> 0));
+        // NamedCommands.registerCommand("NonAutoScoreCommandGroup", new GCScoreCommandGroup(this, () -> 0, () -> 0, () -> 0));
 
 
 
-    //     double driveBaseRadius = 0;
-    //     for (var moduleLocation : m_moduleLocations) {
-    //         driveBaseRadius = Math.max(driveBaseRadius, moduleLocation.getNorm());
-    //     }
+        double driveBaseRadius = 0;
+        for (var moduleLocation : m_moduleLocations) {
+            driveBaseRadius = Math.max(driveBaseRadius, moduleLocation.getNorm());
+        }
 
-    //     AutoBuilder.configureHolonomic(
-    //         () -> this.getState().Pose,
-    //         this::seedFieldRelative,
-    //         this::getCurrentRobotChassisSpeeds,
-    //         (speeds) -> this.setControl(AutoRequest.withSpeeds(speeds)),
-    //         new HolonomicPathFollowerConfig(
-    //             new PIDConstants(5.0, 0, 0), //TODO: TUNE!
-    //             new PIDConstants(5.0, 0, 0), //TODO: TUNE!
-    //             TunerConstants.kSpeedAt12VoltsMps,
-    //             driveBaseRadius,
-    //         new ReplanningConfig()),
-    //             () -> {
-    //                 var alliance = DriverStation.getAlliance();
-    //                 if (alliance.isPresent()) {
-    //                     return alliance.get() == DriverStation.Alliance.Red;
-    //                 }
-    //                 return false;
-    //                 },
-    //         this);
-    // }  
+        AutoBuilder.configureHolonomic(
+            () -> this.getState().Pose,
+            this::seedFieldRelative,
+            this::getCurrentRobotChassisSpeeds,
+            (speeds) -> this.setControl(AutoRequest.withSpeeds(speeds)),
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(5.0, 0, 0), //TODO: TUNE!
+                new PIDConstants(5.0, 0, 0), //TODO: TUNE!
+                TunerConstants.kSpeedAt12VoltsMps,
+                driveBaseRadius,
+            new ReplanningConfig()),
+                () -> {
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                    },
+            this);
+    }  
 
 
     private void startSimThread() {

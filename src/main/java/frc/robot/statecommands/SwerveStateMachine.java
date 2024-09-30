@@ -76,6 +76,8 @@ public class SwerveStateMachine extends Command {
     SwerveRequest request;
 
     switch(currentState){ //set based on the states using the controller input
+      case NOTEFIND:
+        stateHandler.swerveState = SwerveStates.FIELD_CENTRIC;
       case FIELD_CENTRIC: 
           request = ((SwerveRequest.FieldCentric)SwerveStates.FIELD_CENTRIC.REQUEST)
             .withVelocityX(translation * TunerConstants.kSpeedAt12VoltsMps)

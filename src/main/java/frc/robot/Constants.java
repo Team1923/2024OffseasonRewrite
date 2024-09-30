@@ -238,8 +238,6 @@ public class Constants {
                 public static final Point blueSourceStart = new Point(14, 0);
                 public static final Point blueSourceEnd = new Point(16.6, 1.7);
                 
-                
-                
                 public static final Point redSourceStart = new Point(0.135, 1.562);
                 public static final Point redSourceEnd = new Point(1.732, 0.392);
         }
@@ -342,6 +340,15 @@ public class Constants {
                       
 
                 }
+
+        }
+
+
+        public static class AutoConstants{
+                public static final double ampBoundY = 7.5; //meters from wall
+                public static final double sourceBoundY = 1; //meters from wall
+
+                public static final double whiteLineBoundX = 8;
 
         }
 

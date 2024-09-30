@@ -53,7 +53,10 @@ public class AutoNotefindCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    swerve.setControl(((SwerveRequest.FieldCentricFacingAngle)SwerveStates.NOTEFIND.REQUEST).withVelocityX(1.5*direction).withTargetDirection(Rotation2d.fromDegrees(90)));
+    swerve.setControl(((SwerveRequest.FieldCentricFacingAngle)SwerveStates.NOTEFIND.REQUEST)
+                        .withVelocityY(1.5*direction)
+                        .withVelocityX(0)
+                        .withTargetDirection(Rotation2d.fromDegrees(90)));
 
   }
 

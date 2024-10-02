@@ -133,7 +133,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return Commands.print("No autonomous command configured");
     // return new PathPlannerAuto("CenterSource5");
-    return new SideSubwooferRanged5();
+    return new SideSubwooferRanged5(swerveSubsystem);
   }
 
 

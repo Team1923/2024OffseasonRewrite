@@ -43,6 +43,8 @@ public class AutoNotefindCommand extends Command {
   public AutoNotefindCommand(SwerveSubsystem swerve, SearchDirection searchDirection) {
     // Use addRequirements() here to declare subsystem dependencies.
 
+
+    this.swerve = swerve;
     addRequirements(swerve);
 
     this.direction = searchDirection.direction();
@@ -53,10 +55,13 @@ public class AutoNotefindCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    swerve.setControl(((SwerveRequest.FieldCentricFacingAngle)SwerveStates.NOTEFIND.REQUEST)
+    if (!isFinished()){
+      swerve.setControl(((SwerveRequest.FieldCentricFacingAngle)SwerveStates.NOTEFIND.REQUEST)
                         .withVelocityY(1.5*direction)
                         .withVelocityX(0)
                         .withTargetDirection(Rotation2d.fromDegrees(90)));
+    }
+    
 
   }
 
@@ -80,8 +85,10 @@ public class AutoNotefindCommand extends Command {
 
     Pose2d currentPose = swerve.getState().Pose;
 
+    System.out.println(currentPose.getY());
+
     return currentPose.getX() >= AutoConstants.whiteLineBoundX
-          && currentPose.getY() <= AutoConstants.sourceBoundY
-          && currentPose.getY() >= AutoConstants.ampBoundY;
+          || currentPose.getY() <= AutoConstants.sourceBoundY
+          || currentPose.getY() >= AutoConstants.ampBoundY;
   }
 }

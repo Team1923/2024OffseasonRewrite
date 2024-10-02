@@ -142,11 +142,11 @@ public class SimulationUtils {
     notePoses.add(new Translation2d(2.89, 5.56)); //midLoc
     notePoses.add(new Translation2d(2.89, 7.00)); //ampLoc
 
-    // notePoses.add(new Translation2d(8.28, 7.45)); //1Loc
-    // notePoses.add(new Translation2d(8.28, 5.78)); //2Loc
-    notePoses.add(new Translation2d(8.28, 4.09)); //3Loc
+    notePoses.add(new Translation2d(8.28, 7.45)); //1Loc
+    notePoses.add(new Translation2d(8.28, 5.78)); //2Loc
+    // notePoses.add(new Translation2d(8.28, 4.09)); //3Loc
     // notePoses.add(new Translation2d(8.28, 2.44)); //4Loc
-    notePoses.add(new Translation2d(8.28,0.76)); //5Loc
+    // notePoses.add(new Translation2d(8.28,0.76)); //5Loc
 
 
   }
@@ -305,7 +305,7 @@ public class SimulationUtils {
 
         for (int i = notePoses.size()-1; i >=0; i--){
           Translation2d notePos = notePoses.get(i);
-          if (true /*notePos.getDistance(currentPose.getTranslation())< collectionDist*/){
+          if (notePos.getDistance(currentPose.getTranslation())< collectionDist){
 
             stateHandler.bb1Covered = true;
             bbTimer.start();

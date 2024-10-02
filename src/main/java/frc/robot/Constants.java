@@ -345,10 +345,10 @@ public class Constants {
 
 
         public static class AutoConstants{
-                public static final double ampBoundY = 7.5; //meters from wall
-                public static final double sourceBoundY = 1; //meters from wall
+                public static final double ampBoundY = 8; //meters from wall
+                public static final double sourceBoundY = 0.2; //meters from wall
 
-                public static final double whiteLineBoundX = 8;
+                public static final double whiteLineBoundX = 9;
 
         }
 

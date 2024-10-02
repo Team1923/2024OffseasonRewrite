@@ -6,12 +6,15 @@ package frc.robot.commands.auton.routines.SideSubwooferRanged;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.auton.functions.AutoNotefindCommand;
+import frc.robot.commands.auton.functions.AutoNotefindCommand.SearchDirection;
 import frc.robot.commands.intake.BabyBirdCommand;
 import frc.robot.commands.intake.DeployIntakeCommand;
 import frc.robot.commands.scoring.ShootGamePiece;
@@ -22,7 +25,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SideSubwooferRanged5 extends SequentialCommandGroup {
   /** Creates a new CenterSource5. */
-  public SideSubwooferRanged5() {
+  public SideSubwooferRanged5(SwerveSubsystem swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -34,7 +37,12 @@ public class SideSubwooferRanged5 extends SequentialCommandGroup {
           )
           
       ),
-      AutoBuilder.followPath(PathPlannerPath.fromPathFile("5ToRanged")),
+      new ParallelDeadlineGroup(
+        new AutoNotefindCommand(swerve, SearchDirection.TOWARDS_AMP),
+        new DeployIntakeCommand()
+        ),
+
+      AutoBuilder.pathfindThenFollowPath(PathPlannerPath.fromPathFile("5ToRanged"), new PathConstraints(2, 2, 3*Math.PI, 4*Math.PI)),
       new ShootGamePiece()
 
       );

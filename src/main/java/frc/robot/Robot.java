@@ -73,6 +73,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+
+    if (Utils.isSimulation()){
+      SimulationUtils.getInstance().preloadNote();
+      SimulationUtils.getInstance().populateNotes();
+    }
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {

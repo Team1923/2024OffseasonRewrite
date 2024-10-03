@@ -127,14 +127,15 @@ public class SimulationUtils {
    bbTimer.stop();
    bbTimer.reset();
 
-  //  stateHandler.bb2Covered = true;
-
-  //  stateHandler.bb3Covered = true;
-
 
 
   }
 
+
+
+  /*
+   * SETTING
+   */
   public void populateNotes(){
     notePoses = new ArrayList<>();
 
@@ -151,9 +152,15 @@ public class SimulationUtils {
 
   }
 
-  /*
-   * SETTING
-   */
+  public void preloadNote(){
+    stateHandler.bb2Covered = true;
+    stateHandler.bb3Covered = true;
+    hasNote = true;
+
+    bbTimer.start();
+  }
+
+  
   public void updatePose(Pose2d robotPose){
     currentPose = robotPose;
   }
@@ -358,86 +365,7 @@ public class SimulationUtils {
 
 
 
-      //Intaking
-      // if (isCollecting){
-      //     if (collectionTimer.get()==0){
-      //     collectionTimer.start();
-      //     stateHandler.bb1Covered = (true);
-      //     }
-
-      //     if (collectionTimer.get()>=IntakeTimes.bb1OffTime){
-      //       stateHandler.bb1Covered = (false);
-      //     }
-
-      //     if (collectionTimer.get()>=IntakeTimes.bb2OnTime){
-      //       stateHandler.bb2Covered = (true);
-      //     }
-
-      //     if (collectionTimer.get()>IntakeTimes.bb3OnTime){
-      //       stateHandler.bb3Covered = (true);
-      //       collectionTimer.stop();
-      //       collectionTimer.reset();
-      //       isCollecting = false;
-        
-      //     }
-          
-      // }
-
-
     
-      
-      
-      //Source Intaking
-      // if (stateHandler.currentArmState== ArmStates.BABY_BIRD 
-      // && stateHandler.currentShooterState == ShooterStates.BABY_BIRD_VELO
-      // && true/*isInSource()*/){
-      //   if (babyBirdTimer.get() ==0){
-      //     babyBirdTimer.start();
-      //     stateHandler.bb4Covered = (true);
-      //   }
-
-      //   if (babyBirdTimer.hasElapsed(SourceIntakeTimes.bb3OnTime)){
-      //     stateHandler.bb3Covered = (true);
-      //   }
-
-      //   if (babyBirdTimer.hasElapsed(SourceIntakeTimes.bb2OnTime)){
-      //     stateHandler.bb2Covered = (true);
-      //   }
-
-      //   if (babyBirdTimer.hasElapsed(SourceIntakeTimes.bb4OffTime)){
-      //     stateHandler.bb4Covered = (false);
-      //   }
-      // }
-      // else{
-      //   babyBirdTimer.stop();
-      //   babyBirdTimer.reset();
-      // }
-      // //Shooting
-      // if (stateHandler.currentFeederState == FeederStates.FEED_TO_SHOOTER && stateHandler.currentArmState != ArmStates.STOWED){
-
-      //   if (shootTimer.get() == 0){
-      //     shootTimer.start();
-      //     stateHandler.bb4Covered = (true);
-      //   }
-
-      //   if (shootTimer.get() > ShootTimes.bb2OffTime){
-      //     stateHandler.bb2Covered = (false);
-      //   }
-
-      //   if (shootTimer.get() > ShootTimes.bb3OffTime){
-      //     stateHandler.bb3Covered = (false);
-      //   }
-
-      //   if (shootTimer.get() > ShootTimes.bb4OffTime){
-      //     stateHandler.bb4Covered = (false);
-      //     // notesScored++;
-      //   }
-      // }
-      // else{
-      //   shootTimer.stop();
-      //   shootTimer.reset();
-      // }
-
       
     }
 
@@ -456,89 +384,3 @@ public class SimulationUtils {
     // System.out.println(notesScored);
   }
 }
-
-
-// public int getSeenTagID(){
-//   Pose2d currPose = stateHandler.getRobotPose();
-
-//   int closestID = -1;
-//   double closestDistance = Integer.MAX_VALUE;
-
-//   AprilTag seven = LimelightInterface.getInstance().getAprilTagList().get(6);
-
-
-//   if (!filteredIDs.contains(seven.ID)){
-//       // System.out.println("failed on ID");
-
-//     }
-
-//     double angle = simLLAngleToPoint(seven.pose);
-//     // System.out.println(angle);
-//     if (angle == 100){
-//       // System.out.println("Failed on angle");
-//     }
-
-//     double dist = seven.pose.getTranslation().getDistance(new Translation3d(currPose.getX(), currPose.getY(),seven.pose.getZ()));
-
-//     closestID = seven.ID;
-
-    
-//     if (dist < closestDistance){
-//       closestID = seven.ID;
-//       closestDistance = dist;
-//     }
-
-  // for (AprilTag a : LimelightInterface.getInstance().getAprilTagList()){
-
-  //   if (!filteredIDs.contains(a.ID)){
-  //     continue;
-  //   }
-
-   
-  //   double angle = simLLAngleToPoint(a.pose);
-
-  //   if (angle == 100){
-  //     continue;
-  //   }
-
-    
-
-  //   double dist = a.pose.getTranslation().getDistance(new Translation3d(currPose.getX(), currPose.getY(),a.pose.getZ()));
-
-    
-  //   if (dist < closestDistance){
-  //     closestID = a.ID;
-  //     closestDistance = dist;
-  //   }
-  // }
-
-//   return closestID;
-// }
-
-// public double simLLAngleToPoint(Pose3d aPose){
-
-    
-
-
-//   double theta = 0;
-
-
-//   Rotation3d tagRotation = aPose.getRotation();
-
-//   double rawHeading = Math.toDegrees(tagRotation.getZ());
-
-//   if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
-//     theta = Math.IEEEremainder(180+rawHeading, 360);
-//   }
-//   else{
-
-
-//     theta = Math.IEEEremainder(rawHeading, 360);
-//   }
-
-//   // System.out.println(currentPose.getRotation().getDegrees() - theta);
-//   return (Math.abs(currentPose.getRotation().getDegrees()-theta) < 30) ? currentPose.getRotation().getDegrees()-theta : 100;
-
-  
-  
-// }

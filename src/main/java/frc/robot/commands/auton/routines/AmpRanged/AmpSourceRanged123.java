@@ -8,6 +8,8 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
+import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.DeployIntakeCommand;
 import frc.robot.commands.scoring.ShootGamePiece;
 import frc.robot.lib.autonutils.PathPlannerHelpers;
@@ -15,18 +17,27 @@ import frc.robot.lib.autonutils.PathPlannerHelpers;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AmpRanged213 extends SequentialCommandGroup {
-  /** Creates a new AmpRanged213. */
-  public AmpRanged213() {
+public class AmpSourceRanged123 extends SequentialCommandGroup {
+  /** Creates a new AmpRanged123. */
+  public AmpSourceRanged123() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-      /*Preload*/
-      new PathPlannerAuto("StartAmpRanged"),
+      RobotContainer.scoringMode(ScoringType.SUBWOOFER),
       new ShootGamePiece(),
+      RobotContainer.scoringMode(ScoringType.RANGED),
 
-      /*Note 2*/
+
+      /* Note 1 */
+      new ParallelDeadlineGroup(
+        new PathPlannerAuto("StartAmpSourceRanged"),
+        new DeployIntakeCommand()
+      ),
+      PathPlannerHelpers.commandPathFrom("1ToMidFieldRanged"),
+      new ShootGamePiece(),
+      
+      /* Note 2 */
       new ParallelDeadlineGroup(
         PathPlannerHelpers.commandPathFrom("MidFieldRangedTo2"),
         new DeployIntakeCommand()
@@ -34,15 +45,7 @@ public class AmpRanged213 extends SequentialCommandGroup {
       PathPlannerHelpers.commandPathFrom("2ToMidFieldRanged"),
       new ShootGamePiece(),
 
-       /*Note 1*/
-      new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("MidFieldRangedTo1"),
-        new DeployIntakeCommand()
-      ),
-      PathPlannerHelpers.commandPathFrom("1ToMidFieldRanged"),
-      new ShootGamePiece(),
-
-      /*Note 3*/
+      /* Note 3 */
       new ParallelDeadlineGroup(
         PathPlannerHelpers.commandPathFrom("MidFieldRangedTo3"),
         new DeployIntakeCommand()

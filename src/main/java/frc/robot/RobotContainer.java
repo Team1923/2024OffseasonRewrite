@@ -141,7 +141,7 @@ public class RobotContainer {
   }
 
 
-  public Command scoringMode(ScoringType scoringType){
-    return new InstantCommand( () -> stateHandler.scoringType = scoringType); 
+  public static Command scoringMode(ScoringType scoringType){
+    return new InstantCommand( () -> StateHandler.getInstance().scoringType = scoringType); 
   }
 }

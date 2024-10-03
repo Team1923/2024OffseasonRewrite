@@ -3,16 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.9776091765923995,
-        "y": 5.608641446290526
+        "x": 0.7046435911053639,
+        "y": 6.6140808645253655
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.0611643564254045,
-        "y": 6.036861742934682
+        "x": 2.1226129724986795,
+        "y": 7.770845359875676
       },
       "isLocked": false,
-      "linkedName": "MidFieldRanged"
+      "linkedName": "AmpSourceStart"
+    },
+    {
+      "anchor": {
+        "x": 3.0368300736601546,
+        "y": 7.733530376154801
+      },
+      "prevControl": {
+        "x": 2.253055219245117,
+        "y": 7.699746977257601
+      },
+      "nextControl": {
+        "x": 4.118964601565574,
+        "y": 7.780174105805896
+      },
+      "isLocked": false,
+      "linkedName": null
     },
     {
       "anchor": {
@@ -28,7 +44,13 @@
       "linkedName": "1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,7 +67,7 @@
   "reversed": false,
   "folder": "AmpRangedPaths",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 58.109208198154235,
     "velocity": 0
   },
   "useDefaultConstraints": false

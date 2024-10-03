@@ -3,6 +3,7 @@
   "robotLength": 0.79,
   "holonomicMode": true,
   "pathFolders": [
+    "AmpRangedPaths",
     "SideSubwooferRangedPaths",
     "TrapAutoPaths"
   ],

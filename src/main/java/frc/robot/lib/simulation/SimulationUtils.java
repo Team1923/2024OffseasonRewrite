@@ -144,9 +144,9 @@ public class SimulationUtils {
 
     notePoses.add(new Translation2d(8.28, 7.45)); //1Loc
     notePoses.add(new Translation2d(8.28, 5.78)); //2Loc
-    // notePoses.add(new Translation2d(8.28, 4.09)); //3Loc
-    // notePoses.add(new Translation2d(8.28, 2.44)); //4Loc
-    // notePoses.add(new Translation2d(8.28,0.76)); //5Loc
+    notePoses.add(new Translation2d(8.28, 4.09)); //3Loc
+    notePoses.add(new Translation2d(8.28, 2.44)); //4Loc
+    notePoses.add(new Translation2d(8.28,0.76)); //5Loc
 
 
   }

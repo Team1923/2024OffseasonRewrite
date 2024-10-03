@@ -119,7 +119,7 @@ public class StateHandler {
     }
 
     public double speakerDistance(){
-        if (Utils.isSimulation()) return SimulationUtils.getDistFromRobotToPose(swervePose, (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? Constants.FieldConstants.blueSpeakerPos : FieldConstants.redSpeakerPos);
+        if (Utils.isSimulation()) return SimulationUtils.getDistFromRobotToPose(swervePose, (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) ? Constants.FieldConstants.blueSubwooferPos : FieldConstants.redSubwooferPos);
         return hasSpeakerTag() ? InterpolationConstants.tyToDistanceMap.get(llTy()) : -1;
     }
 

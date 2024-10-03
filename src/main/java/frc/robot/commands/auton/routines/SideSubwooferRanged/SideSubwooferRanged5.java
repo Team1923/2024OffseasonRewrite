@@ -37,7 +37,10 @@ public class SideSubwooferRanged5 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ParallelDeadlineGroup(
-          new PathPlannerAuto("StartSideSubwooferRanged5"),
+          new SequentialCommandGroup(
+            new PathPlannerAuto("StartSideSubwooferRanged5"),
+            new AutoNotefindCommand(swerve, SearchDirection.TOWARDS_AMP)
+          ),
           new SequentialCommandGroup(
             new WaitCommand(0.5),
             new DeployIntakeCommand()
@@ -45,7 +48,6 @@ public class SideSubwooferRanged5 extends SequentialCommandGroup {
           
       ),
       new ParallelDeadlineGroup(
-        new AutoNotefindCommand(swerve, SearchDirection.TOWARDS_AMP),
         new DeployIntakeCommand()
       ),
       PathPlannerHelpers.pathfindToEndOfPath("5ToRanged"),

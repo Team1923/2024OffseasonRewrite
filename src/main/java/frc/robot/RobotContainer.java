@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.InterpolationConstants;
 import frc.robot.StateHandler.ScoringType;
+import frc.robot.commands.auton.routines.AmpRanged.AmpRanged123;
+import frc.robot.commands.auton.routines.AmpRanged.AmpRanged213;
 import frc.robot.commands.auton.routines.SideSubwooferRanged.SideSubwooferRanged5;
 import frc.robot.commands.climb.ClimbingCommandGroup;
 import frc.robot.commands.defense.ArmToDefense;
@@ -133,7 +135,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return Commands.print("No autonomous command configured");
     // return new PathPlannerAuto("CenterSource5");
-    return new SideSubwooferRanged5(swerveSubsystem);
+    return new AmpRanged213();
   }
 
 

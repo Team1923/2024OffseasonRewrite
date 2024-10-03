@@ -15,26 +15,18 @@ import frc.robot.lib.autonutils.PathPlannerHelpers;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AmpRanged123 extends SequentialCommandGroup {
-  /** Creates a new AmpRanged123. */
-  public AmpRanged123() {
+public class AmpRanged213 extends SequentialCommandGroup {
+  /** Creates a new AmpRanged213. */
+  public AmpRanged213() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-      /* Preload */
+      /*Preload*/
       new PathPlannerAuto("StartAmpRanged"),
       new ShootGamePiece(),
 
-      /* Note 1 */
-      new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("MidFieldRangedTo1"),
-        new DeployIntakeCommand()
-      ),
-      PathPlannerHelpers.commandPathFrom("1ToMidFieldRanged"),
-      new ShootGamePiece(),
-      
-      /* Note 2 */
+      /*Note 1*/
       new ParallelDeadlineGroup(
         PathPlannerHelpers.commandPathFrom("MidFieldRangedTo2"),
         new DeployIntakeCommand()
@@ -42,7 +34,15 @@ public class AmpRanged123 extends SequentialCommandGroup {
       PathPlannerHelpers.commandPathFrom("2ToMidFieldRanged"),
       new ShootGamePiece(),
 
-      /* Note 3 */
+       /*Note 2*/
+      new ParallelDeadlineGroup(
+        PathPlannerHelpers.commandPathFrom("MidFieldRangedTo1"),
+        new DeployIntakeCommand()
+      ),
+      PathPlannerHelpers.commandPathFrom("1ToMidFieldRanged"),
+      new ShootGamePiece(),
+
+      /*Note 3*/
       new ParallelDeadlineGroup(
         PathPlannerHelpers.commandPathFrom("MidFieldRangedTo3"),
         new DeployIntakeCommand()

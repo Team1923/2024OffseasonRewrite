@@ -234,6 +234,9 @@ public class Constants {
         public static final class FieldConstants{
                 public static final Pose2d blueSpeakerPos = new Pose2d(-0.038099999999999995, 5.547867999999999, Rotation2d.fromDegrees(180.0));
                 public static final Pose2d redSpeakerPos = new Pose2d(16.579342, 5.547867999999999, Rotation2d.fromDegrees(0));
+
+                public static final Pose2d blueSubwooferPos = new Pose2d(0.90, 5.547867999999999, Rotation2d.fromDegrees(180.0));
+                public static final Pose2d redSubwooferPos = new Pose2d(15.66, 5.547867999999999, Rotation2d.fromDegrees(0));
                 
                 public static final Point blueSourceStart = new Point(14, 0);
                 public static final Point blueSourceEnd = new Point(16.6, 1.7);

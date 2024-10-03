@@ -344,11 +344,14 @@ public class Constants {
         }
 
 
-        public static class AutoConstants{
-                public static final double ampBoundY = 8; //meters from wall
-                public static final double sourceBoundY = 0.2; //meters from wall
+        public static class AutonConstants{
+                public static final double ampBoundY = 7.75; //meters from wall
+                public static final double sourceBoundY = 0.4; //meters from wall
 
-                public static final double whiteLineBoundX = 9;
+                public static final double whiteLineBoundX = 8.28;
+                public static final double whiteLineTolerance = 0.5; //meters over white line you are allowed to be, depending on alliance
+
+                public static final double notefindingSpeed = 2; //m/s
 
         }
 

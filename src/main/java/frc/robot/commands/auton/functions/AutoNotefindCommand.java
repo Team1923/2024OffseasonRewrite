@@ -9,9 +9,11 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.FieldCentricFacingAngle
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.StateHandler;
-import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.AutonConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.SwerveStates;
 
@@ -57,7 +59,7 @@ public class AutoNotefindCommand extends Command {
   public void initialize() {
     if (!isFinished()){
       swerve.setControl(((SwerveRequest.FieldCentricFacingAngle)SwerveStates.NOTEFIND.REQUEST)
-                        .withVelocityY(1.5*direction)
+                        .withVelocityY(AutonConstants.notefindingSpeed*direction)
                         .withVelocityX(0)
                         .withTargetDirection(Rotation2d.fromDegrees(90)));
     }
@@ -85,10 +87,17 @@ public class AutoNotefindCommand extends Command {
 
     Pose2d currentPose = swerve.getState().Pose;
 
-    System.out.println(currentPose.getY());
+    if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue){
+      return currentPose.getX() >= AutonConstants.whiteLineBoundX + AutonConstants.whiteLineTolerance
+          || currentPose.getY() <= AutonConstants.sourceBoundY
+          || currentPose.getY() >= AutonConstants.ampBoundY;
+    }
+    else{
+      return currentPose.getX() <= AutonConstants.whiteLineBoundX - AutonConstants.whiteLineTolerance
+          || currentPose.getY() <= AutonConstants.sourceBoundY
+          || currentPose.getY() >= AutonConstants.ampBoundY;
+    }
 
-    return currentPose.getX() >= AutoConstants.whiteLineBoundX
-          || currentPose.getY() <= AutoConstants.sourceBoundY
-          || currentPose.getY() >= AutoConstants.ampBoundY;
+    
   }
 }

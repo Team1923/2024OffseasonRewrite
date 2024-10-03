@@ -127,8 +127,6 @@ public class ShootGamePiece extends Command {
       case AMP: 
         if (!multipurposeTimer.hasElapsed(5)) return false;
         break;
-      case RANGED:
-        return false;
       case TUNING:
         return false;
     }

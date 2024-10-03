@@ -4,11 +4,17 @@
 
 package frc.robot.commands.auton.routines.SideSubwooferRanged;
 
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -18,6 +24,7 @@ import frc.robot.commands.auton.functions.AutoNotefindCommand.SearchDirection;
 import frc.robot.commands.intake.BabyBirdCommand;
 import frc.robot.commands.intake.DeployIntakeCommand;
 import frc.robot.commands.scoring.ShootGamePiece;
+import frc.robot.lib.autonutils.PathPlannerHelpers;
 import frc.robot.subsystems.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -40,12 +47,13 @@ public class SideSubwooferRanged5 extends SequentialCommandGroup {
       new ParallelDeadlineGroup(
         new AutoNotefindCommand(swerve, SearchDirection.TOWARDS_AMP),
         new DeployIntakeCommand()
-        ),
-
-      AutoBuilder.pathfindThenFollowPath(PathPlannerPath.fromPathFile("5ToRanged"), new PathConstraints(2, 2, 3*Math.PI, 4*Math.PI)),
+      ),
+      PathPlannerHelpers.pathfindToEndOfPath("5ToRanged"),
       new ShootGamePiece()
 
       );
 
   }
+
+  
 }

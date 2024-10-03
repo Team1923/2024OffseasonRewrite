@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "SideSubwooferRangedPaths",
+  "folder": "SourceSubwooferRangedPaths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

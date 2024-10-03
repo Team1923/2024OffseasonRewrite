@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auton.routines.SideSubwooferRanged;
+package frc.robot.commands.auton.routines.SourceSubwooferRanged;
 
 import java.util.List;
 
@@ -30,15 +30,15 @@ import frc.robot.subsystems.SwerveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SideSubwooferRanged5 extends SequentialCommandGroup {
+public class SourceSubwooferRanged5 extends SequentialCommandGroup {
   /** Creates a new CenterSource5. */
-  public SideSubwooferRanged5(SwerveSubsystem swerve) {
+  public SourceSubwooferRanged5(SwerveSubsystem swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ParallelDeadlineGroup(
           new SequentialCommandGroup(
-            new PathPlannerAuto("StartSideSubwooferRanged5"),
+            new PathPlannerAuto("StartSourceSubwooferRanged5"),
             new AutoNotefindCommand(swerve, SearchDirection.TOWARDS_AMP)
           ),
           new SequentialCommandGroup(

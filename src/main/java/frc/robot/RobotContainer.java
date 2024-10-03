@@ -19,7 +19,7 @@ import frc.robot.Constants.InterpolationConstants;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.auton.routines.AmpRanged.AmpRanged123;
 import frc.robot.commands.auton.routines.AmpRanged.AmpRanged213;
-import frc.robot.commands.auton.routines.SideSubwooferRanged.SideSubwooferRanged5;
+import frc.robot.commands.auton.routines.SourceSubwooferRanged.SourceSubwooferRanged5;
 import frc.robot.commands.climb.ClimbingCommandGroup;
 import frc.robot.commands.defense.ArmToDefense;
 import frc.robot.commands.intake.BabyBirdCommand;
@@ -30,6 +30,7 @@ import frc.robot.commands.misc.ManualArmControl;
 import frc.robot.commands.scoring.ShootGamePiece;
 import frc.robot.commands.swerve.AlignHeadingCommand;
 import frc.robot.commands.swerve.SetGoalCentric;
+import frc.robot.lib.autonutils.AutoInstatiateSelector;
 import frc.robot.lib.swerve.Telemetry;
 import frc.robot.lib.swerve.TunerConstants;
 import frc.robot.statecommands.ArmStateMachine;
@@ -66,6 +67,7 @@ public class RobotContainer {
   private final Telemetry swerveLogger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
   private final LEDSubsystem ledSubsystem = new LEDSubsystem();
   private static InterpolationConstants interpConsts = new InterpolationConstants(); //just needs to be constructed for the sake of constructor
+  private final AutoInstatiateSelector autoInstatiateSelector = new AutoInstatiateSelector();
 
 
   public RobotContainer() {
@@ -135,7 +137,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return Commands.print("No autonomous command configured");
     // return new PathPlannerAuto("CenterSource5");
-    return new AmpRanged213();
+    return autoInstatiateSelector.startMode();
   }
 
 

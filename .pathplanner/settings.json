@@ -4,7 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "AmpRangedPaths",
-    "SideSubwooferRangedPaths",
+    "SourceSubwooferRangedPaths",
     "TrapAutoPaths"
   ],
   "autoFolders": [

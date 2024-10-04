@@ -5,7 +5,7 @@
       "x": 0.7046435911053639,
       "y": 6.6140808645253655
     },
-    "rotation": 60.25511870305779
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AmpSourceStartTo1"
+            "pathName": "AmpSubwooferStartTo2"
           }
         }
       ]

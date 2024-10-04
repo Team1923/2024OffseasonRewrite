@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.auton.routines.AmpRanged.AmpRanged123;
 import frc.robot.commands.auton.routines.AmpRanged.AmpRanged213;
 import frc.robot.commands.auton.routines.AmpRanged.AmpRanged231;
-import frc.robot.commands.auton.routines.AmpRanged.AmpSourceRanged123;
+import frc.robot.commands.auton.routines.AmpSubwooferRanged.AmpSubwooferRanged123;
+import frc.robot.commands.auton.routines.AmpSubwooferRanged.AmpSubwooferRanged213;
 import frc.robot.commands.auton.routines.SourceSubwooferRanged.SourceSubwooferRanged5;
 
 /** Add your docs here. */
@@ -22,7 +23,8 @@ public class AutoInstatiateSelector {
         AMP_RANGED_123(new AmpRanged123()),
         AMP_RANGED_213(new AmpRanged213()),
         AMP_RANGED_231(new AmpRanged231()),
-        AMP_SOURCE_RANGED_123(new AmpSourceRanged123());
+        AMP_SOURCE_RANGED_123(new AmpSubwooferRanged123()),
+        AMP_SOURCE_RANGED_213(new AmpSubwooferRanged213());
 
         private Command routine;
 

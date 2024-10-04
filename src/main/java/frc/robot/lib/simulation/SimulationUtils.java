@@ -58,23 +58,7 @@ public class SimulationUtils {
       return simSub;
   }
 
-  private class IntakeTimes{
-    private static final double bb1OffTime = 0.1;
-    private static final double bb2OnTime = 0.08;
-    private static final double bb3OnTime = 0.2;
-  }
 
-  private class SourceIntakeTimes{
-    private static final double bb3OnTime = 0.05;
-    private static final double bb2OnTime = 0.1;
-    private static final double bb4OffTime = 0.15;
-  }
-
-  private class ShootTimes{
-    private static final double bb2OffTime = 0.04;
-    private static final double bb3OffTime = 0.2;
-    private static final double bb4OffTime = 0.3;
-  }
 
 
 

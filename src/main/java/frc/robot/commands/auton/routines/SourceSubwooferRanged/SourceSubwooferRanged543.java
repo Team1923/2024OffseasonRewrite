@@ -39,7 +39,7 @@ public class SourceSubwooferRanged543 extends SequentialCommandGroup {
 
       //4Note
       new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("SourceSubwooferTo4"),
+        PathPlannerHelpers.commandPathFrom("StageRangedTo4"),
         new DeployIntakeCommand()
       ),
       PathPlannerHelpers.commandPathFrom("4ToStagedRanged"),
@@ -47,7 +47,7 @@ public class SourceSubwooferRanged543 extends SequentialCommandGroup {
 
       //3Note
       new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("SourceSubwooferTo3"),
+        PathPlannerHelpers.commandPathFrom("SourceSubwooferTo3"), //TODO: stage ranged to 3
         new DeployIntakeCommand()
       ),
       PathPlannerHelpers.commandPathFrom("3ToStageRanged"),

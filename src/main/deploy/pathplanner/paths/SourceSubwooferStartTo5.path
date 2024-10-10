@@ -3,49 +3,49 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.037037892257603,
-        "y": 0.7556284203477498
+        "x": 0.5965607186255898,
+        "y": 4.421139470985942
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.375803520837811,
-        "y": 1.3217114090757707
+        "x": 1.1905904713351545,
+        "y": 4.0413499569585145
       },
       "isLocked": false,
-      "linkedName": "5"
+      "linkedName": "SourceSubwooferStart"
     },
     {
       "anchor": {
-        "x": 2.3981263620890236,
-        "y": 3.729727791602677
+        "x": 8.037037892257603,
+        "y": 0.7556284203477498
       },
       "prevControl": {
-        "x": 3.1771817754729885,
-        "y": 3.1843890022269465
+        "x": 6.975076915752882,
+        "y": 1.2172740834212408
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "StageRanged"
+      "linkedName": "5"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 4.8,
+    "maxAcceleration": 4.25,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -37.2880462308778,
+    "rotation": -23.511640614466067,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "SourceSubwooferRanged",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -56.689369175439275,
     "velocity": 0
   },
   "useDefaultConstraints": false

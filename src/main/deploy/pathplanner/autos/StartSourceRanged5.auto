@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5965607186255898,
-      "y": 4.421139470985942
+      "x": 1.5162444870344285,
+      "y": 1.4179693813933087
     },
-    "rotation": -60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SourceSubwooferTo5"
+            "pathName": "SourceTo5"
           }
         }
       ]

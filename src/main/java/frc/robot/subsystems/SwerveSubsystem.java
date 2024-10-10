@@ -64,7 +64,8 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
         }
 
         private static SwerveRequest.FieldCentricFacingAngle withPID(SwerveRequest.FieldCentricFacingAngle FCA, PhoenixPIDController PID){
-            PID.enableContinuousInput(-180, 180);
+            PID.enableContinuousInput(-180, 180); //TODO: this is an issue on RED
+            // FCA.ForwardReference = SwerveRequest.ForwardReference.RedAlliance; This didn't work
             FCA.HeadingController = PID;
 
             return FCA;
@@ -96,7 +97,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
             startSimThread();
         }
 
-        
+        zeroGyro();
         configurePathPlanner();
        
     }
@@ -116,7 +117,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
         else{
             startSimThread();
         }
-        
+        zeroGyro();
         configurePathPlanner();
       
     }

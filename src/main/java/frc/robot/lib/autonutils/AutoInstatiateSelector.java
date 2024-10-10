@@ -17,6 +17,7 @@ import frc.robot.commands.auton.routines.AmpSubwooferRanged.AmpSubwooferRanged21
 import frc.robot.commands.auton.routines.SourceSubwooferRanged.SourceSubwooferRanged5;
 import frc.robot.commands.auton.routines.SourceSubwooferRanged.SourceSubwooferRanged543;
 import frc.robot.commands.auton.routines.SubwooferRanged.SubwooferRangedSMA12;
+import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubM;
 import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubSMA;
 
 /** Add your docs here. */
@@ -29,6 +30,7 @@ public class AutoInstatiateSelector {
         AMP_SOURCE_RANGED_123(new AmpSubwooferRanged123()),
         AMP_SOURCE_RANGED_213(new AmpSubwooferRanged213()),
         SUBWOOFER_SUB_SMA(new SubwooferSubSMA()),
+        SUBWOOFER_SUB_M(new SubwooferSubM()),
         SUBWOOBER_RANGED_SMA12(new SubwooferRangedSMA12()),
         SOURCE_SUBWOOFER_RANGED_543(new SourceSubwooferRanged543());
 

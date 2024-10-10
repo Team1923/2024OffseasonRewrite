@@ -33,7 +33,7 @@ public class ArmSubsystem extends SubsystemBase {
     REVERSE_SUBWOOFER(MMVoltage(-108.5)),
     UNGUARDABLE(MMVoltage(-108.5)),
     // AMP(MMVoltageWithDegrees(-108.5)),
-    SUBWOOFER(MMVoltage(-44.1)), 
+    SUBWOOFER(MMVoltage(-46.1)), 
     RANGED(MMVoltage(0), 1),
     TRAP(MMVoltage(-51.6), 0.5),
     BABY_BIRD(MMVoltage(-40.1)), //-40.1

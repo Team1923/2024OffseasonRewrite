@@ -117,6 +117,7 @@ public class SwerveStateMachine extends Command {
           .withVelocityY(0.4 * strafe * TunerConstants.kSpeedAt12VoltsMps)
           .withTargetDirection(Rotation2d.fromDegrees(Math.IEEEremainder(swerve.getGyroYaw()+stateHandler.llTx(), 360)));
 
+          System.out.println(Math.IEEEremainder(swerve.getGyroYaw()+stateHandler.llTx(), 360));
           // System.out.println(Rotation2d.fromDegrees(swerve.getGyroYaw()+stateHandler.llTx()).rotateBy(parameters.operatorForwardDirection););
 
           break;

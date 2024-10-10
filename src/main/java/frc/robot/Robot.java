@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    System.out.println(Math.IEEEremainder(-169.355-14.59, 360));
   }
 
   @Override

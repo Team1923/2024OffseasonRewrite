@@ -37,7 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
     TRAP_VELO(MMVeloVoltage(650), MMVeloVoltage(1000)),
     PUNT_HIGH_VELO(MMVeloVoltage(2100)),
     PUNT_LOW_DUTY(new DutyCycleOut(1).withEnableFOC(true)),
-    SUBWOOFER_VELO(MMVeloVoltage(2000)),
+    SUBWOOFER_VELO(MMVeloVoltage(2500)),
     REVERSE_SUBWOOFER_VELO(MMVeloVoltage(2000)),
     RANGED_VELO(MMVeloVoltage(0)),
     FULL_EJECT_DUTY(new DutyCycleOut(1).withEnableFOC(true)),
@@ -163,6 +163,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
     if (state.REQUEST_TOP instanceof MotionMagicVelocityVoltage) {
+
       /* Get the shooter's velocities (in RPM) */
       double desiredVelocityTop = ((MotionMagicVelocityVoltage) state.REQUEST_TOP).Velocity * ShooterConstants.RPSToRPM;
       double desiredVelocityBottom = ((MotionMagicVelocityVoltage) state.REQUEST_BOTTOM).Velocity * ShooterConstants.RPSToRPM;

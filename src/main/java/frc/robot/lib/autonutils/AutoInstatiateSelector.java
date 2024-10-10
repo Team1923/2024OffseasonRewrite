@@ -16,6 +16,7 @@ import frc.robot.commands.auton.routines.AmpSubwooferRanged.AmpSubwooferRanged12
 import frc.robot.commands.auton.routines.AmpSubwooferRanged.AmpSubwooferRanged213;
 import frc.robot.commands.auton.routines.SourceSubwooferRanged.SourceSubwooferRanged5;
 import frc.robot.commands.auton.routines.SubwooferRanged.SubwooferRangedSMA12;
+import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubSMA;
 
 /** Add your docs here. */
 public class AutoInstatiateSelector {
@@ -26,39 +27,39 @@ public class AutoInstatiateSelector {
         AMP_RANGED_231(new AmpRanged231()),
         AMP_SOURCE_RANGED_123(new AmpSubwooferRanged123()),
         AMP_SOURCE_RANGED_213(new AmpSubwooferRanged213()),
+        SUBWOOFER_SUB_SMA(new SubwooferSubSMA()),
         SUBWOOBER_RANGED_SMA12(new SubwooferRangedSMA12());
-        
 
         private Command routine;
 
-        private AutoMode(Command routine){
+        private AutoMode(Command routine) {
             this.routine = routine;
         }
 
-        public Command getAutonRoutine(){
+        public Command getAutonRoutine() {
             return routine;
         }
     }
-    
+
     private SendableChooser<AutoMode> chooser;
 
     ShuffleboardTab driverDashboard = Shuffleboard.getTab("Driver Dashboard");
-	ShuffleboardLayout auto = driverDashboard.getLayout("Auto Mode", "List Layout")
-			.withPosition(3, 0)
-			.withSize(2, 1);
+    ShuffleboardLayout auto = driverDashboard.getLayout("Auto Mode", "List Layout")
+            .withPosition(3, 0)
+            .withSize(2, 1);
 
-    public AutoInstatiateSelector(){
+    public AutoInstatiateSelector() {
         chooser = new SendableChooser<>();
 
-        for (AutoMode m : AutoMode.values()){
+        for (AutoMode m : AutoMode.values()) {
             chooser.addOption(m.name(), m);
         }
 
         auto.add(chooser);
     }
-    
-    public Command startMode(){
-        AutoMode mode = (AutoMode)(chooser.getSelected());
+
+    public Command startMode() {
+        AutoMode mode = (AutoMode) (chooser.getSelected());
 
         return mode.getAutonRoutine();
     }

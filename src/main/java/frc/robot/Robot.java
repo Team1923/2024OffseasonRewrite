@@ -32,8 +32,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
-    
-
     SwerveRequestPIDWidget ampPID = new SwerveRequestPIDWidget(SwerveStates.FACING_AMP);
     SwerveRequestPIDWidget GCPID = new SwerveRequestPIDWidget(SwerveStates.GOAL_CENTRIC);
 
@@ -43,29 +41,29 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    
-
-
     SmartDashboard.putNumber("TX", stateHandler.llTx());
 
     SmartDashboard.putNumber("TY", stateHandler.llTy());
 
     // System.out.println(((MotionMagicVoltage)(ArmStates.BABY_BIRD.REQUEST)).Position);
 
-    if (Utils.isSimulation()){
+    if (Utils.isSimulation()) {
       SimulationUtils.getInstance().update();
     }
 
-    // System.out.println("orig: " + Constants.InterpolationConstants.tyToDistanceMap.get(-5.23) +" after: " + Constants.InterpolationConstants.tyToDistanceMap.get(-4.80));
+    // System.out.println("orig: " +
+    // Constants.InterpolationConstants.tyToDistanceMap.get(-5.23) +" after: " +
+    // Constants.InterpolationConstants.tyToDistanceMap.get(-4.80));
   }
 
   @Override
   public void disabledInit() {
-    
+
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
   public void disabledExit() {
@@ -74,7 +72,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-    if (Utils.isSimulation()){
+    if (Utils.isSimulation()) {
       SimulationUtils.getInstance().preloadNote();
       SimulationUtils.getInstance().populateNotes();
     }
@@ -87,10 +85,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
@@ -100,10 +100,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+  }
 
   @Override
   public void testInit() {
@@ -111,8 +113,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   @Override
-  public void testExit() {}
+  public void testExit() {
+  }
 }

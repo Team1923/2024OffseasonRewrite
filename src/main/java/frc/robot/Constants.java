@@ -1,5 +1,8 @@
 package frc.robot;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
 import org.opencv.core.Point;
 
 import com.ctre.phoenix6.configs.ClosedLoopGeneralConfigs;
@@ -15,6 +18,7 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
+import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -355,6 +359,21 @@ public class Constants {
                 public static final double whiteLineTolerance = 0.5; //meters over white line you are allowed to be, depending on alliance
 
                 public static final double notefindingSpeed = 2; //m/s
+
+                public static RobotConfig config = null;
+
+                public AutonConstants(){
+                        try {
+                                config = RobotConfig.fromGUISettings();
+                        } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                        } catch (ParseException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                        }
+                }
+
 
         }
 

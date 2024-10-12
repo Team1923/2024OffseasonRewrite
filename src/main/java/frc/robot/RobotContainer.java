@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.AutonConstants;
 import frc.robot.Constants.InterpolationConstants;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.auton.routines.AmpRanged.AmpRanged123;
@@ -66,9 +67,10 @@ public class RobotContainer {
   private final InfoSubsystem infoSubsystem = new InfoSubsystem(driverXboxController, operatorPS5Controller);
   private final Telemetry swerveLogger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
   private final LEDSubsystem ledSubsystem = new LEDSubsystem();
-  private static InterpolationConstants interpConsts = new InterpolationConstants(); //just needs to be constructed for the sake of constructor
   private final AutoInstatiateSelector autoInstatiateSelector = new AutoInstatiateSelector();
-
+  //just needs to be constructed for the sake of constructor
+  private static InterpolationConstants interpConsts = new InterpolationConstants(); 
+  private static AutonConstants autonConstants = new AutonConstants();
 
   public RobotContainer() {
     configureBindings();

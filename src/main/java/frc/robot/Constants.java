@@ -27,7 +27,7 @@ public class Constants {
 
         public static class ControllerConstants {
                 public static class Driver {
-                        public static final double deadband = 0.01;
+                        public static final double deadband = 0.1;
                 }
 
                 public static class Operator {

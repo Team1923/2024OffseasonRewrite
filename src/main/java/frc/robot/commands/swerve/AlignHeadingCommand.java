@@ -32,6 +32,9 @@ public class AlignHeadingCommand extends Command {
       case AMP:
         stateHandler.swerveState = SwerveStates.FACING_AMP;
         break;
+      case RANGED:
+        stateHandler.swerveState = SwerveStates.GOAL_CENTRIC;
+        break;
     }
   }
 

@@ -95,7 +95,7 @@ public class StateHandler {
      * @return limelight tx or -1 if no tag
      */
     public double llTx(){
-        if (Utils.isSimulation()) return SimulationUtils.simLLAngleToSpeaker(swervePose);
+        if (Utils.isSimulation()) return -SimulationUtils.simLLAngleToSpeaker(swervePose);
 
         return (LimelightHelpers.getFiducialID(LimelightConstants.limelightName) == -1) ? 0 : LimelightHelpers.getTX(LimelightConstants.limelightName);
     }

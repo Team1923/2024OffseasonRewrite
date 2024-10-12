@@ -33,6 +33,19 @@ import frc.robot.lib.swerve.TunerConstants;
  */
 public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
 
+    private static SwerveSubsystem swerve;
+
+    public static synchronized SwerveSubsystem getInstance(){
+        if (swerve == null){
+            swerve = new SwerveSubsystem(TunerConstants.DrivetrainConstants, TunerConstants.FrontLeft,
+            TunerConstants.FrontRight, TunerConstants.BackLeft, TunerConstants.BackRight);
+
+            return swerve;
+        }
+
+        return swerve;
+    }
+
     private StateHandler stateHandler = StateHandler.getInstance();
 
     public static enum SwerveStates{ 
@@ -64,8 +77,7 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
         }
 
         private static SwerveRequest.FieldCentricFacingAngle withPID(SwerveRequest.FieldCentricFacingAngle FCA, PhoenixPIDController PID){
-            PID.enableContinuousInput(-180, 180); //TODO: this is an issue on RED
-            // FCA.ForwardReference = SwerveRequest.ForwardReference.RedAlliance; This didn't work
+            PID.enableContinuousInput(-Math.PI, Math.PI);
             FCA.HeadingController = PID;
 
             return FCA;

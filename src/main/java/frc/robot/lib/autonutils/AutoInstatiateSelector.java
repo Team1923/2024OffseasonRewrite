@@ -23,7 +23,7 @@ import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubSMA;
 /** Add your docs here. */
 public class AutoInstatiateSelector {
     public enum AutoMode {
-        // SOURCE_SUBWOOFER_RANGED(new SourceSubwooferRanged5()),
+        SOURCE_SUBWOOFER_RANGED(new SourceSubwooferRanged5()),
         AMP_RANGED_123(new AmpRanged123()),
         AMP_RANGED_213(new AmpRanged213()),
         AMP_RANGED_231(new AmpRanged231()),

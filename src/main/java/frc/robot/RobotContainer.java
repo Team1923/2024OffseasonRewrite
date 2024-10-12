@@ -60,7 +60,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(); 
   private final ArmSubsystem armSubsystem = new ArmSubsystem(); 
   private final FeederSubsystem feederSubsystem = new FeederSubsystem(); 
-  private final SwerveSubsystem swerveSubsystem = TunerConstants.DriveTrain;
+  private final SwerveSubsystem swerveSubsystem = SwerveSubsystem.getInstance();
 
   /* Helper class Instantiation */
   private final InfoSubsystem infoSubsystem = new InfoSubsystem(driverXboxController, operatorPS5Controller);

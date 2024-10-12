@@ -32,14 +32,14 @@ import frc.robot.subsystems.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SourceSubwooferRanged5 extends SequentialCommandGroup {
   /** Creates a new CenterSource5. */
-  public SourceSubwooferRanged5(SwerveSubsystem swerve) {
+  public SourceSubwooferRanged5() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ParallelDeadlineGroup(
           new SequentialCommandGroup(
             new PathPlannerAuto("StartSourceSubwooferRanged5"),
-            new AutoNotefindCommand(swerve, SearchDirection.TOWARDS_AMP)
+            new AutoNotefindCommand(SearchDirection.TOWARDS_AMP)
           ),
           new SequentialCommandGroup(
             new WaitCommand(0.5),

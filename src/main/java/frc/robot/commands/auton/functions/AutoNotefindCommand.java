@@ -37,16 +37,14 @@ public class AutoNotefindCommand extends Command {
     }
   }
 
-  private SwerveSubsystem swerve;
+  private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
 
   private int direction;
 
   /** Creates a new AutoNotefindCommand. */
-  public AutoNotefindCommand(SwerveSubsystem swerve, SearchDirection searchDirection) {
+  public AutoNotefindCommand(SearchDirection searchDirection) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-
-    this.swerve = swerve;
     addRequirements(swerve);
 
     this.direction = searchDirection.direction();

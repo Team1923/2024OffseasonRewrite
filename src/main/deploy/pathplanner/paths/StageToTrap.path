@@ -3,36 +3,36 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3042908446928008,
-        "y": 5.571204809076285
+        "x": 2.5076200152400308,
+        "y": 4.249750960439421
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2668193021522722,
-        "y": 6.42432078383309
+        "x": 3.5076200152400308,
+        "y": 4.249750960439421
       },
       "isLocked": false,
-      "linkedName": "Subwoofer"
+      "linkedName": "STAGE"
     },
     {
       "anchor": {
-        "x": 2.631769231126204,
-        "y": 7.008841216762844
+        "x": 4.0,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 1.6094671633739204,
-        "y": 7.227019421637773
+        "x": 3.0,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Amp"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.5,
     "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -43,7 +43,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "SubwooferSubPaths",
-  "previewStartingState": null,
-  "useDefaultConstraints": false
+  "folder": "TrapAutoPaths",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
 }

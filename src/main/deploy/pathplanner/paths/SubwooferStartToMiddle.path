@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2369225016227814,
-        "y": 5.548876282937751
+        "x": 1.8042908446928008,
+        "y": 5.571204809076285
       },
       "isLocked": false,
       "linkedName": "Subwoofer"
@@ -20,8 +20,8 @@
         "y": 5.571204809076285
       },
       "prevControl": {
-        "x": 1.925867129512037,
-        "y": 5.550895351790703
+        "x": 1.921978405253107,
+        "y": 5.571204809076285
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

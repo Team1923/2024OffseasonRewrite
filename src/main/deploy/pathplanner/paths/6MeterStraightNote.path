@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5965607186255898,
-        "y": 4.421139470985942
+        "x": 1.3042908446928008,
+        "y": 5.571204809076285
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.59656071862559,
-        "y": 4.421139470985942
+        "x": 2.304290844692801,
+        "y": 5.571204809076285
       },
       "isLocked": false,
-      "linkedName": "SourceSubwooferStart"
+      "linkedName": "Subwoofer"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 5.8729596406561235
       },
       "prevControl": {
-        "x": 5.795749881308255,
-        "y": 7.457362730447973
+        "x": 6.619832537910691,
+        "y": 6.099666234420188
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -17.674304323366467,
+    "rotation": -20.095231191904777,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "SourceSubwooferRanged",
+  "folder": "TestPaths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

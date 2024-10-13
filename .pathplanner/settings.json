@@ -11,6 +11,7 @@
     "TrapAutoPaths"
   ],
   "autoFolders": [
+    "Test",
     "Starts"
   ],
   "defaultMaxVel": 4.5,

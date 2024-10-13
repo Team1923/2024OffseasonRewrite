@@ -19,6 +19,9 @@ import frc.robot.commands.auton.routines.SourceSubwooferRanged.SourceSubwooferRa
 import frc.robot.commands.auton.routines.SubwooferRanged.SubwooferRangedSMA12;
 import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubM;
 import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubSMA;
+import frc.robot.commands.auton.routines.Test.SixMeterRotation;
+import frc.robot.commands.auton.routines.Test.SixMeterStraight;
+import frc.robot.commands.auton.routines.Test.SubwooferShootingTest;
 
 /** Add your docs here. */
 public class AutoInstatiateSelector {
@@ -32,7 +35,11 @@ public class AutoInstatiateSelector {
         SUBWOOFER_SUB_SMA(new SubwooferSubSMA()),
         SUBWOOFER_SUB_M(new SubwooferSubM()),
         SUBWOOBER_RANGED_SMA12(new SubwooferRangedSMA12()),
-        SOURCE_SUBWOOFER_RANGED_543(new SourceSubwooferRanged543());
+        SOURCE_SUBWOOFER_RANGED_543(new SourceSubwooferRanged543()),
+        SIX_METER_STRAIGHT(new SixMeterStraight()),
+        SIX_METER_ROTATION(new SixMeterRotation()),
+        SUBWOOFER_SHOOT_TEST(new SubwooferShootingTest());
+    
 
         private Command routine;
 

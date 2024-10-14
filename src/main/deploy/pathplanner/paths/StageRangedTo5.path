@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5162444870344285,
-        "y": 1.4179693813933087
+        "x": 2.3981263620890236,
+        "y": 3.729727791602677
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.551735285288752,
-        "y": 1.3246819220911168
+        "x": 3.092277938941843,
+        "y": 3.225026625491848
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "StageRanged"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.9216876328489502
       },
       "prevControl": {
-        "x": 6.952867309243391,
-        "y": 0.9216876328489501
+        "x": 6.952802087422358,
+        "y": 1.4686139228737785
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -24.567171320601364,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "SourceSubwooferRanged",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

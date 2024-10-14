@@ -41,8 +41,8 @@ public class AutoInstatiateSelector {
         SIX_METER_STRAIGHT(new SixMeterStraight()),
         SIX_METER_ROTATION(new SixMeterRotation()),
         SUBWOOFER_SHOOT_TEST(new SubwooferShootingTest()),
-        SUBWOOFER_RANGED_SHOT(new SubwooferRangedShooting()),
-        SIX_METER_RANGED_SHOOTING(new SixMeterRangedShooting());
+        SUBWOOFER_RANGED_TEST(new SubwooferRangedShooting()),
+        SIX_METER_RANGED_TEST(new SixMeterRangedShooting());
     
 
         private Command routine;

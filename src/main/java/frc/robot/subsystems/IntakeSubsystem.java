@@ -95,6 +95,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // intakeArmRoot.append(intakeArmLigament);
     
+    if (StateHandler.getInstance().isAngleRPMTuning){
 
     MotorPIDFVAJWidget intakeTuning = new MotorPIDFVAJWidget("INTAKE", 
                                     IntakeConstants.ARM_CONFIGS, 
@@ -105,6 +106,7 @@ public class IntakeSubsystem extends SubsystemBase {
                                     IntakeArmStates.TUNING.REQUEST,
                                     new SimpleIntakeArmStateSwapCommand(IntakeArmStates.TUNING, IntakeArmStates.STOWED),
                                     intakeArmPrimary, intakeArmFollower);
+    }
 
     zeroIntakeArm();
   }

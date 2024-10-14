@@ -95,6 +95,8 @@ public class ShooterSubsystem extends SubsystemBase {
     /* Apply a Default Configuration to the Blower Motor */
     blower.configFactoryDefault();
 
+    if (StateHandler.getInstance().isAngleRPMTuning){
+
     MotorPIDFVAJWidget shooterTuner = new MotorPIDFVAJWidget(
                                                 "SHOOTER", 
                                                 ShooterConstants.CONFIGS,
@@ -105,6 +107,7 @@ public class ShooterSubsystem extends SubsystemBase {
                                                 ShooterStates.RPM_TUNING.REQUEST_TOP, ShooterStates.RPM_TUNING.REQUEST_BOTTOM,
                                                 new SimpleShooterStateSwapCommand(ShooterStates.RPM_TUNING, ShooterStates.IDLE_VELO),
                                                 shooterTop, shooterBottom);
+    }
   }
 
   /**

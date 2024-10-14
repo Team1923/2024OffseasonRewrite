@@ -29,7 +29,7 @@ public class SourceSubwooferRanged534 extends SequentialCommandGroup {
 
       //5 Note
       new ParallelDeadlineGroup(
-        new PathPlannerAuto("SourceSubwooferStartTo5"),
+        new PathPlannerAuto("StartSourceSubwooferRanged5"),
         new DeployIntakeCommand()),
 
       // Shoot
@@ -41,7 +41,7 @@ public class SourceSubwooferRanged534 extends SequentialCommandGroup {
         PathPlannerHelpers.commandPathFrom("StageRangedTo3"),
         new DeployIntakeCommand()
       ),
-      PathPlannerHelpers.commandPathFrom("3ToStagedRanged"),
+      PathPlannerHelpers.commandPathFrom("3ToStageRanged"),
       new ShootGamePiece(),
 
       //4Note

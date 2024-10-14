@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.59656071862559,
-        "y": 4.421139470985942
+        "x": 4.848492559239144,
+        "y": 1.057369127260617
       },
       "isLocked": false,
       "linkedName": "SourceSubwooferStart"
@@ -20,8 +20,8 @@
         "y": 4.1046482092964185
       },
       "prevControl": {
-        "x": 4.83338457904986,
-        "y": -0.36273055002250376
+        "x": 3.8939232082399773,
+        "y": 5.066560401457118
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 43.76877994921429,
+    "rotation": -7.67311130521608,
     "rotateFast": false
   },
   "reversed": false,

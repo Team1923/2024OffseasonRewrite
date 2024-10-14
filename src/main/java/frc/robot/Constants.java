@@ -188,6 +188,7 @@ public class Constants {
                 public static final double armDegreesToRots = 1 / armRotsToDegrees;
 
                 public static final double armMomentOfInertia = 0.5447340821;
+                public static final double armSimFriction = 0.4;
 
                 /* kG - gravity constant for motion of arm */
                 //public static final double armMaxGravityConstant = 0.05 * 12; // 2 volts max ff

@@ -42,7 +42,7 @@ public class SourceSubwooferRanged543 extends SequentialCommandGroup {
         PathPlannerHelpers.commandPathFrom("StageRangedTo4"),
         new DeployIntakeCommand()
       ),
-      PathPlannerHelpers.commandPathFrom("4ToStagedRanged"),
+      PathPlannerHelpers.commandPathFrom("4ToStageRanged"),
       new ShootGamePiece(),
 
       //3Note

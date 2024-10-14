@@ -229,11 +229,25 @@ public class ArmSubsystem extends SubsystemBase {
 
     armPrimarySimState.setSupplyVoltage(RobotController.getBatteryVoltage());
 
-    armSimModel.setInputVoltage(armPrimarySimState.getMotorVoltage());
+    
+
+    armSimModel.setInputVoltage(addFriction(armPrimarySimState.getMotorVoltage(), ArmConstants.armSimFriction));
     armSimModel.update(0.020);
 
     armPrimarySimState.setRawRotorPosition(ArmConstants.armGearRatio * armSimModel.getAngularPositionRotations());
     armPrimarySimState.setRotorVelocity(ArmConstants.armGearRatio * Units.radiansToRotations(armSimModel.getAngularVelocityRadPerSec()));
 
   }
+
+  //yoinked from swerve module sim
+  private double addFriction(double motorVoltage, double frictionVoltage) {
+    if (Math.abs(motorVoltage) < frictionVoltage) {
+        motorVoltage = 0.0;
+    } else if (motorVoltage > 0.0) {
+        motorVoltage -= frictionVoltage;
+    } else {
+        motorVoltage += frictionVoltage;
+    }
+    return motorVoltage;
+}
 }

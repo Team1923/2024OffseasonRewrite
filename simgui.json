@@ -6,6 +6,7 @@
       "/Shuffleboard/ARM/GOTO": "Command",
       "/Shuffleboard/ARM/SLOT": "String Chooser",
       "/Shuffleboard/ARM/UPDATE": "Command",
+      "/Shuffleboard/Driver Dashboard/Auto Mode/SendableChooser[0]": "String Chooser",
       "/Shuffleboard/Driver Dashboard/Auto Mode/SendableChooser[3]": "String Chooser",
       "/Shuffleboard/INTAKE/GOTO": "Command",
       "/Shuffleboard/INTAKE/SLOT": "String Chooser",

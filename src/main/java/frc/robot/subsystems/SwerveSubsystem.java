@@ -200,24 +200,27 @@ public class SwerveSubsystem extends SwerveDrivetrain implements Subsystem {
             driveBaseRadius = Math.max(driveBaseRadius, moduleLocation.getNorm());
         }
 
+        HolonomicPathFollowerConfig holoPathFollower = new HolonomicPathFollowerConfig(
+            new PIDConstants(5.0, 0, 0), //TODO: TUNE!
+            new PIDConstants(5.0, 0, 0), //TODO: TUNE!
+            TunerConstants.kSpeedAt12VoltsMps,
+            driveBaseRadius,
+            new ReplanningConfig());
+
+
         AutoBuilder.configureHolonomic(
             () -> this.getState().Pose,
             this::seedFieldRelative,
             this::getCurrentRobotChassisSpeeds,
             (speeds) -> this.setControl(AutoRequest.withSpeeds(speeds)),
-            new HolonomicPathFollowerConfig(
-                new PIDConstants(5.0, 0, 0), //TODO: TUNE!
-                new PIDConstants(5.0, 0, 0), //TODO: TUNE!
-                TunerConstants.kSpeedAt12VoltsMps,
-                driveBaseRadius,
-            new ReplanningConfig()),
-                () -> {
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                    },
+            holoPathFollower,
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+                },
             this);
     }  
 

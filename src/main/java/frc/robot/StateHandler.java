@@ -128,6 +128,6 @@ public class StateHandler {
     
 
     /* MISC */
-    public final boolean isAngleRPMTuning = true;
+    public final boolean isAngleRPMTuning = false;
 
 }

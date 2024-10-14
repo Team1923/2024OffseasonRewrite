@@ -92,7 +92,6 @@ public class RobotContainer {
 
     /* Driver Button Bindings */
     driverXboxController.rightTrigger().whileTrue(new ShootGamePiece());
-    // driverXboxController.rightTrigger().whileTrue(new SetGoalCentric());
     driverXboxController.rightStick().whileTrue(new AlignHeadingCommand());
     driverXboxController.y().onTrue(swerveSubsystem.runOnce(() -> swerveSubsystem.zeroGyro()));
 
@@ -115,10 +114,9 @@ public class RobotContainer {
 
 
     /* Misc */
-    // operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
-    //operatorPS5Controller.options().toggleOnTrue(new ManualArmControl(armSubsystem, () -> 0.25 * operatorPS5Controller.getRightY())); //#7
+    operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
 
-    // operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
+    operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
 
 
     if (stateHandler.isAngleRPMTuning){

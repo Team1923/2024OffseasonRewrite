@@ -1,8 +1,6 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.auton.routines.SubwooferSub;
+
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -18,26 +16,22 @@ import frc.robot.lib.autonutils.AutoHelpers;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SubwooferSubM extends SequentialCommandGroup {
-    /** Creates a new SubwooferRangedSMA12. */
-    public SubwooferSubM() {
-        // Add your commands in the addCommands() call, e.g.
-        // addCommands(new FooCommand(), new BarCommand());
-        addCommands(
-                // Preload
-                RobotContainer.scoringMode(ScoringType.SUBWOOFER),
-                new ShootGamePiece(),
+        /** Creates a new SubwooferRangedSMA12. */
+        public SubwooferSubM() {
+                // Add your commands in the addCommands() call, e.g.
+                // addCommands(new FooCommand(), new BarCommand());
+                addCommands(
+                                // Preload
+                                RobotContainer.scoringMode(ScoringType.SUBWOOFER),
+                                new ShootGamePiece(),
+                                // Middle
+                                new ParallelDeadlineGroup(
+                                                new PathPlannerAuto("SubwooferStartToMiddle"),
+                                                new DeployIntakeCommand()),
 
-                // Middle
-                new ParallelDeadlineGroup(
-                        new PathPlannerAuto("StartSubwooferSubM"),
-                        new DeployIntakeCommand()
-                ),
+                                AutoHelpers.commandPathFrom("MiddleToSubwooferStart"),
+                                new ShootGamePiece()
 
-                AutoHelpers.commandPathFrom("MiddleToSubwooferStart"),
-                new ShootGamePiece()
-
-
-
-        );
-    }
+                );
+        }
 }

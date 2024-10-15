@@ -12,7 +12,7 @@ import frc.robot.RobotContainer;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.DeployIntakeCommand;
 import frc.robot.commands.scoring.ShootGamePiece;
-import frc.robot.lib.autonutils.PathPlannerHelpers;
+import frc.robot.lib.autonutils.AutoHelpers;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,8 +31,8 @@ public class SixMeterRangedShooting extends SequentialCommandGroup {
         new PathPlannerAuto("StartSubwooferTo2Auto"),
         new DeployIntakeCommand()
       ), 
-      PathPlannerHelpers.commandPathFrom("2ToRangedShoot"), //Shoots from ranged
-      new ShootGamePiece()
+      AutoHelpers.commandPathFrom("2ToRangedShoot"), //Shoots from ranged
+      AutoHelpers.goalCentricShoot()
     );
   }
 }

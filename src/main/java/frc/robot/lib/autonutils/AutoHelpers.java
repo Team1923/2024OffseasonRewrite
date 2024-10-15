@@ -11,9 +11,13 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc.robot.commands.scoring.ShootGamePiece;
+import frc.robot.statecommands.SwerveStateMachine;
+import frc.robot.subsystems.SwerveSubsystem;
 
 /** Add your docs here. */
-public class PathPlannerHelpers {
+public class AutoHelpers {
 
 
   /* PATH HELP */
@@ -40,6 +44,10 @@ public class PathPlannerHelpers {
     PathPlannerPath path = PathPlannerPath.fromPathFile(name);
 
     return AutoBuilder.pathfindToPose(getLastPoseOf(path), path.getGlobalConstraints());
+  }
+
+  public static Command goalCentricShoot(){
+    return new ParallelDeadlineGroup(new ShootGamePiece(), new SwerveStateMachine(SwerveSubsystem.getInstance(), () -> 0, () -> 0, () -> 0));
   }
 
 

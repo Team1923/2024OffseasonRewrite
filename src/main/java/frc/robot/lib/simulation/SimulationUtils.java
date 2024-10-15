@@ -123,9 +123,14 @@ public class SimulationUtils {
   public void populateNotes(){
     notePoses = new ArrayList<>();
 
+    //Blue
     notePoses.add(new Translation2d(2.89, 4.10)); //podiumLoc
     notePoses.add(new Translation2d(2.89, 5.56)); //midLoc
     notePoses.add(new Translation2d(2.89, 7.00)); //ampLoc
+    //Red
+    notePoses.add(new Translation2d(13.67, 4.10)); //podiumLoc
+    notePoses.add(new Translation2d(13.67, 5.56)); //midLoc
+    notePoses.add(new Translation2d(13.67, 7.00)); //ampLoc
 
     notePoses.add(new Translation2d(8.28, 7.45)); //1Loc
     notePoses.add(new Translation2d(8.28, 5.78)); //2Loc
@@ -235,10 +240,12 @@ public class SimulationUtils {
    */
   public static double simLLAngleToSpeaker(Pose2d aPose){
 
-    Pose2d allianceSpeaker = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue ? Constants.FieldConstants.blueSpeakerPos : Constants.FieldConstants.redSpeakerPos;
+    Alliance alliance =  !DriverStation.getAlliance().isPresent() ? Alliance.Blue : DriverStation.getAlliance().get();
+
+    Pose2d allianceSpeaker = alliance == Alliance.Blue ? Constants.FieldConstants.blueSpeakerPos : Constants.FieldConstants.redSpeakerPos;
 
 
-    return aPose.getRotation().getDegrees() - Math.toDegrees((Math.atan((aPose.getY() - allianceSpeaker.getY())/(aPose.getX() - allianceSpeaker.getX()))));
+    return aPose.getRotation().getDegrees() - Math.toDegrees((Math.atan((aPose.getY() - allianceSpeaker.getY())/(aPose.getX() - allianceSpeaker.getX())))) + (alliance == Alliance.Blue ? 0 : 180);
   }
 
   public static double getDistFromRobotToPose(Pose2d robot, Pose2d pose){

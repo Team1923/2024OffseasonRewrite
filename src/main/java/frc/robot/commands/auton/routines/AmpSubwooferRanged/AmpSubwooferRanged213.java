@@ -12,7 +12,7 @@ import frc.robot.RobotContainer;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.DeployIntakeCommand;
 import frc.robot.commands.scoring.ShootGamePiece;
-import frc.robot.lib.autonutils.PathPlannerHelpers;
+import frc.robot.lib.autonutils.AutoHelpers;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -34,24 +34,24 @@ public class AmpSubwooferRanged213 extends SequentialCommandGroup {
         new PathPlannerAuto("StartAmpSubwooferRanged2"),
         new DeployIntakeCommand()
       ),
-      PathPlannerHelpers.commandPathFrom("2ToMidFieldRanged"),
-      new ShootGamePiece(),
+      AutoHelpers.commandPathFrom("2ToMidFieldRanged"),
+      AutoHelpers.goalCentricShoot(),
       
       /* Note 1 */
       new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("MidFieldRangedTo1"),
+        AutoHelpers.commandPathFrom("MidFieldRangedTo1"),
         new DeployIntakeCommand()
       ),
-      PathPlannerHelpers.commandPathFrom("1ToMidFieldRanged"),
-      new ShootGamePiece(),
+      AutoHelpers.commandPathFrom("1ToMidFieldRanged"),
+      AutoHelpers.goalCentricShoot(),
 
       /* Note 3 */
       new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("MidFieldRangedTo3"),
+        AutoHelpers.commandPathFrom("MidFieldRangedTo3"),
         new DeployIntakeCommand()
       ),
-      PathPlannerHelpers.commandPathFrom("3ToMidFieldRanged"),
-      new ShootGamePiece()
+      AutoHelpers.commandPathFrom("3ToMidFieldRanged"),
+      AutoHelpers.goalCentricShoot()
     );
   }
 }

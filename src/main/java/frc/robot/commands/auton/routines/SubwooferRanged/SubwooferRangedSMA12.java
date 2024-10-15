@@ -12,7 +12,7 @@ import frc.robot.RobotContainer;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.DeployIntakeCommand;
 import frc.robot.commands.scoring.ShootGamePiece;
-import frc.robot.lib.autonutils.PathPlannerHelpers;
+import frc.robot.lib.autonutils.AutoHelpers;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -32,33 +32,33 @@ public class SubwooferRangedSMA12 extends SequentialCommandGroup {
         new PathPlannerAuto("StartSubwooferRanged"),
         new DeployIntakeCommand()
       ),
-      new ShootGamePiece(),
+      AutoHelpers.goalCentricShoot(),
       // Middle note
       new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("StageToMiddle"),
+        AutoHelpers.commandPathFrom("StageToMiddle"),
         new DeployIntakeCommand()
       ),
-      new ShootGamePiece(),
+      AutoHelpers.goalCentricShoot(),
       // Amp note
       new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("MiddleToAmp"),
+        AutoHelpers.commandPathFrom("MiddleToAmp"),
         new DeployIntakeCommand()
       ),
-      new ShootGamePiece(),
+      AutoHelpers.goalCentricShoot(),
       // Note 1
       new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("AmpTo1"),
+        AutoHelpers.commandPathFrom("AmpTo1"),
         new DeployIntakeCommand()
       ),
-      PathPlannerHelpers.commandPathFrom("1ToCloseRanged"),
-      new ShootGamePiece(),
+      AutoHelpers.commandPathFrom("1ToCloseRanged"),
+      AutoHelpers.goalCentricShoot(),
       // Note 2
       new ParallelDeadlineGroup(
-        PathPlannerHelpers.commandPathFrom("CloseRangedTo2"),
+        AutoHelpers.commandPathFrom("CloseRangedTo2"),
         new DeployIntakeCommand()
       ),
-      PathPlannerHelpers.commandPathFrom("2ToMidRanged"),
-      new ShootGamePiece()
+      AutoHelpers.commandPathFrom("2ToMidRanged"),
+      AutoHelpers.goalCentricShoot()
     );
   }
 }

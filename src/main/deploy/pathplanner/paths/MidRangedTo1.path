@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.991882567098467,
-        "y": 6.053168421151657
+        "x": 4.991222307694258,
+        "y": 6.253586715447326
       },
       "isLocked": false,
       "linkedName": "MidFieldRanged"
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 24.027791751627827,
     "rotateFast": false
   },
   "reversed": false,

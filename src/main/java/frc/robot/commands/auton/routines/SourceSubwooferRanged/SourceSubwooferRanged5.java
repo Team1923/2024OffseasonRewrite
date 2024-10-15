@@ -24,7 +24,7 @@ import frc.robot.commands.auton.functions.AutoNotefindCommand.SearchDirection;
 import frc.robot.commands.intake.BabyBirdCommand;
 import frc.robot.commands.intake.DeployIntakeCommand;
 import frc.robot.commands.scoring.ShootGamePiece;
-import frc.robot.lib.autonutils.PathPlannerHelpers;
+import frc.robot.lib.autonutils.AutoHelpers;
 import frc.robot.subsystems.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -50,8 +50,8 @@ public class SourceSubwooferRanged5 extends SequentialCommandGroup {
       new ParallelDeadlineGroup(
         new DeployIntakeCommand()
       ),
-      PathPlannerHelpers.pathfindToEndOfPath("5ToRanged"),
-      new ShootGamePiece()
+      AutoHelpers.pathfindToEndOfPath("5ToRanged"),
+      AutoHelpers.goalCentricShoot()
 
       );
 

@@ -10,6 +10,8 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -31,6 +33,7 @@ import frc.robot.commands.scoring.ShootGamePiece;
 import frc.robot.commands.swerve.AlignHeadingCommand;
 import frc.robot.commands.swerve.SetGoalCentric;
 import frc.robot.lib.autonutils.AutoInstatiateSelector;
+import frc.robot.lib.misc.ControllerQuadraticLimiter;
 import frc.robot.lib.swerve.Telemetry;
 import frc.robot.lib.swerve.TunerConstants;
 import frc.robot.statecommands.ArmStateMachine;
@@ -114,7 +117,9 @@ public class RobotContainer {
 
 
     /* Misc */
-    operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> operatorPS5Controller.getRightY())); //#7
+    operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> ControllerQuadraticLimiter.quadraticLimit(operatorPS5Controller.getRightY()))); //#7
+
+
 
     operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
 

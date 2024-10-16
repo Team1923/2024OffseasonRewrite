@@ -65,6 +65,9 @@ public class ManualClimbCommand extends Command {
   @Override
   public void execute() {
     if (Math.abs(input.getAsDouble()) > ControllerConstants.Operator.deadband){
+
+      // SmartDashboard.putNumber("INPUT", input.getAsDouble());
+
       armSubsystem.setPercentOut(input.getAsDouble() * 0.5);
       holdingRequest.Position = armSubsystem.getArmPositionRots();
       

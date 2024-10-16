@@ -169,16 +169,22 @@ public class SwerveStateMachine extends Command {
     else if(remainder < -180){
       remainder += 360;
     }
-
-    if(remainder >= -60 && remainder < 60){
-      return 0;
+    
+    if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue){
+      if(remainder >= -60 && remainder < 60){
+        return 0;
+      }
+      else if(remainder >= 60 && remainder < 180){
+        return 120;
+      }
+      else{
+        return -120;
+      }
     }
-    else if(remainder >= 60 && remainder < 180){
-      return 120;
+    else{ //TODO: implement red
+      return 60;
     }
-    else{
-      return -120;
-    }
+    
   }
 
   public static double roundToClosestClimbHeading(double ang){

@@ -23,7 +23,12 @@ import frc.robot.commands.auton.routines.SourceSubwooferRanged.SourceSubwooferRa
 import frc.robot.commands.auton.routines.SourceSubwooferRanged.SourceSubwooferRanged543;
 import frc.robot.commands.auton.routines.SubwooferRanged.SubwooferRangedSMA12;
 import frc.robot.commands.auton.routines.SubwooferRanged.SubwooferRangedSMA21;
+import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubAMS;
+import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubASM;
 import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubM;
+import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubMAS;
+import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubMSA;
+import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubSAM;
 import frc.robot.commands.auton.routines.SubwooferSub.SubwooferSubSMA;
 import frc.robot.commands.auton.routines.Test.SixMeterRangedShooting;
 import frc.robot.commands.auton.routines.Test.SixMeterRotation;
@@ -39,19 +44,35 @@ public class AutoInstatiateSelector {
         // AMP_RANGED_123(new AmpRanged123()),
         // AMP_RANGED_213(new AmpRanged213()),
         // AMP_RANGED_231(new AmpRanged231()),
+
+        /* Autos starting from the side of the Subwoofer closest to the Amp, shooting from ranged */
         AMP_SUBWOOFER_RANGED_123(new AmpSubwooferRanged123()),
         AMP_SUBWOOFER_RANGED_213(new AmpSubwooferRanged213()),
+
+        /* Autos starting from the center of the Subwoofer, shooting into the subwoofer */
         SUBWOOFER_SUB_SMA(new SubwooferSubSMA()),
+        SUBWOOFER_SUB_SAM(new SubwooferSubSAM()),
+        SUBWOOFER_SUB_MAS(new SubwooferSubMAS()),
+        SUBWOOFER_SUB_MSA(new SubwooferSubMSA()),
+        SUBWOOFER_SUB_AMS(new SubwooferSubAMS()),
+        SUBWOOFER_SUB_ASM(new SubwooferSubASM()),
         // SUBWOOFER_SUB_M(new SubwooferSubM()),
+
+        /* Autos starting from the center of the Subwoofer, shooting from ranged */
         SUBWOOBER_RANGED_SMA12(new SubwooferRangedSMA12()),
         SUBWOOBER_RANGED_SMA21(new SubwooferRangedSMA21()),
+
+        /* Autos starting on the side of the Subwoofer closest to the Source, shooting from ranged */
         SOURCE_SUBWOOFER_RANGED_543(new SourceSubwooferRanged543()),
         SOURCE_SUBWOOFER_RANGED_534(new SourceSubwooferRanged534()),
         SOURCE_SUBWOOFER_RANGED_435(new SourceSubwooferRanged435()),
         SOURCE_SUBWOOFER_RANGED_453(new SourceSubwooferRanged453()),
         SOURCE_SUBWOOFER_RANGED_345(new SourceSubwooferRanged345()),
         SOURCE_SUBWOOFER_RANGED_354(new SourceSubwooferRanged354()),
+
+        /* Autos that end with a trap shot */
         SOURCE_SUBWOOFER_TRAP(new SourceSubwooferTrap()),
+        
         //testing
         SIX_METER_STRAIGHT(new SixMeterStraight()),
         SIX_METER_ROTATION(new SixMeterRotation()),

@@ -25,7 +25,7 @@ public class SubwooferSubAMS extends SequentialCommandGroup {
                                 new ShootGamePiece(),
                                 // Amp
                                 new ParallelDeadlineGroup(
-                                                new PathPlannerAuto("SubwooferStartToAmp"),
+                                                new PathPlannerAuto("StartSubwooferSubA"),
                                                 new DeployIntakeCommand()),
 
                                 AutoHelpers.commandPathFrom("AmpToSubwooferStart"),

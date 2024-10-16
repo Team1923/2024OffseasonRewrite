@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3981263620890236,
-        "y": 3.729727791602677
+        "x": 2.9638950683584495,
+        "y": 3.3453522678171987
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.876490321853631,
-        "y": 1.027997762614488
+        "x": 6.442259028123058,
+        "y": 0.6436222388290096
       },
       "isLocked": false,
       "linkedName": "StageRanged"
@@ -20,15 +20,21 @@
         "y": 2.4248099741751092
       },
       "prevControl": {
-        "x": 7.712200612236645,
-        "y": 1.8210246080599504
+        "x": 7.594715153652132,
+        "y": 2.0266241605828474
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "4"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.65,
+      "rotationDegrees": 31.31779099764852,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {

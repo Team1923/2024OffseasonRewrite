@@ -13,24 +13,41 @@ import frc.robot.lib.autonutils.AutoHelpers;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SubwooferSubA extends SequentialCommandGroup {
-    /** Creates a new SubwooferRangedSMA12. */
-        public SubwooferSubA() {
+public class SubwooferSubSAM extends SequentialCommandGroup {
+        /** Creates a new SubwooferRangedSMA12. */
+        public SubwooferSubSAM() {
                 // Add your commands in the addCommands() call, e.g.
                 // addCommands(new FooCommand(), new BarCommand());
                 addCommands(
                                 // Preload
                                 RobotContainer.scoringMode(ScoringType.SUBWOOFER),
                                 new ShootGamePiece(),
+                                // Stage
+                                new ParallelDeadlineGroup(
+                                                new PathPlannerAuto("StartSubwooferSubS"),
+                                                new DeployIntakeCommand()),
+
+                                AutoHelpers.commandPathFrom("StageToSubwooferStart"),
+                                new ShootGamePiece(),
+
                                 // Amp
                                 new ParallelDeadlineGroup(
-                                                new PathPlannerAuto("StartSubwooferSubA"),
+                                                AutoHelpers.commandPathFrom("SubwooferStartToAmp"),
                                                 new DeployIntakeCommand()),
 
                                 AutoHelpers.commandPathFrom("AmpToSubwooferStart"),
+                                new ShootGamePiece(),
+
+
+                                // Middle
+                                new ParallelDeadlineGroup(
+                                                AutoHelpers.commandPathFrom("SubwooferStartToMiddle"),
+                                                new DeployIntakeCommand()),
+
+                                AutoHelpers.commandPathFrom("MiddleToSubwooferStart"),
                                 new ShootGamePiece()
 
-                             
+                                
                 );
         }
 }

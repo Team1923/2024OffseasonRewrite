@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.764499271395681,
-        "y": 3.5098780752123226
+        "x": 1.3959954881393342,
+        "y": 3.9582627524741496
       },
       "isLocked": false,
       "linkedName": "SourceSubwooferStart"
@@ -20,15 +20,21 @@
         "y": 2.4248099741751092
       },
       "prevControl": {
-        "x": 3.130267727440643,
-        "y": 1.5126252792756034
+        "x": 4.803848922961754,
+        "y": 0.7260718658384518
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "4"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.75,
+      "rotationDegrees": 16.246588887640247,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {

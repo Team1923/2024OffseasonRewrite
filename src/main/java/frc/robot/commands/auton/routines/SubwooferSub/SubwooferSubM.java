@@ -26,7 +26,7 @@ public class SubwooferSubM extends SequentialCommandGroup {
                                 new ShootGamePiece(),
                                 // Middle
                                 new ParallelDeadlineGroup(
-                                                new PathPlannerAuto("SubwooferStartToMiddle"),
+                                                new PathPlannerAuto("StartSubwooferSubM"),
                                                 new DeployIntakeCommand()),
 
                                 AutoHelpers.commandPathFrom("MiddleToSubwooferStart"),

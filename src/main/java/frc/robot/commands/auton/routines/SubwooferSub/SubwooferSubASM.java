@@ -1,5 +1,6 @@
 package frc.robot.commands.auton.routines.SubwooferSub;
 
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -13,9 +14,9 @@ import frc.robot.lib.autonutils.AutoHelpers;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SubwooferSubA extends SequentialCommandGroup {
-    /** Creates a new SubwooferRangedSMA12. */
-        public SubwooferSubA() {
+public class SubwooferSubASM extends SequentialCommandGroup {
+        /** Creates a new SubwooferRangedSMA12. */
+        public SubwooferSubASM() {
                 // Add your commands in the addCommands() call, e.g.
                 // addCommands(new FooCommand(), new BarCommand());
                 addCommands(
@@ -28,9 +29,26 @@ public class SubwooferSubA extends SequentialCommandGroup {
                                                 new DeployIntakeCommand()),
 
                                 AutoHelpers.commandPathFrom("AmpToSubwooferStart"),
+                                new ShootGamePiece(),
+
+                                // Stage
+                                new ParallelDeadlineGroup(
+                                                AutoHelpers.commandPathFrom("SubwooferStartToStage"),
+                                                new DeployIntakeCommand()),
+
+                                AutoHelpers.commandPathFrom("StageToSubwooferStart"),
+                                new ShootGamePiece(),
+
+                                // Middle
+                                new ParallelDeadlineGroup(
+                                                AutoHelpers.commandPathFrom("SubwooferStartToMiddle"),
+                                                new DeployIntakeCommand()),
+
+                                AutoHelpers.commandPathFrom("MiddleToSubwooferStart"),
                                 new ShootGamePiece()
 
-                             
+                                
+
                 );
         }
 }

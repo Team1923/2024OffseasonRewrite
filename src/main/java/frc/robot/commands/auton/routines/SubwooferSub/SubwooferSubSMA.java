@@ -24,7 +24,7 @@ public class SubwooferSubSMA extends SequentialCommandGroup {
                                 new ShootGamePiece(),
                                 // Stage
                                 new ParallelDeadlineGroup(
-                                                new PathPlannerAuto("SubwooferStartToStage"),
+                                                new PathPlannerAuto("StartSubwooferSubS"),
                                                 new DeployIntakeCommand()),
 
                                 AutoHelpers.commandPathFrom("StageToSubwooferStart"),

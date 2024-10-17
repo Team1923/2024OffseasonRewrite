@@ -67,7 +67,7 @@ public class ArmStateMachine extends Command {
     
 
       case RANGED: //Update the ranged shot's motion magic value if we want ot shoot ranged
-        if (stateHandler.speakerDistance() != -1 && !rangedSet){ //if we can update the angle, do it, otherwise stay at the last ranged angle
+        if (stateHandler.speakerDistance() != -1 && stateHandler.isCenteredToSpeakerTag() && !rangedSet){ //if we can update the angle, do it, otherwise stay at the last ranged angle
             // ((MotionMagicVoltage)(ArmStates.RANGED.REQUEST)).Position = InterpolationConstants.distanceToAngle.get(stateHandler.speakerDistance()) * ArmConstants.armDegreesToRots;\
             ((MotionMagicVoltage)(ArmStates.RANGED.REQUEST)).Position = Units.degreesToRotations(InterpolationConstants.distanceToAngle.get(stateHandler.speakerDistance()));
             rangedSet = true;

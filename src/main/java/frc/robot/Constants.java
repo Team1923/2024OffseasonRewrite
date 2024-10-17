@@ -286,27 +286,29 @@ public class Constants {
                         // tyToDistanceMap.put(7.26, 84.0);
                         // tyToDistanceMap.put(7.93, 90.0);
 
-                        tyToDistanceMap.put(-8.34, 24.0);
-                        tyToDistanceMap.put(-4.10, 36.0);
-                        tyToDistanceMap.put(-0.59, 48.0);
-                        tyToDistanceMap.put(1.16, 54.0);
-                        tyToDistanceMap.put(2.56, 60.0);
-                        tyToDistanceMap.put(4.04, 66.0);
-                        tyToDistanceMap.put(5.26, 72.0);
-                        tyToDistanceMap.put(6.53, 78.0);
-                        tyToDistanceMap.put(7.55, 84.0);
-                        tyToDistanceMap.put(8.60, 90.0);
-                        tyToDistanceMap.put(9.56, 96.0);
-                        tyToDistanceMap.put(10.44, 102.0);
-                        tyToDistanceMap.put(11.05, 108.0);
-                        tyToDistanceMap.put(11.65, 114.0);
+                        tyToDistanceMap.put(-7.26, 24.0);
+                        tyToDistanceMap.put(-4.63,30.0);
+                        tyToDistanceMap.put(-2.94, 36.0);
+                        tyToDistanceMap.put(-0.63,42.0);
+                        tyToDistanceMap.put(0.85, 48.0);
+                        tyToDistanceMap.put(2.43, 54.0);
+                        tyToDistanceMap.put(4.08, 60.0);
+                        tyToDistanceMap.put(5.50, 66.0);
+                        tyToDistanceMap.put(6.30, 72.0);
+                        tyToDistanceMap.put(7.38, 78.0);
+                        tyToDistanceMap.put(8.15, 84.0);
+                        tyToDistanceMap.put(9.24, 90.0);
+                        tyToDistanceMap.put(9.92, 96.0);
+                        tyToDistanceMap.put(10.88, 102.0);
+                        tyToDistanceMap.put(11.55, 108.0);
+                        tyToDistanceMap.put(12.49, 114.0);
 
 
                         //Inconsistent Zone:
                         // tyToDistanceMap.put(12.31, 120.0);
                         // tyToDistanceMap.put(13.01, 126.0);
                         // tyToDistanceMap.put(13.59, 132.0);
-                        // tyToDistanceMap.put(15.03, 144.0);
+                        // tyToDistanceMa.9p.put(15.03, 144.0);
                         // tyToDistanceMap.put(15.70 , 156.0); 
                         // tyToDistanceMap.put(16.41, 168.0);
                         // tyToDistanceMap.put(17.07, 180.0);

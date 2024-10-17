@@ -59,7 +59,7 @@ public class ShooterStateMachine extends Command {
         break;
 
       case RANGED_VELO: //If in ranged mode, set update current velocity
-        if (stateHandler.speakerDistance() != -1 && !rangedSet){ //if we can update the angle, do it, otherwise stay at the last ranged angle
+        if (stateHandler.speakerDistance() != -1 && stateHandler .isCenteredToSpeakerTag() && !rangedSet){ //if we can update the angle, do it, otherwise stay at the last ranged angle
             ((MotionMagicVelocityVoltage)(ShooterStates.RANGED_VELO.REQUEST_TOP)).Velocity = InterpolationConstants.distanceToRPM.get(stateHandler.speakerDistance()) * ShooterConstants.RPMToRPS;
             ((MotionMagicVelocityVoltage)(ShooterStates.RANGED_VELO.REQUEST_BOTTOM)).Velocity = InterpolationConstants.distanceToRPM.get(stateHandler.speakerDistance()) * ShooterConstants.RPMToRPS;
           rangedSet = true;

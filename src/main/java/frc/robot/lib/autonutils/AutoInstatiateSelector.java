@@ -71,14 +71,14 @@ public class AutoInstatiateSelector {
         SOURCE_SUBWOOFER_RANGED_354(new SourceSubwooferRanged354()),
 
         /* Autos that end with a trap shot */
-        SOURCE_SUBWOOFER_TRAP(new SourceSubwooferTrap()),
+        SOURCE_SUBWOOFER_TRAP(new SourceSubwooferTrap());
         
         //testing
-        SIX_METER_STRAIGHT(new SixMeterStraight()),
-        SIX_METER_ROTATION(new SixMeterRotation()),
-        SUBWOOFER_SHOOT_TEST(new SubwooferShootingTest()),
-        SUBWOOFER_RANGED_TEST(new SubwooferRangedShooting()),
-        SIX_METER_RANGED_TEST(new SixMeterRangedShooting());
+        // SIX_METER_STRAIGHT(new SixMeterStraight()),
+        // SIX_METER_ROTATION(new SixMeterRotation()),
+        // SUBWOOFER_SHOOT_TEST(new SubwooferShootingTest()),
+        // SUBWOOFER_RANGED_TEST(new SubwooferRangedShooting()),
+        // SIX_METER_RANGED_TEST(new SixMeterRangedShooting());
     
 
         private Command routine;

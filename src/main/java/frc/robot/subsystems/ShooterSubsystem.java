@@ -38,7 +38,7 @@ public class ShooterSubsystem extends SubsystemBase {
     PUNT_HIGH_VELO(MMVeloVoltage(2100)),
     PUNT_LOW_DUTY(new DutyCycleOut(1).withEnableFOC(true)),
     SUBWOOFER_VELO(MMVeloVoltage(2500)),
-    REVERSE_SUBWOOFER_VELO(MMVeloVoltage(2000)),
+    REVERSE_SUBWOOFER_VELO(MMVeloVoltage(2500)),
     RANGED_VELO(MMVeloVoltage(0)),
     FULL_EJECT_DUTY(new DutyCycleOut(1).withEnableFOC(true)),
     RPM_TUNING(new MotionMagicVelocityVoltage(0).withEnableFOC(true));

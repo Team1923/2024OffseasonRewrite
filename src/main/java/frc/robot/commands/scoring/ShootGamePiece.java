@@ -35,7 +35,6 @@ public class ShootGamePiece extends Command {
     switch(stateHandler.scoringType){
       case AMP:
         stateHandler.desiredArmState = ArmStates.FRONT_AMP;
-        stateHandler.desiredShooterState = ShooterStates.FRONT_AMP_VELO;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         stateHandler.blowerState = BlowerStates.ON;
         break;
@@ -44,45 +43,37 @@ public class ShootGamePiece extends Command {
         break;
       case HIGH_PUNT:
         stateHandler.desiredArmState = ArmStates.PUNT_HIGH;
-        stateHandler.desiredShooterState = ShooterStates.PUNT_HIGH_VELO;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         break;
       case LOW_PUNT:
         stateHandler.desiredArmState = ArmStates.PUNT_LOW;
-        stateHandler.desiredShooterState = ShooterStates.PUNT_LOW_DUTY;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         break;
       case RANGED:
         stateHandler.desiredArmState = ArmStates.RANGED;
-        stateHandler.desiredShooterState = ShooterStates.RANGED_VELO;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         stateHandler.swerveState = SwerveStates.GOAL_CENTRIC;
         break;
       case REVERSE_SUBWOOFER:
         stateHandler.desiredArmState = ArmStates.REVERSE_SUBWOOFER;
-        stateHandler.desiredShooterState = ShooterStates.REVERSE_SUBWOOFER_VELO;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         break;
       case SUBWOOFER:
         stateHandler.desiredArmState = ArmStates.SUBWOOFER;
-        stateHandler.desiredShooterState = ShooterStates.SUBWOOFER_VELO;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         break;
       case TRAP:
         stateHandler.desiredArmState = ArmStates.TRAP;
-        stateHandler.desiredShooterState = ShooterStates.TRAP_VELO;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         stateHandler.blowerState = BlowerStates.ON;
         break;
       case UNGUARDABLE:
         stateHandler.desiredArmState = ArmStates.UNGUARDABLE;
-        stateHandler.desiredShooterState = ShooterStates.UNGUARDABLE_VELO;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
         stateHandler.blowerState = BlowerStates.ON;
         break;
       case TUNING:
         stateHandler.desiredArmState = ArmStates.ANGLE_TUNING;
-        stateHandler.desiredShooterState = ShooterStates.RPM_TUNING;
         stateHandler.desiredFeederState = FeederStates.FEED_TO_SHOOTER;
       default:
         break;
@@ -93,6 +84,62 @@ public class ShootGamePiece extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    if (stateHandler.bb3Covered){
+      switch(stateHandler.scoringType){
+
+    case AMP:
+     
+        stateHandler.desiredShooterState = ShooterStates.FRONT_AMP_VELO;
+  
+        break;
+      case CLIMB:
+        System.out.println("TRYING TO SHOOT IN CLIMB MODE?");
+        break;
+      case HIGH_PUNT:
+      
+        stateHandler.desiredShooterState = ShooterStates.PUNT_HIGH_VELO;
+        
+        break;
+      case LOW_PUNT:
+       
+        stateHandler.desiredShooterState = ShooterStates.PUNT_LOW_DUTY;
+        
+        break;
+      case RANGED:
+       
+        stateHandler.desiredShooterState = ShooterStates.RANGED_VELO;
+   
+        break;
+      case REVERSE_SUBWOOFER:
+  
+        stateHandler.desiredShooterState = ShooterStates.REVERSE_SUBWOOFER_VELO;
+      
+        break;
+      case SUBWOOFER:
+      
+        stateHandler.desiredShooterState = ShooterStates.SUBWOOFER_VELO;
+        
+        break;
+      case TRAP:
+      
+        stateHandler.desiredShooterState = ShooterStates.TRAP_VELO;
+  
+        break;
+      case UNGUARDABLE:
+      
+        stateHandler.desiredShooterState = ShooterStates.UNGUARDABLE_VELO;
+        
+        break;
+      case TUNING:
+       
+        stateHandler.desiredShooterState = ShooterStates.RPM_TUNING;
+       
+      default:
+        break;
+      }
+    } 
+        
     switch(stateHandler.scoringType){
       case TRAP:
         if (!stateHandler.bb3Covered) multipurposeTimer.start(); //keeping trap door open for long enough after

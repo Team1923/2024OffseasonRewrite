@@ -8,6 +8,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.DeployIntakeCommand;
@@ -32,7 +33,11 @@ public class AmpSubwooferRanged123 extends SequentialCommandGroup {
       /* Note 1 */
       new ParallelDeadlineGroup(
         new PathPlannerAuto("StartAmpSubwooferRanged1"),
-        new DeployIntakeCommand()
+        new SequentialCommandGroup(
+            new WaitCommand(2.0),
+          new DeployIntakeCommand()
+        )
+
       ),
       AutoHelpers.commandPathFrom("1ToMidFieldRanged"),
       AutoHelpers.goalCentricShoot(),
@@ -40,7 +45,10 @@ public class AmpSubwooferRanged123 extends SequentialCommandGroup {
       /* Note 2 */
       new ParallelDeadlineGroup(
         AutoHelpers.commandPathFrom("MidFieldRangedTo2"),
-        new DeployIntakeCommand()
+        new SequentialCommandGroup(
+            new WaitCommand(2.0),
+          new DeployIntakeCommand()
+          )
       ),
       AutoHelpers.commandPathFrom("2ToMidFieldRanged"),
       AutoHelpers.goalCentricShoot(),
@@ -48,7 +56,10 @@ public class AmpSubwooferRanged123 extends SequentialCommandGroup {
       /* Note 3 */
       new ParallelDeadlineGroup(
         AutoHelpers.commandPathFrom("MidFieldRangedTo3"),
-        new DeployIntakeCommand()
+         new SequentialCommandGroup(
+            new WaitCommand(1.3),
+          new DeployIntakeCommand()
+          )
       ),
       AutoHelpers.commandPathFrom("3ToMidFieldRanged"),
       AutoHelpers.goalCentricShoot()

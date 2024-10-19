@@ -8,36 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2812016533123973,
-        "y": 6.2409310273166
+        "x": 1.204579942434064,
+        "y": 7.320623691824136
       },
       "isLocked": false,
       "linkedName": "AmpSubwooferStart"
     },
     {
       "anchor": {
-        "x": 2.89746806871804,
-        "y": 6.292140658527257
+        "x": 2.8580939504381226,
+        "y": 7.648412812353575
       },
       "prevControl": {
-        "x": 1.7107782975823103,
-        "y": 6.294394215312881
+        "x": 1.8067288112683992,
+        "y": 7.681295508735764
       },
       "nextControl": {
-        "x": 4.084157839853795,
-        "y": 6.289887101741632
+        "x": 4.6761915151583615,
+        "y": 7.591549646564091
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.025413419247892,
-        "y": 5.8729596406561235
+        "x": 8.270256540513081,
+        "y": 5.776372723996557
       },
       "prevControl": {
-        "x": 7.1734591694222045,
-        "y": 6.375453845737063
+        "x": 7.418302290687394,
+        "y": 6.2788669290774966
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,7 +51,7 @@
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 1.2,
+      "waypointRelativePos": 1.2000000000000002,
       "rotationDegrees": 0.0,
       "rotateFast": true
     },
@@ -83,7 +83,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -14.362711612917904,
+    "rotation": -25.17508787389689,
     "rotateFast": false
   },
   "reversed": false,

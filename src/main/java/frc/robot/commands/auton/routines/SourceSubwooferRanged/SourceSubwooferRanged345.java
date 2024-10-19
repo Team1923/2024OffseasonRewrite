@@ -8,6 +8,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.DeployIntakeCommand;
@@ -30,8 +31,11 @@ public class SourceSubwooferRanged345 extends SequentialCommandGroup {
       //3 Note
       new ParallelDeadlineGroup(
         new PathPlannerAuto("StartSourceSubwooferRanged3"),
-        new DeployIntakeCommand()),
-
+        new SequentialCommandGroup(
+            new WaitCommand(2.25),
+          new DeployIntakeCommand()
+          )
+      ),
       // Shoot
       AutoHelpers.commandPathFrom("3ToStageRanged"),
       AutoHelpers.goalCentricShoot(),
@@ -39,7 +43,10 @@ public class SourceSubwooferRanged345 extends SequentialCommandGroup {
       //4 Note
       new ParallelDeadlineGroup(
         AutoHelpers.commandPathFrom("StageRangedTo4"),
-        new DeployIntakeCommand()
+        new SequentialCommandGroup(
+            new WaitCommand(1.45),
+          new DeployIntakeCommand()
+          )
       ),
       AutoHelpers.commandPathFrom("4ToStageRanged"),
       AutoHelpers.goalCentricShoot(),
@@ -47,7 +54,10 @@ public class SourceSubwooferRanged345 extends SequentialCommandGroup {
       //5Note
       new ParallelDeadlineGroup(
         AutoHelpers.commandPathFrom("StageRangedTo5"), 
-        new DeployIntakeCommand()
+        new SequentialCommandGroup(
+            new WaitCommand(1.45),
+          new DeployIntakeCommand()
+          )
       ),
       AutoHelpers.commandPathFrom("5ToStageRanged"),
       AutoHelpers.goalCentricShoot()

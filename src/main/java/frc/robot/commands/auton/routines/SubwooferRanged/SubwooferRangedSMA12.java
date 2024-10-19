@@ -8,6 +8,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.StateHandler.ScoringType;
 import frc.robot.commands.intake.DeployIntakeCommand;
@@ -48,14 +49,19 @@ public class SubwooferRangedSMA12 extends SequentialCommandGroup {
       // Note 1
       new ParallelDeadlineGroup(
         AutoHelpers.commandPathFrom("AmpTo1"),
-        new DeployIntakeCommand()
+        new SequentialCommandGroup(
+          new WaitCommand(1.5),
+          new DeployIntakeCommand()
+        )
+        
       ),
       AutoHelpers.commandPathFrom("1ToCloseRanged"),
       AutoHelpers.goalCentricShoot(),
       // Note 2
       new ParallelDeadlineGroup(
         AutoHelpers.commandPathFrom("CloseRangedTo2"),
-        new DeployIntakeCommand()
+        new SequentialCommandGroup(new WaitCommand(1.2), new DeployIntakeCommand())
+        
       ),
       AutoHelpers.commandPathFrom("2ToMidRanged"),
       AutoHelpers.goalCentricShoot()

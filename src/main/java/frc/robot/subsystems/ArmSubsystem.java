@@ -17,7 +17,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.StateHandler;
 import frc.robot.Constants.ArmConstants;
@@ -214,6 +214,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     // SmartDashboard.putString("PRIMARY MODE", armPrimary.getAppliedControl().getName());
     //     SmartDashboard.putString("FOLLOWER MODE", armFollower.getAppliedControl().getName());
+    SmartDashboard.putNumber("ArmPostion", getArmPositionDegrees());
 
     
 

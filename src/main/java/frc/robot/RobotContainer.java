@@ -117,7 +117,7 @@ public class RobotContainer {
 
 
     /* Misc */
-    operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> ControllerQuadraticLimiter.quadraticLimit(operatorPS5Controller.getRightY()))); //#7
+    operatorPS5Controller.options().toggleOnTrue(new ClimbingCommandGroup(armSubsystem, () -> /*ControllerQuadraticLimiter.quadraticLimit(*/operatorPS5Controller.getRightY())); //#7
 
 
 

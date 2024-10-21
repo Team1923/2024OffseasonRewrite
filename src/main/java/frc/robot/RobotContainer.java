@@ -121,7 +121,7 @@ public class RobotContainer {
 
 
 
-    operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
+    // operatorPS5Controller.povDown().whileTrue(new ArmToDefense());
 
 
     if (stateHandler.isAngleRPMTuning){
